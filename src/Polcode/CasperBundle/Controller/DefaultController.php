@@ -14,12 +14,20 @@ class DefaultController extends Controller
     /**
      * @Route("/")
      * @Template;
-     * 
      */
     public function indexAction()
     {
-        $name = 'aa';
+        $name = 'xx';
         
+        return array('name' => $name);
+    }
+    
+    /**
+     * @Route( "/test/{name}", defaults={"name" = 1})
+     * @Template;
+     */
+    public function testAction($name)
+    {
         return array('name' => $name);
     }
 }

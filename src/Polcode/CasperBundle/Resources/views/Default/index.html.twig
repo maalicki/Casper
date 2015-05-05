@@ -1,1 +1,5 @@
-Hello {{ name }}!
+{% extends 'PolcodeCasperBundle::master.html.twig' %}
+
+{% block container %}
+    {{name}}
+{% endblock %}
