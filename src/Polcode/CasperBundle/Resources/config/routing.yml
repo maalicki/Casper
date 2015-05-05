@@ -1,0 +1,6 @@
+polcode_casper_homepage:
+    resource:   "@PolcodeCasperBundle/Controller/"
+    type:       annotation
+    prefix:     /
+#    path:     /hello/{name}
+#    defaults: { _controller: PolcodeCasperBundle:Default:index }

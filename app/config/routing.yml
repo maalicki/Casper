@@ -1,0 +1,7 @@
+polcode_casper:
+    resource: "@PolcodeCasperBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
