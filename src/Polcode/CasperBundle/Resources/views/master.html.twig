@@ -1,45 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="../../favicon.ico">
 
-    <title>Sticky Footer Template for Bootstrap</title>
+        <title>Sticky Footer Template for Bootstrap</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('bundles/polcodecasper/css/sticky-footer.css') }}" >
-
-
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-
-  <body>
-
-    <!-- Begin page content -->
-    <div class="container">
-        {% block container %}
-        {% endblock %}
-    </div>
-
-    <footer class="footer">
-      <div class="container">
-        <p class="text-muted">Lukasz Malicki @ PolCode {{ 'now'|date('Y') }}</p>
-      </div>
-    </footer>
+        <!-- Bootstrap core CSS -->
+        <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('bundles/polcodecasper/css/bootswatch.css') }}" >
+        <link rel="stylesheet" href="{{ asset('bundles/polcodecasper/css/navbar.css') }}" >
 
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
-  </body>
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="../" class="navbar-brand">Casper Events</a>
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse" id="navbar-main">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="#" target="_blank">Home</a></li>
+                        <li><a href="#" target="_blank">Events map</a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Begin page content -->
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <h3 class="text-muted">
+                        h3. Lorem ipsum dolor sit amet.
+                    </h3>
+                    <div class="row clearfix">
+                        <div class="col-md-8 column">
+                            {% block container %}
+                            {% endblock %}
+                        </div>
+                        <div class="col-md-3 col-md-offset-1 column">
+                            <div class="well well-sm">
+                                <h4>About</h4>
+                                <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+                            </div>
+                            <div class="sidebar-module">
+                                <h4>Upcoming events</h4>
+                                <ol class="list-unstyled">
+                                    <li><a href="#">March 2014</a></li>
+                                    <li><a href="#">February 2014</a></li>
+                                    <li><a href="#">January 2014</a></li>
+                                    <li><a href="#">December 2013</a></li>
+                                    <li><a href="#">November 2013</a></li>
+                                    <li><a href="#">October 2013</a></li>
+                                    <li><a href="#">September 2013</a></li>
+                                    <li><a href="#">August 2013</a></li>
+                                    <li><a href="#">July 2013</a></li>
+                                    <li><a href="#">June 2013</a></li>
+                                    <li><a href="#">May 2013</a></li>
+                                    <li><a href="#">April 2013</a></li>
+                                </ol>
+                            </div>
+                            <div class="sidebar-module">
+                                <h4>Elsewhere</h4>
+                                <ol class="list-unstyled">
+                                    <li><a href="#">GitHub</a></li>
+                                    <li><a href="#">Twitter</a></li>
+                                    <li><a href="#">Facebook</a></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <p class="text-muted">Lukasz Malicki @ PolCode {{ 'now'|date('Y') }}</p>
+            </div>
+        </footer>
+
+
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+    </body>
 </html>
