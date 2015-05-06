@@ -5,16 +5,19 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="description" content="{{ meta_description }}">
+        <meta name="author" content="{{ meta_author }}">
         <link rel="icon" href="../../favicon.ico">
 
         <title>Sticky Footer Template for Bootstrap</title>
 
         <!-- Bootstrap core CSS -->
+
         <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('bundles/polcodecasper/css/bootswatch.css') }}" >
+        <link rel="stylesheet" href="{{ asset('bundles/polcodecasper/css/main.css') }}" >
         <link rel="stylesheet" href="{{ asset('bundles/polcodecasper/css/navbar.css') }}" >
+        <link rel="stylesheet" href="{{ asset('bundles/polcodecasper/css/hover.css') }}" >
 
 
 
@@ -30,18 +33,29 @@
         <div class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a href="../" class="navbar-brand">Casper Events</a>
+                    <a href="../" class="navbar-brand">Casper</a>
                     <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
                 </div>
-                <div class="navbar-collapse collapse" id="navbar-main">
 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="#" target="_blank">Home</a></li>
-                        <li><a href="#" target="_blank">Events map</a></li>
+                {% 
+                    set mainMenu = [
+                        {'path': 'casper_index', 'name': 'Home'},
+                        {'path': 'casper_test', 'name': 'Test'},
+                        {'path': 'casper_registerUser', 'name': 'Register'},
+                    ] 
+                %}
+                <div class="navbar-collapse collapse" id="navbar-main">
+                    <ul class="nav navbar-nav navbar-right ">
+                        {% for item in mainMenu %}
+                            <li class="{{ app.request.get('_route') == item['path'] ? 'active' : 'hvr-underline-reveal' }}">
+                                <a href="{{ path(item['path']) }}">{{ item['name'] }}</a>
+                            </li>
+                        {% endfor %}
+
                     </ul>
 
                 </div>
@@ -51,17 +65,28 @@
 
         <!-- Begin page content -->
         <div class="container">
-            <div class="row clearfix">
+            <div class="row clearfix top-buffer">
+    
                 <div class="col-md-12 column">
-                    <h3 class="text-muted">
-                        h3. Lorem ipsum dolor sit amet.
-                    </h3>
+                    
                     <div class="row clearfix">
                         <div class="col-md-8 column">
+                            
+                            {% for label, flashes in app.session.flashbag.all %}
+                                {% for flash in flashes %}
+                                    <div class="alert alert-{{ label }}">
+                                        {{ flash }}
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                            
                             {% block container %}
                             {% endblock %}
+                            
                         </div>
+                            
                         <div class="col-md-3 col-md-offset-1 column">
+                            
                             <div class="well well-sm">
                                 <h4>About</h4>
                                 <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
@@ -97,11 +122,12 @@
             </div>
         </div>
 
-        <footer class="footer">
-            <div class="container">
-                <p class="text-muted">Lukasz Malicki @ PolCode {{ 'now'|date('Y') }}</p>
-            </div>
-        </footer>
+    <footer class="casper-footer">
+      <p class="text-muted">Lukasz Malicki @ PolCode {{ 'now'|date('Y') }}</p>
+      <p>
+        <a href="#">Back to top</a>
+      </p>
+    </footer>
 
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

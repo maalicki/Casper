@@ -3,7 +3,6 @@
  */
 
 body {
-  font-family: Georgia, "Times New Roman", Times, serif;
   color: #555;
 }
 
@@ -19,6 +18,7 @@ h6, .h6 {
   color: #333;
 }
 
+.top-buffer { margin-top:50px; }
 
 /*
  * Override Bootstrap's default container.
@@ -75,7 +75,7 @@ h6, .h6 {
 
 
 /*
- * Blog name and description
+ * Casper name and description
  */
 
 .casper-header {
@@ -134,7 +134,7 @@ h6, .h6 {
 
 
 /*
- * Blog posts
+ * Posts
  */
 
 .casper-post {

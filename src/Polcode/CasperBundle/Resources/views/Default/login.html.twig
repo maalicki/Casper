@@ -1,0 +1,10 @@
+{% extends 'PolcodeCasperBundle::master.html.twig' %}
+
+{% block container %}
+    <article class="col-md-8">
+        
+    {% if form is defined %}
+        {{ form(form) }}
+    {% endif %}
+    </article>
+{% endblock %}
