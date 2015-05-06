@@ -1,5 +1,9 @@
 {% extends 'PolcodeCasperBundle::master.html.twig' %}
 
+{% block pageTitle %}
+    HOME | {{ parent() }}
+{% endblock %}
+
 {% block container %}
     {{name}}
     Lorem Ipsum is simply dummy text of the printing and typesetting industry.
