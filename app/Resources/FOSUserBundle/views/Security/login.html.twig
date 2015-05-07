@@ -9,25 +9,30 @@
     <form class="form-horizontal" action="{{ path("fos_user_security_check") }}" method="post">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
         <div class="form-group">
-            <label for="username" class="col-sm-2 control-label">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
+            <label for="username" class="col-sm-3 control-label">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" required="required" />
             </div>
         </div>
         <div class="form-group">
-            <label for="password" class="col-sm-2 control-label">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
+            <label for="password" class="col-sm-3 control-label">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
             <div class="col-sm-4">
                 <input type="password" class="form-control" id="password" name="_password" required="required" />
             </div>
         </div>
+            
         <div class="form-group">
-            <label class="col-sm-2 control-label" for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
-            <div class="col-sm-4">
-                <input type="checkbox" class="form-control" id="remember_me" name="_remember_me" value="on" />
+             <div class="col-sm-3 control-label" ></div>
+            <div class="col-sm-3">
+                <label  for="remember_me">
+                    <input type="checkbox"  id="remember_me" name="_remember_me" value="on" />
+                    {{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
+                </label>
             </div>
         </div>
+                
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-4">
+            <div class="col-sm-offset-5 col-sm-2">
                 <input class="btn btn-success" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
             </div>
         </div>

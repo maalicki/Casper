@@ -1,11 +1,20 @@
 /*
  * Globals
  */
+* {
+    margin: 0;
+}
 
 body {
   color: #555;
 }
 
+      html,
+      body {
+        height: 100%;
+        /* The html and body elements cannot have any padding or margin. */
+      }
+      
 h1, .h1,
 h2, .h2,
 h3, .h3,
@@ -18,7 +27,7 @@ h6, .h6 {
   color: #333;
 }
 
-.top-buffer { margin-top:50px; }
+.top-buffer { margin-top:100px; }
 
 /*
  * Override Bootstrap's default container.
@@ -34,6 +43,12 @@ h6, .h6 {
 /*
  * Masthead for nav
  */
+
+.icon-pullright{
+    float: right;
+    margin-top: 2px;
+    margin-right: -6px;
+}
 
 .casper-masthead {
   background-color: #428bca;
@@ -155,12 +170,13 @@ h6, .h6 {
  */
 
 .casper-footer {
+    height: auto !important;
+    height: 100px;
+    margin: 0 auto -155px; /* the bottom margin is the negative value of the footer's height */
+    
   padding: 40px 0;
   color: #999;
   text-align: center;
   background-color: #f9f9f9;
   border-top: 1px solid #e5e5e5;
-}
-.casper-footer p:last-child {
-  margin-bottom: 0;
 }

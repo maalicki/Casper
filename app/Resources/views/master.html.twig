@@ -43,49 +43,47 @@
                         <span class="icon-bar"></span>
                     </button>
                 </div>
-
-                {% 
-                    set mainMenu = [
-                        {
-                            'path': 'casper_index',
-                            'name': 'Home', 'icon':
-                            '<i class="fa fa-home"></i>'
-                        },
-                    ]
-                %}
-                    {% if not app.user %}
-                        {% set mainMenu = mainMenu|merge([{ 'path': 'fos_user_security_login', 'name': 'Login' }]) %}
-                    {% endif %}
-                    
-                
-                        
+    
                 <div class="navbar-collapse collapse" id="navbar-main">
                     <ul class="nav navbar-nav navbar-right ">
                         
-                        {% for item in mainMenu %}
-                            <li class="{{ app.request.get('_route') == item['path'] ? 'active' : 'hvr-underline-reveal' }}">
-                                <a href="{{ path(item['path']) }}">
-                                    {{ item['icon'] is defined ? item['icon']| raw : '' }} {{ item['name'] }}
+                        <li class="{{ app.request.get('_route') == 'casper_index' ? 'active' : 'hvr-underline-reveal' }}">
+                            <a href="{{ path('casper_index') }}">
+                                <i class="fa fa-home"></i> Home
+                            </a>
+                        </li>
+                        {% if not app.user %}
+                            <li class="{{ app.request.get('_route') == 'fos_user_security_login' ? 'active' : 'hvr-underline-reveal' }}">
+                                <a href="{{ path('fos_user_security_login') }}">
+                                    <i class="fa fa-sign-in"></i> Login
                                 </a>
                             </li>
-                        {% endfor %}
+                            <li class="{{ app.request.get('_route') == 'fos_user_registration_register' ? 'active' : 'hvr-underline-reveal' }}">
+                                <a href="{{ path('fos_user_registration_register') }}" >
+                                <i class="fa fa-key"></i></i> Register
+                            </a>
+                            </li>
+                        {% endif %}
 
                         {# User menu for logged users #}
                         {% if app.user %}
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ app.user.username }} <strong class="caret"></strong></a>
                                 <ul class="dropdown-menu">
-                                    <li> <a href="#"><i class="fa fa-cube"></i> My profile</a> </li>
-                                    <li> <a href="#"><i class="fa fa-calendar"></i> My Events</a> </li>
-                                    <li class="divider">
-                                    </li>
-                                    <li>
-                                        <a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out"></i> Logout</a>
-                                    </li>
+                                        <li> <a href="#"><i class="fa fa-cube icon-pullright"></i> My profile</a> </li>
+                                    <li class="divider"></li>
+                                    
+                                        <li> <a href="#"><i class="fa fa-calendar icon-pullright"></i> My Events</a> </li>
+                                        <li> <a href="{{ path('casper_newEvent') }}"><i class="fa fa-plus icon-pullright"></i> New Event</a> </li>
+                                    <li class="divider"></li>
+                                        <li>
+                                            <a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out icon-pullright"></i> Logout</a>
+                                        </li>
                                 </ul>
                             </li>
                         {% endif %}
                     </ul>
+                            
                         
 
                 </div>
@@ -118,6 +116,7 @@
                         <div class="col-md-3 col-md-offset-1 column">
                             
                             <div class="well well-sm">
+                                
                                 <h4>About</h4>
                                 <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
                             </div>

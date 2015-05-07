@@ -11,3 +11,8 @@ casper_test:
         defaults: 
             _controller: PolcodeCasperBundle:Default:test
             name: asdf
+
+casper_newEvent:
+        path:   /event/new
+        defaults: 
+            _controller: PolcodeCasperBundle:Event:newEvent
