@@ -2,7 +2,6 @@
 
 namespace Polcode\CasperBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,13 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Polcode\CasperBundle\Forms\UserType;
 use Polcode\CasperBundle\Entity\User;
 
-/**
- * @Route("/")
- */
+
 class DefaultController extends Controller {
 
     /**
-     * @Route("/", name="casper_index")
      * @Template;
      */
     public function indexAction() {
@@ -29,7 +25,7 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route( "/register2", name="casper_registerUser")
+     * 
      * @Template;
      */
     public function registerUserAction(Request $Request) {
@@ -90,7 +86,6 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route( "/test/{name}", defaults={"name" = 1},  name="casper_test")
      * @Template;
      */
     public function testAction($name) {
@@ -98,10 +93,6 @@ class DefaultController extends Controller {
     }
     
     /**
-     * @Route(
-     *  "/login",
-     *  name = "casper_login"
-     * )
      * @Template()
      */
     public function loginAction() {
