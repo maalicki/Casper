@@ -6,16 +6,8 @@ casper_index:
         path:   /
         defaults: { _controller: PolcodeCasperBundle:Default:index }
 
-casper_registerUser:
-        path:   /register
-        defaults: { _controller: PolcodeCasperBundle:Default:registerUser }
-
 casper_test:
         path:   /test/{name}
         defaults: 
             _controller: PolcodeCasperBundle:Default:test
             name: asdf
-
-casper_login:
-        path:   /login
-        defaults: { _controller: PolcodeCasperBundle:Default:login }

@@ -18,9 +18,6 @@ class RegistrationFormType extends AbstractType {
                 ->add('email', 'email', array(
                     'label' => 'Email'
                 ))
-                ->add('password', 'password', array(
-                    'label' => 'Pasword'
-                ))
                 ->add('sex', 'choice', array(
                     'label' => 'Sex',
                     'choices' => array(

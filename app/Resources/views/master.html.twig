@@ -12,12 +12,15 @@
         <title>{% spaceless %}{% block pageTitle %}Casper{% endblock %}{% endspaceless %}</title>
 
         <!-- Bootstrap core CSS -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 
         <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('bundles/polcodecasper/css/bootswatch.css') }}" >
         <link rel="stylesheet" href="{{ asset('bundles/polcodecasper/css/main.css') }}" >
         <link rel="stylesheet" href="{{ asset('bundles/polcodecasper/css/navbar.css') }}" >
         <link rel="stylesheet" href="{{ asset('bundles/polcodecasper/css/hover.css') }}" >
+        <link rel="stylesheet" href="{{ asset('bundles/polcodecasper/css/font-awesome.min.css') }}" >
 
 
 
@@ -43,20 +46,47 @@
 
                 {% 
                     set mainMenu = [
-                        {'path': 'casper_index', 'name': 'Home'},
-                        {'path': 'casper_test', 'name': 'Test'},
-                        {'path': 'casper_registerUser', 'name': 'Register'},
-                    ] 
+                        {
+                            'path': 'casper_index',
+                            'name': 'Home', 'icon':
+                            '<i class="fa fa-home"></i>'
+                        },
+                    ]
                 %}
+                    {% if not app.user %}
+                        {% set mainMenu = mainMenu|merge([{ 'path': 'fos_user_security_login', 'name': 'Login' }]) %}
+                    {% endif %}
+                    
+                
+                        
                 <div class="navbar-collapse collapse" id="navbar-main">
                     <ul class="nav navbar-nav navbar-right ">
+                        
                         {% for item in mainMenu %}
                             <li class="{{ app.request.get('_route') == item['path'] ? 'active' : 'hvr-underline-reveal' }}">
-                                <a href="{{ path(item['path']) }}">{{ item['name'] }}</a>
+                                <a href="{{ path(item['path']) }}">
+                                    {{ item['icon'] is defined ? item['icon']| raw : '' }} {{ item['name'] }}
+                                </a>
                             </li>
                         {% endfor %}
 
+                        {# User menu for logged users #}
+                        {% if app.user %}
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ app.user.username }} <strong class="caret"></strong></a>
+                                <ul class="dropdown-menu">
+                                    <li> <a href="#"><i class="fa fa-cube"></i> My profile</a> </li>
+                                    <li> <a href="#"><i class="fa fa-calendar"></i> My Events</a> </li>
+                                    <li class="divider">
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out"></i> Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {% endif %}
                     </ul>
+                        
 
                 </div>
             </div>
@@ -131,6 +161,8 @@
 
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        
+        
         <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
     </body>
 </html>
