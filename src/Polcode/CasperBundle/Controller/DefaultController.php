@@ -2,7 +2,6 @@
 
 namespace Polcode\CasperBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,22 +11,17 @@ use Polcode\CasperBundle\Entity\User;
 
 class DefaultController extends Controller {
 
-    /**
-     * @Template;
-     */
     public function indexAction() {
         $name = 'xx';
 
         $Session = $this->get('session');
         $Session->remove('registered');
         
-        return array('name' => $name);
+        return $this->render('default/index.html.twig', array(
+            'name' => $name
+        ));
     }
 
-    /**
-     * 
-     * @Template;
-     */
     public function registerUserAction(Request $Request) {
 
         /*
@@ -79,24 +73,23 @@ class DefaultController extends Controller {
             }
         }
 
-
-        return array(
+        return $this->render('default/registerUser.html.twig', array(
             'form' => isset($form) ? $form->createView() : NULL,
-        );
+        ));
     }
 
-    /**
-     * @Template;
-     */
     public function testAction($name) {
-        return array('name' => $name);
+        
+        return $this->render('default/test.html.twig', array(
+            'name' => $name
+        ));
+        
     }
     
-    /**
-     * @Template()
-     */
     public function loginAction() {
-        return [];
+        return $this->render('default/login.html.twig', array(
+            
+        ));
     }
 
 }

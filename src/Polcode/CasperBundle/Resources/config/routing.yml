@@ -7,7 +7,7 @@ casper_index:
         defaults: { _controller: PolcodeCasperBundle:Default:index }
 
 casper_registerUser:
-        path:   /register
+        path:   /register2
         defaults: { _controller: PolcodeCasperBundle:Default:registerUser }
 
 casper_test:
