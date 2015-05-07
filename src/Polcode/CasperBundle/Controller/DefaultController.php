@@ -5,7 +5,8 @@ namespace Polcode\CasperBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-use Polcode\CasperBundle\Forms\UserType;
+use FOS\UserBundle\Controller\RegistrationController as BaseController;
+use Polcode\CasperBundle\Forms\RegistrationFormType;
 use Polcode\CasperBundle\Entity\User;
 
 
@@ -25,7 +26,7 @@ class DefaultController extends Controller {
     public function registerUserAction(Request $Request) {
 
         /*
-         * Nick - text
+         * Username - text
          * Email - text (email)
          * Sex - radio collection
          * Birthdate - select
@@ -44,28 +45,40 @@ class DefaultController extends Controller {
 
         if (!$Session->has('registered')) {
 
-            $form = $this->createForm(new UserType(), $Register);
 
+            $form = $this->createForm(new RegistrationFormType(), $Register);
+            
+            /*
+             * Due to 'Best Practices' I've moved this part of code to a view. 
+                $form
+                    ->add('save', 'submit', array(
+                        'label' => 'Save',
+                        'attr'  => ['class' => 'btn btn-default pull-right']
+                    ));
+            */
+            
             $form->handleRequest($Request);
 
             if ($Request->isMethod('POST')) {
                 
-                if ($form->isValid()) {
+                if ( $form->isSubmitted() && $form->isValid() ) {
                     
 
                     #$savePath = $this->get('kernel')->getRootDir() . '/../web/uploads/';
                     #$Register->save($savePath);
 
-                    #$em = $this->getDoctrine()->getManager();
-                    #$em->persist($Register);
-                    #$em->flush();
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($Register);
+                    $em->flush();
                     
                     #$Session->set('registered', true);
                     
-                    $Session->getFlashBag()->set('success', 'You heve been registered. You will now be redirected to login page.');
+                    $Session->getFlashBag()->set('success', 'You heve been registered.');
                     #return $this->redirect($this->generateUrl('casper_registerUser'));
                     
-                    $response = new Redirect($this->router->generate('team_homepage'));
+                    return $this->redirect($this->generateUrl(
+                        'casper_index'
+                    ));
         
                 } else {
                     $Session->getFlashBag()->set('danger', 'Please correct the form.');

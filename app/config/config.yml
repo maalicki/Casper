@@ -79,3 +79,6 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: Polcode\CasperBundle\Entity\User
+    registration:
+        form:
+            type: casper_user_registration

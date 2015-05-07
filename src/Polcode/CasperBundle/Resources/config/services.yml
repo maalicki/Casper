@@ -1,4 +1,8 @@
 services:
+    casper_user.registration.form.type:
+        class: Polcode\CasperBundle\Forms\RegistrationFormType
+        tags:
+            - { name: form.type, alias: casper_user_registration }
 #    polcode_casper.example:
 #        class: Polcode\CasperBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]

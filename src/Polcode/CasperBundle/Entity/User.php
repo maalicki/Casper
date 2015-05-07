@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="users")
  * 
  * @UniqueEntity(fields="email", message="Sorry, this email address is already in use.", groups={"registration"})
- * @UniqueEntity(fields="nick", message="Sorry, this username is already taken.", groups={"registration"})
+ * @UniqueEntity(fields="username", message="Sorry, this username is already taken.", groups={"registration"})
  *
  */
 class User extends BaseUser {
@@ -24,22 +24,6 @@ class User extends BaseUser {
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
-
-    /**
-     * @ORM\Column(type="string", length=255, unique = true)
-     * 
-     * @Assert\NotBlank
-     * 
-     * @Assert\Regex(
-     *      pattern = "/^[a-zA-Z0-9]*$/",
-     *      message = "This field is required"
-     * )
-     * @Assert\Length(
-     *      max = 255
-     * )
-     */
-    private $nick;
     
 
     /**
@@ -88,28 +72,7 @@ class User extends BaseUser {
         return $this->id;
     }
 
-    /**
-     * Set nick
-     *
-     * @param string $nick
-     * @return string
-     */
-    public function setNick($nick)
-    {
-        $this->nick = $nick;
 
-        return $this;
-    }
-
-    /**
-     * Get nick
-     *
-     * @return string 
-     */
-    public function getNick()
-    {
-        return $this->nick;
-    }
 
 
     /**

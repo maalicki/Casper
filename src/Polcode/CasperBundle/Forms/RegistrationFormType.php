@@ -7,19 +7,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-class UserType extends AbstractType {
+class RegistrationFormType extends AbstractType {
     
     public function getName() {
-        return 'user_form';
+        return 'casper_user_registration';
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->add('email', 'email', array(
                     'label' => 'Email'
-                ))
-                ->add('nick', 'text', array(
-                    'label' => 'Nick'
                 ))
                 ->add('password', 'password', array(
                     'label' => 'Pasword'
@@ -43,11 +40,14 @@ class UserType extends AbstractType {
                         new Assert\NotBlank()
                     ),
                     'mapped' => false
-                ))
-                ->add('save', 'submit', array(
-                    'label' => 'Save',
                 ));
     }
+    
+    public function getParent()
+    {
+        return 'fos_user_registration';
+    }
+
     
     public function setDefaultOptions(\Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
