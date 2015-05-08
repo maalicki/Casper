@@ -13,6 +13,7 @@ class EventController extends Controller {
 
     public function newEventAction(Request $Request) {
         
+
         
         
         $Event = new Event();
@@ -20,19 +21,24 @@ class EventController extends Controller {
         
         $user = $this->container->get('security.context')->getToken()->getUser();
         
-        $Event->setUserId( $user->getId() )
+        $Event->setUserId( $user )
                 ->setDeleted('0');
         
             $form = $this->createForm(new EventFormType() , $Event);
 
+                echo "<pre>";
+                var_dump( $Request->request->all() );
+                echo '---' . $Request->request->get('eventStart');
+                echo '</pre>';
             $form->handleRequest($Request);
 
             if($Request->isMethod('POST')){
+                
                 if($form->isValid()){
-
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($Event);
-                    $em->flush();
+                    
+                    #$em = $this->getDoctrine()->getManager();
+                    #$em->persist($Event);
+                    #$em->flush();
 
                 }else{
                     //$Session->getFlashBag()->add('danger', 'Popraw błędy formularza.');

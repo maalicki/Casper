@@ -60,19 +60,19 @@ class Event {
 
     /**
     *
-    * @ORM\Column(name="signup_enddate", type="datetime",  nullable=false)
+    * @ORM\Column(name="eventstop", type="datetime",  nullable=false)
     */
     private $eventStop;
 
     /**
     *
-    * @ORM\Column(name="duration", type="datetime",  nullable=false)
+    * @ORM\Column(name="eventsignupenddate", type="datetime",  nullable=false)
     */
-    private $eventSignUp;
+    private $eventSignUpEndDate;
 
     /**
     *
-    * @ORM\Column(name="maxguests", type="integer",  nullable=false, options={"unsigned"=true})
+    * @ORM\Column(name="maxguests", type="integer",  nullable=true, options={"unsigned"=true})
     */
     private $maxGuests;
 
@@ -125,8 +125,8 @@ class Event {
         return $this->eventStop;
     }
 
-    function getEventSignUp() {
-        return $this->eventSignUp;
+    function getEventSignUpEndDate() {
+        return $this->eventSignUpEndDate;
     }
 
     function getMaxGuests() {
@@ -181,8 +181,8 @@ class Event {
         return $this;
     }
 
-    function setEventSignUp($eventSignUp) {
-        $this->eventSignUp = $eventSignUp;
+    function setEventSignUpEndDate($eventSignUpEndDate) {
+        $this->eventSignUpEndDate = $eventSignUpEndDate;
         return $this;
     }
 

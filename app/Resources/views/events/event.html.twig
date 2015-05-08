@@ -39,7 +39,7 @@
             </div>
 
             <div class="col-md-6 col-lg-6 col-sm-6">
-                {{ form_row(form.eventSignUp) }}
+                {{ form_row(form.eventSignUpEndDate) }}
             </div>
 
             <div class="col-md-6 col-lg-6 col-sm-6">
@@ -66,6 +66,9 @@
     </div>
 {% endblock %}
 
+
+
+
 {%block javascripts %}
     {{ parent() }}
     {{ form_javascript(form) }}
@@ -79,4 +82,10 @@
         };
     </script>
     <script src="{{ asset('js/gmaps.js') }}"></script>
+{% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/scdatetimepicker/css/datetimepicker.css') }}" >
 {% endblock %}
