@@ -19,6 +19,8 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new Polcode\CasperBundle\PolcodeCasperBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new SC\DatetimepickerBundle\SCDatetimepickerBundle(),
+            new Ivory\GoogleMapBundle\IvoryGoogleMapBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

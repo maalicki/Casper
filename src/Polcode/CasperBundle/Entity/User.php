@@ -2,6 +2,7 @@
 
 namespace Polcode\CasperBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,7 +17,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  */
 class User extends BaseUser {
-    
+ 
+
+        public function __construct() {
+        $this->features = new ArrayCollection();
+    }
     
     /**
      * @ORM\Column(type="integer")
@@ -38,6 +43,11 @@ class User extends BaseUser {
      * @Assert\Date
      */
     private $birthdate;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="userId")
+     **/
+    private $events;
     
     
     
@@ -72,7 +82,9 @@ class User extends BaseUser {
         return $this->id;
     }
 
-
+   function getEvents() {
+        return $this->events;
+    }
 
 
     /**
@@ -119,6 +131,11 @@ class User extends BaseUser {
     public function getBirthdate()
     {
         return $this->birthdate;
+    }
+
+    function setEvents($events) {
+        $this->events = $events;
+        return $this;
     }
 
 }

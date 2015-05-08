@@ -19,7 +19,11 @@
         "sensio/distribution-bundle": "~3.0,>=3.0.12",
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
-        "friendsofsymfony/user-bundle": "~2.0@dev"
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "stephanecollot/datetimepicker-bundle": "dev-master",
+        "egeloen/google-map-bundle": "~2.1",
+        "willdurand/geocoder": "@stable",
+        "widop/http-adapter-bundle": "*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

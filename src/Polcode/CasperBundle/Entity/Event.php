@@ -2,122 +2,205 @@
 
 namespace Polcode\CasperBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="events")
  * 
- * @UniqueEntity(fields="email", message="Sorry, this email address is already in use.", groups={"registration"})
- * @UniqueEntity(fields="username", message="Sorry, this username is already taken.", groups={"registration"})
- *
  */
 class Event {
-    
-    
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
     
-
     /**
-     * @ORM\Column(type="string", length=1, nullable=true)
-     */
-    private $sex;
-    
-    
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     * 
-     * @Assert\Date
-     */
-    private $birthdate;
-    
-    
-    
-    public function save($savePath){
-        
-        
-        var_dump( $savePath );
-//        
-//        $paramsNames = array( 'nick', 'email', 'sex', 'birthdate' );
-//        $formData = array();
-//        foreach ($paramsNames as $name){
-//            $formData[$name] = $this->{$name};
-//        }
-//
-//        $randVal = rand(1000, 9999);
-//        $dataFileName = sprintf('data_%d.txt', $randVal);
-//
-//
-//        if(NULL !== $file){
-//            $newName = sprintf('file_%d.%s', $randVal, $file->guessExtension());
-//            $file->move($savePath, $newName);
-//        }
-    }
-
-    /**
-     * Get id
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="events")
+     * @ORM\JoinColumn(name="userid", referencedColumnName="id")
      *
-     * @return integer 
      */
-    public function getId()
-    {
+    private $userId;
+
+    /**
+     * @ORM\Column(name="eventname", type="string", length=255, nullable=false)
+     */
+    private $eventName;
+    
+    /**
+     * @ORM\Column(type="text",  nullable=false)
+     */
+    private $description;
+    
+    /**
+     * @ORM\Column(name="location", type="string", length=255, nullable=false)
+     * 
+     */
+    private $location;
+    
+    /**
+    *
+    * @ORM\Column(name="latitude", type="decimal", precision=10, scale=8, nullable=false)
+    */
+    private $latitude;
+
+    /**
+    *
+    * @ORM\Column(name="longitude", type="decimal", precision=11, scale=8, nullable=false)
+    */
+    private $longitude;
+
+    /**
+    *
+    * @ORM\Column(name="eventstart", type="datetime",  nullable=false)
+    */
+    private $eventStart;
+
+    /**
+    *
+    * @ORM\Column(name="signup_enddate", type="datetime",  nullable=false)
+    */
+    private $eventStop;
+
+    /**
+    *
+    * @ORM\Column(name="duration", type="datetime",  nullable=false)
+    */
+    private $eventSignUp;
+
+    /**
+    *
+    * @ORM\Column(name="maxguests", type="integer",  nullable=false, options={"unsigned"=true})
+    */
+    private $maxGuests;
+
+    /**
+    *
+    * @ORM\Column(name="private",  length=1, columnDefinition="TINYINT DEFAULT 1 NOT NULL")
+    */
+    private $private;
+
+    /**
+    *
+    * @ORM\Column(name="deleted",  length=1, columnDefinition="TINYINT DEFAULT 0 NOT NULL")
+    */
+    private $deleted;
+    
+
+    function getId() {
         return $this->id;
     }
 
+    function getUserId() {
+        return $this->userId;
+    }
 
+    function getEventName() {
+        return $this->eventName;
+    }
 
+    function getDescription() {
+        return $this->description;
+    }
 
-    /**
-     * Set sex
-     *
-     * @param string $sex
-     * @return User
-     */
-    public function setSex($sex)
-    {
-        $this->sex = $sex;
+    function getLocation() {
+        return $this->location;
+    }
 
+    function getLatitude() {
+        return $this->latitude;
+    }
+
+    function getLongitude() {
+        return $this->longitude;
+    }
+
+    function getEventStart() {
+        return $this->eventStart;
+    }
+
+    function getEventStop() {
+        return $this->eventStop;
+    }
+
+    function getEventSignUp() {
+        return $this->eventSignUp;
+    }
+
+    function getMaxGuests() {
+        return $this->maxGuests;
+    }
+
+    function getPrivate() {
+        return $this->private;
+    }
+
+    function getDeleted() {
+        return $this->deleted;
+    }
+
+    function setUserId($userId) {
+        $this->userId = $userId;
         return $this;
     }
 
-    /**
-     * Get sex
-     *
-     * @return string 
-     */
-    public function getSex()
-    {
-        return $this->sex;
-    }
-
-    /**
-     * Set birthdate
-     *
-     * @param \DateTime $birthdate
-     * @return User
-     */
-    public function setBirthdate($birthdate)
-    {
-        $this->birthdate = $birthdate;
-
+    function setEventName($eventName) {
+        $this->eventName = $eventName;
         return $this;
     }
 
-    /**
-     * Get birthdate
-     *
-     * @return \DateTime 
-     */
-    public function getBirthdate()
-    {
-        return $this->birthdate;
+    function setDescription($description) {
+        $this->description = $description;
+        return $this;
     }
+
+    function setLocation($location) {
+        $this->location = $location;
+        return $this;
+    }
+
+    function setLatitude($latitude) {
+        $this->latitude = $latitude;
+        return $this;
+    }
+
+    function setLongitude($longitude) {
+        $this->longitude = $longitude;
+        return $this;
+    }
+
+    function setEventStart($eventStart) {
+        $this->eventStart = $eventStart;
+        return $this;
+    }
+
+    function setEventStop($eventStop) {
+        $this->eventStop = $eventStop;
+        return $this;
+    }
+
+    function setEventSignUp($eventSignUp) {
+        $this->eventSignUp = $eventSignUp;
+        return $this;
+    }
+
+    function setMaxGuests($maxGuests) {
+        $this->maxGuests = $maxGuests;
+        return $this;
+    }
+
+    function setPrivate($private) {
+        $this->private = $private;
+        return $this;
+    }
+
+    function setDeleted($deleted) {
+        $this->deleted = $deleted;
+        return $this;
+    }
+
+        
 
 }

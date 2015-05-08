@@ -7,10 +7,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-class RegistrationFormType extends AbstractType {
+class EventFormType extends AbstractType {
     
     public function getName() {
-        return 'casper_user_registration';
+        return 'casper_event';
     }
 /*
  * Jako użytkownik mogę stworzyć nowy event podając 
@@ -37,45 +37,72 @@ class RegistrationFormType extends AbstractType {
  */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('eventname', 'text', array(
-                    'label' => 'Event name'
+                ->add('eventName', 'text', array(
+                    'label' => 'Event name',
+                    'attr'=> array('class'=>'input-sm')
                 ))
                 ->add('location', 'text', array(
-                    'label' => 'Location'
+                    'label' => 'Location',
+                    'attr'=> array('class'=>'input-sm')
                 ))
-                ->add('description', 'text', array(
-                    'label' => 'Description'
+                ->add('description', 'textarea', array(
+                    'label' => 'Description',
+                    'attr'=> array('class'=>'input-sm')
                 ))
-                ->add('eventstart','datetime', array(
-                    'label' => 'Event start'
+                ->add('eventStart','collot_datetime', array(
+                    'label' => 'Event start',
+                    'attr'=> array('class'=>'input-sm')
+                    ), array( 'pickerOptions' => [
+                        'format' => 'yyyy-mm-dd hh:ii:00',
+                        'weekStart' => 0,
+                        'autoclose' => false,
+                        'startView' => 'month',
+                        'minView' => 'hour',
+                        'maxView' => 'decade',
+                        'todayBtn' => false,
+                        'todayHighlight' => false,
+                        'keyboardNavigation' => true,
+                        'language' => 'en',
+                        'forceParse' => true,
+                        'minuteStep' => 5,
+                        'pickerReferer ' => 'default', //deprecated
+                        'pickerPosition' => 'bottom-right',
+                        'viewSelect' => 'hour',
+                        'showMeridian' => false,
+                ]))
+                ->add('eventStop','collot_datetime', array(
+                    'label' => 'Event end',
+                    'attr'=> array('class'=>'input-sm')
+                    ))
+                ->add('eventSignUp','collot_datetime', array(
+                    'label' => 'Sign up until',
+                    'attr'=> array('class'=>'input-sm')
+                    ))
+                ->add('maxGuests','integer', array(
+                    'label' => 'Max guests',
+                    'attr'=> array('class'=>'input-sm')
                 ))
-                ->add('signup_enddate','datetime', array(
-                    'label' => 'Signup untill'
+                ->add('latitude','text', array(
+                    'label' => 'Latitude',
+                    'attr'=> array(
+                            'class'=>'input-sm',
+                        )
                 ))
-                ->add('duration','datetime', array(
-                    'label' => 'Duration of the event'
+                ->add('longitude','text', array(
+                    'label' => 'Longitude',
+                    'attr'=> array(
+                            'class'=>'input-sm',
+                        )
                 ))
-                ->add('maxguests','integer', array(
-                    'label' => 'Max guests'
-                ))
-                ->add('','', array(
-                    
-                ))
-                ->add('isprivate','checkbox', array(
+                ->add('private','checkbox', array(
                         'label'    => 'Private',
                         'required' => false,
                 ));
     }
     
-    public function getParent()
-    {
-        return 'fos_user_registration';
-    }
-
-    
     public function setDefaultOptions(\Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'Polcode\CasperBundle\Entity\User',
+            'data_class' => 'Polcode\CasperBundle\Entity\Event',
             'validation_groups' => array('registration')
         ));
     }

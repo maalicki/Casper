@@ -1,0 +1,82 @@
+{% extends 'master.html.twig' %}
+
+{% block pageTitle %}
+    New event | {{ parent() }}
+{% endblock %}
+
+{% block container %}
+    <div class="col-sm-7 col-md-5 col-lg-5 column ">
+        <div class="row">
+            {{ form_start(form )}}
+            {{ form_errors(form) }}
+
+            <div class="col-md-12 col-lg-12 col-sm-12">
+                {{ form_row(form.eventName) }}
+            </div>
+
+            <div class="col-md-12 col-lg-12 col-sm-12">
+                {{ form_row(form.description) }}
+            </div>
+
+            <div class="col-md-12 col-lg-12 col-sm-12">
+                {{ form_row(form.location) }}
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                {{ form_row(form.latitude) }}
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                {{ form_row(form.longitude) }}
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                {{ form_row(form.eventStart) }}
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                {{ form_row(form.eventStop) }}
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                {{ form_row(form.eventSignUp) }}
+            </div>
+
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                {{ form_row(form.maxGuests) }}
+            </div>
+
+            <div class="col-md-12 col-lg-12 col-sm-12">
+                {{ form_row(form.private) }}
+            </div>
+
+            <div class="col-md-12 col-lg-12 col-sm-12">
+                <input type="submit" value="Save event" class="btn btn-success" />
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+    <div class='hidden-xs col-sm-5 col-md-6 col-md-offset-1 col-lg-6 col-lg-offset-1' id="map_canvas"
+         style="
+            background-color: whitesmoke;
+            color: #555;
+            height: 450px;
+         ">
+        LOADING GOOGLE MAPS
+    </div>
+{% endblock %}
+
+{%block javascripts %}
+    {{ parent() }}
+    {{ form_javascript(form) }}
+    {{ google_map_js(map) }}
+
+    <script>
+        myOptions = {
+            center: new google.maps.LatLng( {{ltd}} , {{lgt}} ),
+            zoom: 6,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+    </script>
+    <script src="{{ asset('js/gmaps.js') }}"></script>
+{% endblock %}

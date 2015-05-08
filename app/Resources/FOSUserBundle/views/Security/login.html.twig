@@ -1,41 +1,64 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
 {% block fos_user_content %}
-    
+
     {% if error %}
         <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
     {% endif %}
 
-    <form class="form-horizontal" action="{{ path("fos_user_security_check") }}" method="post">
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-        <div class="form-group">
-            <label for="username" class="col-sm-3 control-label">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" required="required" />
+    
+    
+    <div class="col-md-8 column">
+        <form class="form-horizontal" action="{{ path("fos_user_security_check") }}" method="post">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            <div class="form-group">
+                <label for="username" class="col-sm-3 control-label">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" required="required" />
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="password" class="col-sm-3 control-label">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
-            <div class="col-sm-4">
-                <input type="password" class="form-control" id="password" name="_password" required="required" />
+            <div class="form-group">
+                <label for="password" class="col-sm-3 control-label">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
+                <div class="col-sm-4">
+                    <input type="password" class="form-control" id="password" name="_password" required="required" />
+                </div>
             </div>
-        </div>
-            
-        <div class="form-group">
-             <div class="col-sm-3 control-label" ></div>
-            <div class="col-sm-3">
-                <label  for="remember_me">
-                    <input type="checkbox"  id="remember_me" name="_remember_me" value="on" />
-                    {{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
-                </label>
-            </div>
-        </div>
-                
-        <div class="form-group">
-            <div class="col-sm-offset-5 col-sm-2">
-                <input class="btn btn-success" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
-            </div>
-        </div>
 
-    </form>
+            <div class="form-group">
+                <div class="col-sm-3 control-label" ></div>
+                <div class="col-sm-3">
+                    <label  for="remember_me">
+                        <input type="checkbox"  id="remember_me" name="_remember_me" value="on" />
+                        {{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-5 col-sm-2">
+                    <input class="btn btn-success" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
+                </div>
+            </div>
+
+        </form>
+    </div>
+    
+    <div class="col-md-3 col-md-offset-1 column">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Don't have an account?</h3>
+          </div>
+          <div class="panel-body">
+            <a href="{{ path('fos_user_registration_register') }}" class="btn btn-primary btn-lg center-block " role="button">Join to us!</a>
+          </div>
+                <ul class="list-group">
+                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> It's <strong>free.</strong></li>
+                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> It will take only <strong>14 sec</strong></li>
+                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> Casper is a page <strong>created by users.</strong></li>
+                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> Share, create and explore events <strong>inportant to You!</strong></li>
+                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> <strong>You decide.</strong></li>
+                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> <strong>Join to our community!</strong></li>
+                </ul>
+        </div>
+    </div>
 {% endblock fos_user_content %}
