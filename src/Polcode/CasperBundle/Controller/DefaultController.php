@@ -19,10 +19,13 @@ class DefaultController extends Controller {
     }
 
 
-    public function testAction($name) {
+    public function testAction() {
         
-        return $this->render('default/test.html.twig', array(
-            'name' => $name
+        return $this->render('full.html.twig', array(
+            
+            'map'  => $this->get('ivory_google_map.map'),
+            'ltd'  => '52.281601868071434',
+            'lgt'  => '18.852882385253906'
         ));
         
     }

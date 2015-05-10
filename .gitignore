@@ -14,6 +14,8 @@
 /app/config/parameters.yml
 /app/config/parameters.ini
 
+/nbproject/private
+
 # Managed by Composer
 /app/bootstrap.php.cache
 /var/bootstrap.php.cache
