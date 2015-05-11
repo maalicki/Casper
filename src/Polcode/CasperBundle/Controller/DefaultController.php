@@ -28,11 +28,14 @@ class DefaultController extends Controller {
         
         $ip = $this->container->get('request_stack')->getCurrentRequest()->getClientIp();
         
-        if( filter_var($ip, FILTER_VALIDATE_IP) && $ip != '127.0.0.1' ) {
+        
+        
+        if( filter_var($ip, FILTER_VALIDATE_IP) && $ip != '127.0.0.1' && !preg_match('/^192.168.\d{1,3}\.\d{1,3}\z/', $ip) ) {
             $geocode = $geocoder->geocode( $ip )->first();
             $ltd = $geocode->getLatitude();
             $lgt = $geocode->getLongitude();
         } else {
+            /* Poland's geolocation */
             $ltd = '51.267';
             $lgt = '20.017';            
         }
@@ -64,7 +67,10 @@ class DefaultController extends Controller {
                 'flat'      => true,
                 'id'        => $i
             ));
-            $marker->setIcon('http://blind-summit.co.uk/wp-content/plugins/google-map/images/marker_red.png');
+            
+            $baseurl = $this->getRequest()->getScheme() . '://' . $this->getRequest()->getHttpHost() . $this->getRequest()->getBasePath();
+            #$marker->setIcon($baseurl.'/img/flag1.png');
+            $marker->setIcon( 'https://cdn0.iconfinder.com/data/icons/fatcow/32/location_pin.png' );
 
             $map->addMarker($marker);        
             
@@ -78,7 +84,7 @@ class DefaultController extends Controller {
             $event->setHandle( 'function(){ markerEventClick( this.id );}' );
 
             $event->setCapture(false);
-            $map->getEventManager()->addEventOnce($event);
+            $map->getEventManager()->addEvent($event);
         }
         
         
@@ -90,15 +96,42 @@ class DefaultController extends Controller {
     }
 
 
-    public function testAction() {
+    public function ajaxCallAction(Request $Request) {
         
-        return $this->render('default/content.html.twig', array(
+        $id = $Request->request->get('id');
+        
+        if( $Request->isXmlHttpRequest() && !empty($id) ) {
             
-            'map'  => $this->get('ivory_google_map.map'),
-            'ltd'  => '52.281601868071434',
-            'lgt'  => '18.852882385253906'
-        ));
+            $signUpUntil = new \DateTime();
+            if( rand(0,1) == 1 ) { $op = '+'; } else {$op = '-';}
+            $days = rand(1,15);
+            $signUpUntil->modify("$op $days day");
+            $days = rand(1,22);
+            $signUpUntil->modify("+$days hours");
+            $days = rand(1,59);
+            $signUpUntil->modify("+$days minutes");
+            
+            $datetime2 = new \DateTime();
+            $interval = $datetime2->diff($signUpUntil);
+            
+            $form = [
+                'id'    =>  $id,
+                'eventName'     => "Event name goes here",
+                'eventDescription'  => "Here will be some sample event description. You can put in that box anything you want to share! It's simple and easy to do!'",
+                'eventLocation' => "Beskidzka 14, 40-749 Katowice, Poland",
+                'eventStart'    => (new \DateTime())->format('Y-m-d H:i:s'),
+                'eventEnd'      => (new \DateTime())->format('Y-m-d H:i:s'),
+                'eventSignUp'   => $interval,
+                'eventMaxGuests'=> rand(0,100),
+                'eventGuestes'  => [ 'name1', 'name2', 'name3', 'name4', 'name5' ],
+                'eventLatitude' => rand(0,100) . '.' . rand(100,1000),
+                'eventLongitute'=> rand(0,100) . '.' . rand(100,1000),
+            ];
+          
+            return $this->render('views/events/eventDetails.html.twig', $form );
+        }
         
+        return $this->renderText('No results.');
     }
     
     public function loginAction() {

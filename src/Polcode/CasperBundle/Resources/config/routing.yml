@@ -16,3 +16,8 @@ casper_newEvent:
         path:   /event/new
         defaults: 
             _controller: PolcodeCasperBundle:Event:newEvent
+
+casper_ajaxCall:
+        path:   /ajax
+        defaults: 
+            _controller: PolcodeCasperBundle:Default:ajaxCall

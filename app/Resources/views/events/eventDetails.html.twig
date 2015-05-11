@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-md-9" >
+        <h3>{{ eventName }}</h3>
+        <h5>{{ eventLocation }}</h5>
+    </div>
+    <div class="col-md-3" style="padding-top:20px;">
+        <button type="button" class="btn btn-info" name="event close">
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-12" >
+        {{ eventDescription }}
+    </div>
+</div><br>
+<div class="row">
+    <div class="col-md-12" >
+        <table class="table table-striped table-condensed">
+            <tbody>
+                <tr>
+                    <td>Event start</td>
+                    <td>{{ eventStart }}</td>
+                </tr>
+                <tr>
+                    <td>Event end</td>
+                    <td>{{ eventEnd }}</td>
+                </tr>
+                <tr>
+                    <td>Sign up untill</td>
+                    <td>
+                        {% if eventSignUp|date('%R') == '+' %}
+                            {% if eventSignUp|date('%a') > 1 %}
+                                {% set class = 'success' %}
+                            {% elseif eventSignUp|date('%a') == 1 %}
+                                {% set class = 'info' %}
+                            {% else %}
+                                {% set class = 'warning' %}
+                            {% endif %}
+                            <span class="label label-{{ class }}">{{ eventSignUp|date('%a days, %H hours %i minutes') }} left</span>
+                            
+                        {% else %}
+                            <span class="label label-danger">Time has left</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Guests</td>
+                    <td>{{ eventGuestes|length }} / {{ eventMaxGuests }}</td>
+                </tr>
+                <tr>
+                    <td>Geo</td>
+                    <td>{{ eventLatitude |slice(0,6)}} / {{ eventLongitute|slice(0,6) }}</td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+</div>
+            

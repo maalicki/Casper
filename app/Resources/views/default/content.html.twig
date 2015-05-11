@@ -1,7 +1,7 @@
 {% extends 'body/sidebar_map.html.twig' %}
 
 {% block pageTitle %}
-    New event | {{ parent() }}
+    Home | {{ parent() }}
 {% endblock %}
 
 
@@ -50,18 +50,14 @@
     </div>
     <div name="details" style="display: none;">
         <div class="container-fluid" >
-            <div class="row" >
-                <div class="col-md-9" >
-                    <h2>Event</h2>
-                </div>
-                <div class="col-md-3" style="padding-top:20px;">
-                    <button type="button" class="btn btn-info" name="event close">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
+            <div class="row" name="details container">
             </div>
         </div>
-        <div name="details container"></div>
+    </div>
+    <div name="loading" style="display: none;">
+        <div class="container-fluid" >
+            <img class="center-block" src=" {{ asset('img/spinner.gif') }}" />
+        </div>
     </div>
     {% endblock %}
 
@@ -69,22 +65,41 @@
 {% block javascripts %}
     {{ parent() }}
     
-    <script>
+<script>
 function markerEventClick( id ) {
-
-    $('div[name=content]').fadeOut('fast', function() {
-        $('div[name=details]').fadeIn('medium');
+    $.ajax({
+        type: "POST",
+        url: '{{ path('casper_ajaxCall') }}',
+        data: { id: id },
+        beforeSend : function (){
+            $('div[name=content]').fadeOut('fast', function() {
+                $("div[name='details container']").html('')
+                $('div[name=loading]').fadeIn('medium');
+            });
+        },
+        success : function (returnData) {
+            $("div[name='details container']").html( returnData )
+            
+            $('div[name=loading]').fadeOut('fast', function() {
+                $('div[name=details]').fadeIn('medium');
+            });
+        },
+        error : function (xhr, textStatus, errorThrown) {
+            //other stuff
+        },
+        complete : function () {
+        }
     });
-    
-    $("div[name='details container']").html( '<span>Event ID: </span>' + id)
 }
 
 $(function() {
-    $("button[name='event close']").click(function(){
+
+    $(document).on("click", "button[name='event close']", function() {
         $('div[name=details]').fadeOut('fast', function() {
-            $('div[name=content]').fadeIn('medium');
-        });
+           $('div[name=content]').fadeIn('medium');
+       });
     });
+   
 });
-    </script>
+</script>
 {% endblock %}
