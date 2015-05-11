@@ -1,1 +1,16 @@
-Hello {{ name }}!
+{% extends 'full.html.twig' %}
+
+{% block pageBody %}
+    <div class="container">
+            <div class="row clearfix">
+                    <div class="col-md-12 column">
+                        {% block container %}
+                        {% endblock %}
+                    </div>
+            </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

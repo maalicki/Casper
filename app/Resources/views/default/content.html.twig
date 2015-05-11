@@ -1,1 +1,90 @@
-Hello {{ name }}!
+{% extends 'body/sidebar_map.html.twig' %}
+
+{% block pageTitle %}
+    New event | {{ parent() }}
+{% endblock %}
+
+
+{% block container %}
+    <div name="content">
+        <h2>Events</h2>
+
+        <!-- item list -->
+        <div class="panel panel-default">
+            <div class="panel-heading"><a href="">Item heading</a></div>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
+            Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
+            dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
+            Aliquam in felis sit amet augue.</p>
+
+        <hr>
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><a href="">Item heading</a></div>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
+            Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
+            dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
+            Aliquam in felis sit amet augue.</p>
+
+        <hr>
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><a href="">Item heading</a></div>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
+            Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
+            dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
+            Aliquam in felis sit amet augue.</p>
+
+        <hr>
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><a href="">Item heading</a></div>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
+            Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
+            dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
+            Aliquam in felis sit amet augue.</p>
+    </div>
+    <div name="details" style="display: none;">
+        <div class="container-fluid" >
+            <div class="row" >
+                <div class="col-md-9" >
+                    <h2>Event</h2>
+                </div>
+                <div class="col-md-3" style="padding-top:20px;">
+                    <button type="button" class="btn btn-info" name="event close">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div name="details container"></div>
+    </div>
+    {% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script>
+function markerEventClick( id ) {
+
+    $('div[name=content]').fadeOut('fast', function() {
+        $('div[name=details]').fadeIn('medium');
+    });
+    
+    $("div[name='details container']").html( '<span>Event ID: </span>' + id)
+}
+
+$(function() {
+    $("button[name='event close']").click(function(){
+        $('div[name=details]').fadeOut('fast', function() {
+            $('div[name=content]').fadeIn('medium');
+        });
+    });
+});
+    </script>
+{% endblock %}

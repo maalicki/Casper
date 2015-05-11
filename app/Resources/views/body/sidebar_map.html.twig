@@ -1,1 +1,30 @@
-Hello {{ name }}!
+{% extends 'full.html.twig' %}
+
+{% block pageBody %}
+    <div class="container-fluid" id="main">
+        <div class="row" style="overflow: hidden;">
+            <div class="col-md-3" id="left" style="overflow: scroll;">
+                {% block container %}
+                {% endblock %}
+            </div>
+            <div class="col-md-9" id="map_canvas" >
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ google_map_js(map) }}
+
+{#    <script>
+        myOptions = {
+            center: new google.maps.LatLng( {{ltd|default('50')}} , {{lgt|default('0')}} ),
+            zoom: 6,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+    </script>#}
+{#    <script src="{{ asset('js/gmaps.js') }}"></script>#}
+{% endblock %}

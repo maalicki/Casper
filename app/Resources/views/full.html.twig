@@ -18,7 +18,7 @@
         {% block stylesheets %}
             <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
             <link rel="stylesheet" href="{{ asset('css/navbar.css') }}" >
-            <link rel="stylesheet" href="{{ asset('css/hover.css') }}" >
+{#            <link rel="stylesheet" href="{{ asset('css/hover.css') }}" >#}
             <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" >
 
             <style>
@@ -27,7 +27,7 @@
                 }
 
                 body{
-                    padding-top:50px; /*padding for navbar*/
+                    padding-top:57px; /*padding for navbar*/
                 }
 
                 #main, #main>.row {
@@ -44,9 +44,7 @@
 
                 #map_canvas {
                     height:calc(100% - 0);
-                    position:absolute;
-                    right:16px;
-                    top:50px;
+                    height: 100%;
                     bottom:0;
                     overflow:hidden;
                 }              
@@ -136,64 +134,8 @@
             </div>
         </div>
 
-        <div class="container-fluid" id="main">
-            <div class="row">
-                <div class="col-md-3" id="left">
-
-                    <h2>Events</h2>
-
-                    <!-- item list -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><a href="">Item heading</a></div>
-                    </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
-                        Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
-                        dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
-                        Aliquam in felis sit amet augue.</p>
-
-                    <hr>
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><a href="">Item heading</a></div>
-                    </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
-                        Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
-                        dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
-                        Aliquam in felis sit amet augue.</p>
-
-                    <hr>
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><a href="">Item heading</a></div>
-                    </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
-                        Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
-                        dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
-                        Aliquam in felis sit amet augue.</p>
-
-                    <hr>
-
-                    <div class="panel panel-default">
-                        <div class="panel-heading"><a href="">Item heading</a></div>
-                    </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
-                        Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
-                        dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
-                        Aliquam in felis sit amet augue.</p>
-
-                    <hr>
-
-                    <hr>      
-
-                </div>
-                <div class="col-md-9" id="map_canvas">
-                </div>
-
-            </div>
-        </div>
-
-
-
+        {% block pageBody %}
+        {% endblock %}
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 
@@ -204,16 +146,7 @@
             <script src="{{ asset('bundles/scdatetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
             <script src="{{ asset('js/master.js') }}"></script>
 
-            {{ google_map_js(map) }}
 
-            <script>
-                myOptions = {
-                    center: new google.maps.LatLng( {{ltd}} , {{lgt}} ),
-                    zoom: 6,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
-            </script>
-            <script src="{{ asset('js/gmaps.js') }}"></script>
         {% endblock %}
 
     </body>

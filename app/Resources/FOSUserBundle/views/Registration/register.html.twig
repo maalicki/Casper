@@ -1,17 +1,66 @@
-{% extends 'master.html.twig' %}
+{% extends 'body/container.html.twig' %}
 
 {% block pageTitle %}
     Register | {{ parent() }}
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/register.css') }}" >
+{% endblock %}
+
 {% block container %}
-    <div class="col-md-5 column">
-        
-        {{ form_start(form) }}
-            {{ form_widget(form) }}
+    <div class="container">
+        <div class="row centered-form">
+            <div class="col-xs-12 col-sm-7 col-md-4 col-sm-offset-3 col-md-offset-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Sign up <small>It's free!</small></h3>
+                    </div>
+                    <div class="panel-body">
+                        {{ form_start(form) }}
+                        {{ form_errors(form) }}
+                        <div class="form-group">
+                            {{ form_label(form.username) }}
+                            {{ form_widget(form.username) }}
+                            {{ form_errors(form.username) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(form.email) }}
+                            {{ form_widget(form.email) }}
+                            {{ form_errors(form.email) }}
+                        </div>
+                        <div class="form-group">
+                            {{ form_widget(form.plainPassword) }}
+                            {{ form_errors(form.plainPassword) }}
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-3 col-sm-3 col-md-3">
+                                <div class="form-group">
+                                    {{ form_label(form.sex) }}
+                                    {{ form_widget(form.sex) }}
+                                    {{ form_errors(form.sex) }}
+                                </div>
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9">
+                                <div class="form-group">
+                                    {{ form_label(form.birthdate) }}
+                                    {{ form_widget(form.birthdate) }}
+                                    {{ form_errors(form.birthdate) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ form_widget(form.rules) }}
+                            {{ form_errors(form.rules) }}
+                        </div>
 
-            <input type="submit" value="Register" class="btn btn-default pull-right" />
-        {{ form_end(form) }}
+                        <input type="submit" value="Register" class="btn btn-info btn-block">
 
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
