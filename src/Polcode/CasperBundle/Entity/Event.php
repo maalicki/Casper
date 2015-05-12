@@ -201,6 +201,27 @@ class Event {
         return $this;
     }
 
+    public function isEventDatesValid( ) {
+        
+        $diff=$this->getEventStop()->diff( $this->getEventStart() );
+        
+        if ( $diff->invert ){
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public function isEventSignUpValid( ) {
+        
+        $diff=$this->getEventStop()->diff( $this->getEventSignUpEndDate() );
+        
+        if ( $diff->invert ){
+            return true;
+        }
+        
+        return false;
+    }
         
 
 }

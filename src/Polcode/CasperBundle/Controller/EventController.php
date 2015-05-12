@@ -7,14 +7,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Polcode\CasperBundle\Forms\EventFormType;
 use Polcode\CasperBundle\Entity\Event;
-
+use Symfony\Component\Form\FormError;
 
 class EventController extends Controller {
 
     public function newEventAction(Request $Request) {
-        
-
-        
         
         $Event = new Event();
         $Session = $this->get('session');
@@ -26,23 +23,28 @@ class EventController extends Controller {
         
             $form = $this->createForm(new EventFormType() , $Event);
 
-                echo "<pre>";
-                var_dump( $Request->request->all() );
-                echo '---' . $Request->request->get('eventStart');
-                echo '</pre>';
             $form->handleRequest($Request);
-
+            
             if($Request->isMethod('POST')){
                 
-                if($form->isValid()){
-                    
-                    #$em = $this->getDoctrine()->getManager();
-                    #$em->persist($Event);
-                    #$em->flush();
-
+                if($form->isValid()) {
+                    if( $Event->isEventDatesValid() ) {
+                        if( $Event->isEventSignUpValid() ) {
+                            $em = $this->getDoctrine()->getManager();
+                            $em->persist($Event);
+                            $em->flush();
+                        } else {
+                            $error = new FormError("Date ends after event end!");
+                            $form->get('eventSignUpEndDate')->addError($error);
+                            $Session->getFlashBag()->add('danger', 'Requested sign up date cannot be later than requested end date');                            
+                        }
+                    } else {
+                        $error = new FormError("Event ends before it starts!");
+                        $form->get('eventStop')->addError($error);
+                        $Session->getFlashBag()->add('danger', 'Requested end date must be later than requested start date');
+                    }
                 }else{
-                    //$Session->getFlashBag()->add('danger', 'Popraw błędy formularza.');
-                    #$this->get('edu_notification')->addError('Popraw błędy formularza.');
+                    $Session->getFlashBag()->add('danger', 'Popraw błędy formularza.');
                 }
             }
         
@@ -53,6 +55,10 @@ class EventController extends Controller {
             'ltd'  => '52.281601868071434',
             'lgt'  => '18.852882385253906'
         ));
+        
+    }
+    
+    public function getEventsAction(Request $Request) {
         
     }
 }

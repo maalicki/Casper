@@ -1,10 +1,11 @@
-{% extends 'master.html.twig' %}
+{% extends 'full.html.twig' %}
 
 {% block pageTitle %}
     New event | {{ parent() }}
 {% endblock %}
 
-{% block container %}
+{% block pageBody %}
+    <div class="container" style="margin-top: 20px;">
     <div class="col-sm-7 col-md-5 col-lg-5 column ">
         <div class="row">
             {{ form_start(form )}}
@@ -64,6 +65,7 @@
          ">
         LOADING GOOGLE MAPS
     </div>
+            </div>
 {% endblock %}
 
 

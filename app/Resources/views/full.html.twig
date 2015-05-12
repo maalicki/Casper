@@ -101,7 +101,7 @@
                                 <li> <a href="#"><i class="fa fa-cube icon-pullright"></i> My profile</a> </li>
                                 <li class="divider"></li>
 
-                                <li> <a href="#"><i class="fa fa-calendar icon-pullright"></i> My Events</a> </li>
+                                <li> <a href="{{ path('casper_userMyEvents') }}"><i class="fa fa-calendar icon-pullright"></i> My Events</a> </li>
                                 <li> <a href="{{ path('casper_newEvent') }}"><i class="fa fa-plus icon-pullright"></i> New Event</a> </li>
                                 <li class="divider"></li>
                                 <li>
@@ -129,11 +129,11 @@
                         </div>
                     </div>
                 </form>   
-
-
             </div>
         </div>
-
+  
+            {% include 'views/default/flashbags.html.twig' %}
+       
         {% block pageBody %}
         {% endblock %}
 

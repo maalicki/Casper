@@ -21,3 +21,8 @@ casper_ajaxCall:
         path:   /ajax
         defaults: 
             _controller: PolcodeCasperBundle:Default:ajaxCall
+
+casper_userMyEvents:
+        path:   /user/my-events
+        defaults: 
+            _controller: PolcodeCasperBundle:User:myEvents

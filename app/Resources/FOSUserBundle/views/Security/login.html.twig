@@ -3,7 +3,7 @@
 {% block fos_user_content %}
 
     {% if error %}
-        <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
+        {{ error.message|trans({'Bad credentials': 'Incorrect login or password'}) }}
     {% endif %}
 
     

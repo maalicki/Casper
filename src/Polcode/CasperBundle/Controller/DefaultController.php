@@ -69,8 +69,8 @@ class DefaultController extends Controller {
             ));
             
             $baseurl = $this->getRequest()->getScheme() . '://' . $this->getRequest()->getHttpHost() . $this->getRequest()->getBasePath();
-            #$marker->setIcon($baseurl.'/img/flag1.png');
-            $marker->setIcon( 'https://cdn0.iconfinder.com/data/icons/fatcow/32/location_pin.png' );
+            $marker->setIcon($baseurl.'/img/flag3.png');
+            #$marker->setIcon( 'https://cdn0.iconfinder.com/data/icons/fatcow/32/location_pin.png' );
 
             $map->addMarker($marker);        
             
