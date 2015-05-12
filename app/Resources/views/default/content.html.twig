@@ -56,7 +56,7 @@
     </div>
     <div name="loading" style="display: none;">
         <div class="container-fluid" >
-            <img class="center-block" src=" {{ asset('img/spinner.gif') }}" />
+            <img class="center-block" src=" {{ asset('img/spinner.gif') }}" style='margin-top: 40px;' />
         </div>
     </div>
     {% endblock %}
@@ -67,27 +67,39 @@
     
 <script>
 function markerEventClick( id ) {
+    var $content = $('div[name=content]'),
+        $loading = $('div[name=loading]'),
+        $details = $('div[name=details]');
+
     $.ajax({
         type: "POST",
         url: '{{ path('casper_ajaxCall') }}',
         data: { id: id },
         beforeSend : function (){
-            $('div[name=content]').fadeOut('fast', function() {
-                $("div[name='details container']").html('')
-                $('div[name=loading]').fadeIn('medium');
-            });
+            if( $content.is(':visible') ) {
+                $content.fadeOut('fast', function() {
+                    $("div[name='details container']").html('')
+                    $loading.fadeIn('medium');
+                });
+            }
+            if( $details.is(':visible') ) {
+                $details.fadeOut('fast', function() {
+                    $("div[name='details container']").html('')
+                    $loading.fadeIn('medium');
+                });
+            }
         },
         success : function (returnData) {
-            $("div[name='details container']").html( returnData )
-            
-            $('div[name=loading]').fadeOut('fast', function() {
-                $('div[name=details]').fadeIn('medium');
+            $(":animated").promise().done(function() {
+                $loading.fadeOut('fast', function() {
+                    $("div[name='details container']").html( returnData )
+                    $details.fadeIn('medium');
+                });
             });
+
         },
         error : function (xhr, textStatus, errorThrown) {
             //other stuff
-        },
-        complete : function () {
         }
     });
 }

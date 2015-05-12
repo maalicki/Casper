@@ -2,21 +2,23 @@ var map;
 var geocoder;
 var myOptions;
 function initialize() {
+    var marker;
 
     geocoder = new google.maps.Geocoder();
     var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    
     google.maps.event.addListener(map, 'click', function (event) {
         placeMarker(event.latLng);
     });
+    
 
-    var marker;
     function placeMarker(location) {
-        if (marker) { //on vérifie si le marqueur existe
+        if (marker) { 
             marker.setPosition(location); //on change sa position
         } else {
             marker = new google.maps.Marker({//on créé le marqueur
                 position: location,
-                map: map
+                map: map,
             });
         }
         $('#casper_event_latitude').val( location.lat() );

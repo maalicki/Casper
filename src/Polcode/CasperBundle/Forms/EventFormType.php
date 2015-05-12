@@ -72,7 +72,10 @@ class EventFormType extends AbstractType {
                 ->add('maxGuests','integer', array(
                     'label' => 'Max guests',
                     'required' => false,
-                    'attr'=> array('class'=>'input-sm')
+                    'attr'=> array(
+                                'placeholder'   => 'Empty for unlimited',
+                                'class' => 'input-sm'
+                            )
                 ))
                 ->add('latitude','text', array(
                     'label' => 'Latitude',
