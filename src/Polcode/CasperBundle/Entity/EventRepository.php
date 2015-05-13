@@ -12,21 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class EventRepository extends EntityRepository {
     
-    public function findTheClosest($latitude, $longitude, $distance) {
-        $latitude = (double)$latitude;
-        $longitude = (double)$longitude;
-        $distance = (double)$distance;
+    public function findTheClosest($params) {
         
         $queryBuilder = $this->getEntityManager()->getConnection()->createQueryBuilder();
         $queryBuilder
-                ->select('id', 'private', 'eventname', 'description', 'eventstart', 'eventstop', 'maxguests', 'eventsignupenddate', 'location', '(6371 * acos( cos( radians( :latitude ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( :longitude ) ) + sin( radians( :latitude ) ) * sin( radians( latitude ) ) )) AS distance')
+                ->select('id', 'user', 'private', 'eventname', 'description', 'eventstart', 'eventstop', 'maxguests', 'eventsignupenddate', 'latitude','longitude','location', 
+                        'ROUND(6371 * acos(cos(radians( :latitude )) * cos(radians(latitude)) * cos(radians(longitude) - radians( :longitude )) + sin(radians( :latitude )) * sin(radians(latitude)))) as distance')
                 ->from('events', 'e')
-                ->having('distance < :distance')
-                ->setParameters(array(
-                    'longitude' => $longitude,
-                    'latitude' => $latitude,
-                    'distance' => $distance
-                ));
+                ->having('distance <= :distance')
+                ->setParameters($params);
         
         $events = $queryBuilder->execute()->fetchAll();
         

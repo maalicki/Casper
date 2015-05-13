@@ -83,39 +83,47 @@
     initialize({{ jsmap }});
     $(document).ready(function(){
         $("button[name='location search']").click(function(e){
-            findAddress( $('input[name=address]').val() );
-            $.ajax({
-                type: "POST",
-                url: '{{ path('casper_getNearestEventsAction') }}',
-                data: {
-                    latitude:   lat,
-                    longitude:  lng,
-                },
-                beforeSend: function () {
-                    
-                },
-                success: function (returnData) {
-                    
-                    $(":animated").promise().done(function () {
-                        $loading.fadeOut('fast', function () {
-                            $("div[name='details container']").html(returnData)
-                            $details.fadeIn('medium');
-                        });
-                    });
-                },
-                error: function (xhr, textStatus, errorThrown) {
-                    $(":animated").promise().done(function () {
-                        $loading.fadeOut('fast', function () {
-                            $("div[name='details container']").html(errorThrown)
-                            $details.fadeIn('medium');
-                        });
-                    });
-                }
-            });
+            setEventDistrict(null, null);
         });
     });
 
+    function setEventDistrict(center, radius) {
+        findAddress( $('input[name=address]').val() );
 
+        $.ajax({
+            type: "POST",
+            url: '{{ path('casper_getNearestEventsAction') }}',
+            dataType: 'json',
+            data: {
+                latitude:   lat||null,
+                longitude:  lng||null,
+                center:     center,
+                radius:     radius
+            },
+            beforeSend: function () {
+                deleteMarkers();
+            },
+            success: function (data) {
+                $.each(data.events, function(i) {
+                    addMarkerToMap(
+                            this.latitude,
+                            this.longitude,
+                            this.eventname
+                    );
+                });
+
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('error');
+                $(":animated").promise().done(function () {
+                    $loading.fadeOut('fast', function () {
+                        $("div[name='details container']").html(errorThrown)
+                        $details.fadeIn('medium');
+                    });
+                });
+            }
+        });
+    }
     function markerEventClick(id) {
         $.ajax({
             type: "POST",

@@ -51,43 +51,43 @@ class DefaultController extends Controller {
         $map->setMapOption('zoom', 6);
         
         
-        foreach( $query->getResult() as $row ) {
-            
-            /**
-            * adding markers to the map
-            */
-            $marker = new Marker();
-            // Configure your marker options
-            $marker->setPrefixJavascriptVariable('marker_');
-            $marker->setPosition( $row->getLatitude(), $row->getLongitude(), true);
-            #$marker->setPosition(51, 20, true);
-
-            $marker->setOptions(array(
-                'clickable' => true,
-                'flat'      => true,
-                'id'        => $row->getId()
-            ));
-            
-            if( $row->getUser()->getid() == $userId )
-                $marker->setIcon($baseurl.'/img/flag1.png');
-            else
-                $marker->setIcon($baseurl.'/img/flag3.png');
-            #$marker->setIcon( 'https://cdn0.iconfinder.com/data/icons/fatcow/32/location_pin.png' );
-
-            $map->addMarker($marker);
-            
-            /**
-             * add clickable events to the markers
-             */
-            $event = new Event();
-            // Configure your event
-            $event->setInstance( $marker->getJavascriptVariable() );
-            $event->setEventName( 'click' );
-            $event->setHandle( 'function(){ markerEventClick( this.id );}' );
-
-            $event->setCapture(false);
-            $map->getEventManager()->addEvent($event);
-        }
+//        foreach( $query->getResult() as $row ) {
+//            
+//            /**
+//            * adding markers to the map
+//            */
+//            $marker = new Marker();
+//            // Configure your marker options
+//            $marker->setPrefixJavascriptVariable('marker_');
+//            $marker->setPosition( $row->getLatitude(), $row->getLongitude(), true);
+//            #$marker->setPosition(51, 20, true);
+//
+//            $marker->setOptions(array(
+//                'clickable' => true,
+//                'flat'      => true,
+//                'id'        => $row->getId()
+//            ));
+//            
+//            if( $row->getUser()->getid() == $userId )
+//                $marker->setIcon($baseurl.'/img/flag1.png');
+//            else
+//                $marker->setIcon($baseurl.'/img/flag3.png');
+//            #$marker->setIcon( 'https://cdn0.iconfinder.com/data/icons/fatcow/32/location_pin.png' );
+//
+//            $map->addMarker($marker);
+//            
+//            /**
+//             * add clickable events to the markers
+//             */
+//            $event = new Event();
+//            // Configure your event
+//            $event->setInstance( $marker->getJavascriptVariable() );
+//            $event->setEventName( 'click' );
+//            $event->setHandle( 'function(){ markerEventClick( this.id );}' );
+//
+//            $event->setCapture(false);
+//            $map->getEventManager()->addEvent($event);
+//        }
         
         
         

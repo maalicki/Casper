@@ -155,13 +155,32 @@ class EventController extends Controller {
             
             $post = json_decode($Request->getContent(), true);
             
-            $latitude = filter_var($post['latitude'], FILTER_VALIDATE_FLOAT);
-            $longitude = filter_var($post['longitude'], FILTER_VALIDATE_FLOAT);
+            $latitude   =   $Request->request->get('latitude');
+            $longitude  =   $Request->request->get('longitude');
+            
+            #$center = $post['center'];
+            #$radius = $post['radius'];
             
             $em = $this->getDoctrine()->getManager();
             $repository = $em->getRepository('PolcodeCasperBundle:Event');
             
-            $events = $repository->findTheClosest($latitude, $longitude, 375);
+            $params = [
+              'latitude'    =>    $latitude,
+              'longitude'   =>    $longitude,
+              'distance'    =>    5,
+            ];
+            
+            $events = $repository->findTheClosest( $params );
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            $user = $user->getId();
+            
+            foreach( $events as &$event ) {
+                $event['test'] = $user;
+                if( $event->user == $user )
+                    $event['marker'] = 'true';
+                else
+                    $event['marker'] = 'false';
+            }
             
             $response = new \Symfony\Component\HttpFoundation\JsonResponse();
             $response->setData([ 'events' => $events ]);
