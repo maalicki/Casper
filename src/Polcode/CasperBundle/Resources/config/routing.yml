@@ -32,3 +32,8 @@ casper_eventView:
         defaults: 
             _controller: PolcodeCasperBundle:Event:view
             id: null
+            
+casper_getNearestEventsAction:
+        path:   /event-nearest
+        defaults: 
+            _controller: PolcodeCasperBundle:Event:getNearestEvents

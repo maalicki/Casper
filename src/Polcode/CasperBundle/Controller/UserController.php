@@ -14,19 +14,14 @@ class UserController extends Controller {
     
     public function myEventsAction(Request $Request) {
         
-        $userId = $this->container->get('security.context')->getToken()->getUser()->getId();
+        $user = $this->container->get('security.context')->getToken()->getUser();
         
         $repository = $this->getDoctrine()->getRepository('PolcodeCasperBundle:Event');
         
         $events = $repository->findBy([
-            'userId' => $userId,
+            'user' => $user,
             'deleted'=> 0
         ]);
-        
-        
-        $product = $this->getDoctrine()
-            ->getRepository('PolcodeCasperBundle:User')
-            ->find($userId);
         
         return $this->render('user/myEvents.html.twig', array(
             'events'    => $events

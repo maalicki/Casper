@@ -37,14 +37,14 @@ class Event {
     private $description;
     
     /**
-     * @ORM\Column(name="location", type="string", length=255, nullable=false)
+     * @ORM\Column(name="location", type="float", nullable=false)
      * 
      */
     private $location;
     
     /**
     *
-    * @ORM\Column(name="latitude", type="decimal", precision=10, scale=8, nullable=false)
+    * @ORM\Column(name="latitude", type="float", nullable=false)
     */
     private $latitude;
 
@@ -113,8 +113,24 @@ class Event {
         return false;
     }
     
-    public function getIntention() {
-        return $this->intention;
+    public function getEventSignUpTimeleft($format = 'min') {
+        $diff=$this->getEventSignUpEndDate()->diff( new \DateTime );
+        
+        if ( $diff->invert ){
+            switch ($format) {
+                case 'min':
+                        $hours   = $diff->format('%h'); 
+                        $minutes = $diff->format('%i');
+                        $time = ($hours * 60 + $minutes);
+                    break;
+
+                default:
+                    $time = $diff->format('%d days, %h:%i');
+                    break;
+            }
+            return $time;
+        }
+        return false;
     }
 
 

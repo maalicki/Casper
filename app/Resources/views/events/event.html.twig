@@ -80,13 +80,12 @@
 
 
 <script>
-    initialize();
+    initialize({{mapjs}});
     $(document).ready(function(){
         $("button[name='location search']").click(function(e){
             findAddress( $('input[name=address]').val() );
         });
     });
-    var marker, map = {{mapjs}};
 </script>
 <script src="{{ asset('js/gmaps.js') }}"></script>
 {% endblock %}

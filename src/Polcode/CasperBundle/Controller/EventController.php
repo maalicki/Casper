@@ -35,8 +35,8 @@ class EventController extends Controller {
         
         $user = $this->container->get('security.context')->getToken()->getUser();
         
-        $Event->setUserId( $user )
-                ->setDeleted('0');
+        $Event->setUser( $user )
+              ->setDeleted('0');
         
             $form = $this->createForm(new EventFormType('create') , $Event);
 
@@ -47,9 +47,12 @@ class EventController extends Controller {
                 if($form->isValid()) {
                     if( $Event->isEventDatesValid() ) {
                         if( $Event->isEventSignUpValid() ) {
+                            
                             $em = $this->getDoctrine()->getManager();
                             $em->persist($Event);
                             $em->flush();
+                            
+                            return $this->redirect($this->generateUrl('casper_newEvent'));
                         } else {
                             $error = new FormError("Date ends after event end!");
                             $form->get('eventSignUpEndDate')->addError($error);
@@ -146,7 +149,25 @@ class EventController extends Controller {
         
     }
     
-    public function getEventsAction(Request $Request) {
+    public function getNearestEventsAction(Request $Request) {
         
+        if( $Request->isXmlHttpRequest() ) {
+            
+            $post = json_decode($Request->getContent(), true);
+            
+            $latitude = filter_var($post['latitude'], FILTER_VALIDATE_FLOAT);
+            $longitude = filter_var($post['longitude'], FILTER_VALIDATE_FLOAT);
+            
+            $em = $this->getDoctrine()->getManager();
+            $repository = $em->getRepository('PolcodeCasperBundle:Event');
+            
+            $events = $repository->findTheClosest($latitude, $longitude, 375);
+            
+            $response = new \Symfony\Component\HttpFoundation\JsonResponse();
+            $response->setData([ 'events' => $events ]);
+            return $response;
+        }
+        
+        return $this->renderText('No results.');
     }
 }

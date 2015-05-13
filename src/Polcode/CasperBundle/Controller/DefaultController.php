@@ -104,44 +104,18 @@ class DefaultController extends Controller {
         
         if( $Request->isXmlHttpRequest() && !empty($id) ) {
             
-            $signUpUntil = new \DateTime();
-            if( rand(0,1) == 1 ) { $op = '+'; } else {$op = '-';}
-            $days = rand(1,15);
-            $signUpUntil->modify("$op $days day");
-            $days = rand(1,22);
-            $signUpUntil->modify("+$days hours");
-            $days = rand(1,59);
-            $signUpUntil->modify("+$days minutes");
+            $em = $this->getDoctrine()->getManager();
+            $repository = $em->getRepository('PolcodeCasperBundle:Event');
             
-            $datetime2 = new \DateTime();
-            $interval = $datetime2->diff($signUpUntil);
+            $event = $repository->findOneById($id);
             
-            $form = [
-                'eventId'    =>  $id,
-                'eventName'     => "Event name goes here",
-                'eventDescription'  => "Here will be some sample event description. You can put in that box anything you want to share! It's simple and easy to do!'",
-                'eventLocation' => "Beskidzka 14, 40-749 Katowice, Poland",
-                'eventStart'    => (new \DateTime())->format('Y-m-d H:i:s'),
-                'eventEnd'      => (new \DateTime())->format('Y-m-d H:i:s'),
-                'eventSignUp'   => $interval,
-                'eventMaxGuests'=> rand(0,100),
-                'eventGuestes'  => [ 'name1', 'name2', 'name3', 'name4', 'name5' ],
-                'eventLatitude' => rand(0,100) . '.' . rand(100,1000),
-                'eventLongitute'=> rand(0,100) . '.' . rand(100,1000),
-            ];
-          
-            return $this->render('views/events/eventDetails.html.twig', $form );
+            return $this->render('views/events/eventDetails.html.twig', ['event'=>$event] );
         }
         
         return $this->renderText('No results.');
     }
-    
-    public function loginAction() {
-        
-        
-        return $this->render('default/login.html.twig', array(
-            
-        ));
-    }
 
+
+    
+    
 }
