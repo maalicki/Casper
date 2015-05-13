@@ -10,48 +10,48 @@ use Ivory\GoogleMap\MapTypeId;
 use Ivory\GoogleMap\Overlays\Marker;
 use Ivory\GoogleMap\Events\Event;
 
+use Polcode\CasperBundle\Librarys\IpTool;
+
 class DefaultController extends Controller {
 
-    public function indexAction() {
+    public function indexAction(Request $Request) {
 
-        /**
-         * get user IP and coordinates
-         */
-        $geocoder = new \Geocoder\ProviderAggregator();
-        $adapter  = new \Ivory\HttpAdapter\CurlHttpAdapter();
+        $ip = $Request->getClientIp();
+        
+        $geo = new IpTool();
+        if( !$IP = $geo->getGeo($ip) ) {
+            /* Defaults Poland's geolocation */
+            $IP = [
+              'ltd' => '51.267',
+              'lgt' => '20.017'
+            ];
+        }
 
-        $chain = new \Geocoder\Provider\Chain([
-            new \Geocoder\Provider\FreeGeoIp($adapter),
-        ]);
-
-        $geocoder->registerProvider($chain);
+        /* active events from database */
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery('SELECT q FROM PolcodeCasperBundle:Event q WHERE q.private=false AND q.eventStop>=:now')
+                ->setParameter('now', new \DateTime);
         
-        $ip = $this->container->get('request_stack')->getCurrentRequest()->getClientIp();
-        
-        
-        
-        if( filter_var($ip, FILTER_VALIDATE_IP) && $ip != '127.0.0.1' && !preg_match('/^192.168.\d{1,3}\.\d{1,3}\z/', $ip) ) {
-            $geocode = $geocoder->geocode( $ip )->first();
-            $ltd = $geocode->getLatitude();
-            $lgt = $geocode->getLongitude();
-        } else {
-            /* Poland's geolocation */
-            $ltd = '51.267';
-            $lgt = '20.017';            
+        $baseurl = $this->getRequest()->getScheme() . '://' . $this->getRequest()->getHttpHost() . $this->getRequest()->getBasePath();
+           
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $securityContext = $this->container->get('security.context');
+        $userId = null;
+        if( $securityContext->isGranted('IS_AUTHENTICATED_FULLY') ){
+            $userId = $securityContext->getToken()->getUser()->getId();
         }
         
         /**
          * set map parameters
          */
-        
         $map = new Map();
         
         $map->setAutoZoom(false);
-        $map->setCenter( $ltd , $lgt, true);
+        $map->setCenter( $IP['ltd'] , $IP['lgt'], true);
         $map->setMapOption('zoom', 6);
         
         
-        for( $i=0; $i<=1000; $i++ ) {
+        foreach( $query->getResult() as $row ) {
             
             /**
             * adding markers to the map
@@ -59,17 +59,19 @@ class DefaultController extends Controller {
             $marker = new Marker();
             // Configure your marker options
             $marker->setPrefixJavascriptVariable('marker_');
-            $marker->setPosition( rand(49,55), rand(15,23), true);
+            $marker->setPosition( $row->getLatitude(), $row->getLongitude(), true);
             #$marker->setPosition(51, 20, true);
 
             $marker->setOptions(array(
                 'clickable' => true,
                 'flat'      => true,
-                'id'        => $i
+                'id'        => $row->getId()
             ));
             
-            $baseurl = $this->getRequest()->getScheme() . '://' . $this->getRequest()->getHttpHost() . $this->getRequest()->getBasePath();
-            $marker->setIcon($baseurl.'/img/flag3.png');
+            if( $row->getUser()->getid() == $userId )
+                $marker->setIcon($baseurl.'/img/flag1.png');
+            else
+                $marker->setIcon($baseurl.'/img/flag3.png');
             #$marker->setIcon( 'https://cdn0.iconfinder.com/data/icons/fatcow/32/location_pin.png' );
 
             $map->addMarker($marker);

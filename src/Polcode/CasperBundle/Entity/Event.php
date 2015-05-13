@@ -12,10 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Event {
     
-    public function __construct($intention = 'create') {
-        $this->intention = $intention;
-    }
-    
     /**
      * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
      * @ORM\Id
@@ -25,10 +21,10 @@ class Event {
     
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="events")
-     * @ORM\JoinColumn(name="userid", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user", referencedColumnName="id")
      *
      */
-    private $userId;
+    private $user;
 
     /**
      * @ORM\Column(name="eventname", type="string", length=255, nullable=false)
@@ -117,10 +113,10 @@ class Event {
         return false;
     }
     
-    public function getIntention()
-    {
+    public function getIntention() {
         return $this->intention;
     }
+
 
     /**
      * Get id
@@ -386,25 +382,25 @@ class Event {
     }
 
     /**
-     * Set userId
+     * Set user
      *
-     * @param \Polcode\CasperBundle\Entity\User $userId
+     * @param \Polcode\CasperBundle\Entity\User $user
      * @return Event
      */
-    public function setUserId(\Polcode\CasperBundle\Entity\User $userId = null)
+    public function setUser(\Polcode\CasperBundle\Entity\User $user = null)
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Get userId
+     * Get user
      *
      * @return \Polcode\CasperBundle\Entity\User 
      */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 }

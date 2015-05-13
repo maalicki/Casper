@@ -13,9 +13,22 @@ use Ivory\GoogleMap\Map;
 use Ivory\GoogleMap\MapTypeId;
 use Ivory\GoogleMap\Overlays\Marker;
 
+use Polcode\CasperBundle\Librarys\IpTool;
+
 class EventController extends Controller {
 
     public function newEventAction(Request $Request) {
+        
+        $ip = $Request->getClientIp();
+        
+        $geo = new IpTool();
+        if( !$IP = $geo->getGeo($ip) ) {
+            /* Defaults Poland's geolocation */
+            $IP = [
+              'ltd' => '51.267',
+              'lgt' => '20.017'
+            ];
+        }
         
         $Event = new Event();
         $Session = $this->get('session');
@@ -56,8 +69,8 @@ class EventController extends Controller {
         $map = new Map();
         
         $map->setAutoZoom(false);
-        $map->setCenter( 15 , 15, true);
-        $map->setMapOption('zoom', 3);
+        $map->setCenter( $IP['ltd'] , $IP['lgt'], true);
+        $map->setMapOption('zoom', 6);
         
         $mapjs = $map->getJavascriptVariable();
         

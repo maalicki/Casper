@@ -12,6 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Event {
     
+    public function __construct($intention = 'create') {
+        $this->intention = $intention;
+    }
+    
     /**
      * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
      * @ORM\Id
@@ -21,10 +25,10 @@ class Event {
     
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="events")
-     * @ORM\JoinColumn(name="userid", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user", referencedColumnName="id")
      *
      */
-    private $userId;
+    private $user;
 
     /**
      * @ORM\Column(name="eventname", type="string", length=255, nullable=false)
@@ -112,4 +116,10 @@ class Event {
         
         return false;
     }
+    
+    public function getIntention()
+    {
+        return $this->intention;
+    }
+
 }
