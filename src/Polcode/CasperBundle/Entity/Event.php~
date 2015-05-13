@@ -1,0 +1,115 @@
+<?php
+
+namespace Polcode\CasperBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Polcode\CasperBundle\Entity\EventRepository")
+ * @ORM\Table(name="events")
+ * 
+ */
+class Event {
+    
+    /**
+     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="events")
+     * @ORM\JoinColumn(name="userid", referencedColumnName="id")
+     *
+     */
+    private $userId;
+
+    /**
+     * @ORM\Column(name="eventname", type="string", length=255, nullable=false)
+     */
+    private $eventName;
+    
+    /**
+     * @ORM\Column(type="text",  nullable=false)
+     */
+    private $description;
+    
+    /**
+     * @ORM\Column(name="location", type="string", length=255, nullable=false)
+     * 
+     */
+    private $location;
+    
+    /**
+    *
+    * @ORM\Column(name="latitude", type="decimal", precision=10, scale=8, nullable=false)
+    */
+    private $latitude;
+
+    /**
+    *
+    * @ORM\Column(name="longitude", type="decimal", precision=11, scale=8, nullable=false)
+    */
+    private $longitude;
+
+    /**
+    *
+    * @ORM\Column(name="eventstart", type="datetime",  nullable=false)
+    */
+    private $eventStart;
+
+    /**
+    *
+    * @ORM\Column(name="eventstop", type="datetime",  nullable=false)
+    */
+    private $eventStop;
+
+    /**
+    *
+    * @ORM\Column(name="eventsignupenddate", type="datetime",  nullable=false)
+    */
+    private $eventSignUpEndDate;
+
+    /**
+    *
+    * @ORM\Column(name="maxguests", type="integer",  nullable=true, options={"unsigned"=true})
+    */
+    private $maxGuests;
+
+    /**
+    *
+    * @ORM\Column(name="private",  type="boolean")
+    */
+    private $private;
+
+    /**
+    *
+    * @ORM\Column(name="deleted", type="boolean")
+    */
+    private $deleted;
+    
+    
+    public function isEventDatesValid( ) {
+        
+        $diff=$this->getEventStop()->diff( $this->getEventStart() );
+        
+        if ( $diff->invert ){
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public function isEventSignUpValid( ) {
+        
+        $diff=$this->getEventStop()->diff( $this->getEventSignUpEndDate() );
+        
+        if ( $diff->invert ){
+            return true;
+        }
+        
+        return false;
+    }
+}

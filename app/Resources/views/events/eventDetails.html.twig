@@ -39,7 +39,7 @@
                                 {% set class = 'warning' %}
                             {% endif %}
                             <span class="label label-{{ class }}">{{ eventSignUp|date('%a days, %H hours %i minutes') }} left</span>
-                            
+
                         {% else %}
                             <span class="label label-danger">Time has left</span>
                         {% endif %}
@@ -55,6 +55,8 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div class="col-md-12" >
+        <a class="btn btn-primary btn-sm center-block" href="{{ path('casper_eventView') }}/{{eventId}}" role="button">View details</a>
+    </div>
 </div>
-</div>
-            

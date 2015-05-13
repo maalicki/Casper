@@ -63,7 +63,7 @@
             color: #555;
             height: 450px;
          ">
-        LOADING GOOGLE MAPS
+        {{ google_map(map) }}
     </div>
             </div>
 {% endblock %}
@@ -74,16 +74,13 @@
 {%block javascripts %}
     {{ parent() }}
     {{ form_javascript(form) }}
-    {{ google_map_js(map) }}
+   
+
 
     <script>
-        myOptions = {
-            center: new google.maps.LatLng( {{ltd}} , {{lgt}} ),
-            zoom: 6,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
+        var marker, map = {{mapjs}};
     </script>
-    <script src="{{ asset('js/gmaps.js') }}"></script>
+<script src="{{ asset('js/gmaps.js') }}"></script>
 {% endblock %}
 
 

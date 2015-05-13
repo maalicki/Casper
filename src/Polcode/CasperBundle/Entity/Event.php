@@ -6,10 +6,16 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Polcode\CasperBundle\Entity\EventRepository")
  * @ORM\Table(name="events")
  * 
  */
 class Event {
+    
+    public function __construct($intention = 'create') {
+        $this->intention = $intention;
+    }
+    
     /**
      * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
      * @ORM\Id
@@ -78,129 +84,17 @@ class Event {
 
     /**
     *
-    * @ORM\Column(name="private",  length=1, columnDefinition="TINYINT DEFAULT 1 NOT NULL")
+    * @ORM\Column(name="private",  type="boolean")
     */
     private $private;
 
     /**
     *
-    * @ORM\Column(name="deleted",  length=1, columnDefinition="TINYINT DEFAULT 0 NOT NULL")
+    * @ORM\Column(name="deleted", type="boolean")
     */
     private $deleted;
     
-
-    function getId() {
-        return $this->id;
-    }
-
-    function getUserId() {
-        return $this->userId;
-    }
-
-    function getEventName() {
-        return $this->eventName;
-    }
-
-    function getDescription() {
-        return $this->description;
-    }
-
-    function getLocation() {
-        return $this->location;
-    }
-
-    function getLatitude() {
-        return $this->latitude;
-    }
-
-    function getLongitude() {
-        return $this->longitude;
-    }
-
-    function getEventStart() {
-        return $this->eventStart;
-    }
-
-    function getEventStop() {
-        return $this->eventStop;
-    }
-
-    function getEventSignUpEndDate() {
-        return $this->eventSignUpEndDate;
-    }
-
-    function getMaxGuests() {
-        return $this->maxGuests;
-    }
-
-    function getPrivate() {
-        return $this->private;
-    }
-
-    function getDeleted() {
-        return $this->deleted;
-    }
-
-    function setUserId($userId) {
-        $this->userId = $userId;
-        return $this;
-    }
-
-    function setEventName($eventName) {
-        $this->eventName = $eventName;
-        return $this;
-    }
-
-    function setDescription($description) {
-        $this->description = $description;
-        return $this;
-    }
-
-    function setLocation($location) {
-        $this->location = $location;
-        return $this;
-    }
-
-    function setLatitude($latitude) {
-        $this->latitude = $latitude;
-        return $this;
-    }
-
-    function setLongitude($longitude) {
-        $this->longitude = $longitude;
-        return $this;
-    }
-
-    function setEventStart($eventStart) {
-        $this->eventStart = $eventStart;
-        return $this;
-    }
-
-    function setEventStop($eventStop) {
-        $this->eventStop = $eventStop;
-        return $this;
-    }
-
-    function setEventSignUpEndDate($eventSignUpEndDate) {
-        $this->eventSignUpEndDate = $eventSignUpEndDate;
-        return $this;
-    }
-
-    function setMaxGuests($maxGuests) {
-        $this->maxGuests = $maxGuests;
-        return $this;
-    }
-
-    function setPrivate($private) {
-        $this->private = $private;
-        return $this;
-    }
-
-    function setDeleted($deleted) {
-        $this->deleted = $deleted;
-        return $this;
-    }
-
+    
     public function isEventDatesValid( ) {
         
         $diff=$this->getEventStop()->diff( $this->getEventStart() );
@@ -222,6 +116,295 @@ class Event {
         
         return false;
     }
-        
+    
+    public function getIntention()
+    {
+        return $this->intention;
+    }
 
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set eventName
+     *
+     * @param string $eventName
+     * @return Event
+     */
+    public function setEventName($eventName)
+    {
+        $this->eventName = $eventName;
+
+        return $this;
+    }
+
+    /**
+     * Get eventName
+     *
+     * @return string 
+     */
+    public function getEventName()
+    {
+        return $this->eventName;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Event
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set location
+     *
+     * @param string $location
+     * @return Event
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    /**
+     * Get location
+     *
+     * @return string 
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * Set latitude
+     *
+     * @param string $latitude
+     * @return Event
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    /**
+     * Get latitude
+     *
+     * @return string 
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * Set longitude
+     *
+     * @param string $longitude
+     * @return Event
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * Get longitude
+     *
+     * @return string 
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * Set eventStart
+     *
+     * @param \DateTime $eventStart
+     * @return Event
+     */
+    public function setEventStart($eventStart)
+    {
+        $this->eventStart = $eventStart;
+
+        return $this;
+    }
+
+    /**
+     * Get eventStart
+     *
+     * @return \DateTime 
+     */
+    public function getEventStart()
+    {
+        return $this->eventStart;
+    }
+
+    /**
+     * Set eventStop
+     *
+     * @param \DateTime $eventStop
+     * @return Event
+     */
+    public function setEventStop($eventStop)
+    {
+        $this->eventStop = $eventStop;
+
+        return $this;
+    }
+
+    /**
+     * Get eventStop
+     *
+     * @return \DateTime 
+     */
+    public function getEventStop()
+    {
+        return $this->eventStop;
+    }
+
+    /**
+     * Set eventSignUpEndDate
+     *
+     * @param \DateTime $eventSignUpEndDate
+     * @return Event
+     */
+    public function setEventSignUpEndDate($eventSignUpEndDate)
+    {
+        $this->eventSignUpEndDate = $eventSignUpEndDate;
+
+        return $this;
+    }
+
+    /**
+     * Get eventSignUpEndDate
+     *
+     * @return \DateTime 
+     */
+    public function getEventSignUpEndDate()
+    {
+        return $this->eventSignUpEndDate;
+    }
+
+    /**
+     * Set maxGuests
+     *
+     * @param integer $maxGuests
+     * @return Event
+     */
+    public function setMaxGuests($maxGuests)
+    {
+        $this->maxGuests = $maxGuests;
+
+        return $this;
+    }
+
+    /**
+     * Get maxGuests
+     *
+     * @return integer 
+     */
+    public function getMaxGuests()
+    {
+        return $this->maxGuests;
+    }
+
+    /**
+     * Set private
+     *
+     * @param boolean $private
+     * @return Event
+     */
+    public function setPrivate($private)
+    {
+        $this->private = $private;
+
+        return $this;
+    }
+
+    /**
+     * Get private
+     *
+     * @return boolean 
+     */
+    public function getPrivate()
+    {
+        return $this->private;
+    }
+
+    /**
+     * Set deleted
+     *
+     * @param boolean $deleted
+     * @return Event
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return boolean 
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * Set userId
+     *
+     * @param \Polcode\CasperBundle\Entity\User $userId
+     * @return Event
+     */
+    public function setUserId(\Polcode\CasperBundle\Entity\User $userId = null)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return \Polcode\CasperBundle\Entity\User 
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
 }

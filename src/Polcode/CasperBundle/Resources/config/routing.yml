@@ -26,3 +26,9 @@ casper_userMyEvents:
         path:   /user/my-events
         defaults: 
             _controller: PolcodeCasperBundle:User:myEvents
+
+casper_eventView:
+        path:   /event/{id}
+        defaults: 
+            _controller: PolcodeCasperBundle:Event:view
+            id: null

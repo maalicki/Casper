@@ -7,46 +7,37 @@
 
 {% block container %}
     <div name="content">
-        <h2>Events</h2>
+        <h2>Welcome</h2>
 
         <!-- item list -->
         <div class="panel panel-default">
-            <div class="panel-heading"><a href="">Item heading</a></div>
+            <div class="panel-heading"><a>About Casper</a></div>
         </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
-            Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
-            dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
-            Aliquam in felis sit amet augue.</p>
+        <p>Casper is a service that allows users to pick up for events, make a guest list, it also allows you to ogranize all your meetings!</p>
 
         <hr>
 
+        <p>
         <div class="panel panel-default">
-            <div class="panel-heading"><a href="">Item heading</a></div>
+          <div class="panel-heading">
+            <h3 class="panel-title">Don't have an account?</h3>
+          </div>
+          <div class="panel-body">
+            <a href="{{ path('fos_user_registration_register') }}" class="btn btn-primary btn-lg center-block " role="button">Join to us!</a>
+          </div>
+                <ul class="list-group">
+                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> It's <strong>free.</strong></li>
+                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> It will take only <strong>14 sec</strong></li>
+                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> Casper is a page <strong>created by users.</strong></li>
+                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> Share, create and explore events <strong>inportant to You!</strong></li>
+                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> <strong>You decide.</strong></li>
+                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> <strong>Join to our community!</strong></li>
+                </ul>
         </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
-            Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
-            dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
-            Aliquam in felis sit amet augue.</p>
+        </p>
 
         <hr>
 
-        <div class="panel panel-default">
-            <div class="panel-heading"><a href="">Item heading</a></div>
-        </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
-            Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
-            dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
-            Aliquam in felis sit amet augue.</p>
-
-        <hr>
-
-        <div class="panel panel-default">
-            <div class="panel-heading"><a href="">Item heading</a></div>
-        </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra varius quam sit amet vulputate. 
-            Quisque mauris augue, molestie tincidunt condimentum vitae, gravida a libero. Aenean sit amet felis 
-            dolor, in sagittis nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor accumsan. 
-            Aliquam in felis sit amet augue.</p>
     </div>
     <div name="details" style="display: none;">
         <div class="container-fluid" >
@@ -96,10 +87,14 @@ function markerEventClick( id ) {
                     $details.fadeIn('medium');
                 });
             });
-
         },
         error : function (xhr, textStatus, errorThrown) {
-            //other stuff
+            $(":animated").promise().done(function() {
+                $loading.fadeOut('fast', function() {
+                    $("div[name='details container']").html( errorThrown )
+                    $details.fadeIn('medium');
+                });
+            });
         }
     });
 }

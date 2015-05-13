@@ -1,22 +1,10 @@
-var map;
 var geocoder;
-var myOptions;
-function initialize() {
-    var marker;
-
-    geocoder = new google.maps.Geocoder();
-    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-    
-    google.maps.event.addListener(map, 'click', function (event) {
-        placeMarker(event.latLng);
-    });
-    
-
     function placeMarker(location) {
+        geocoder = new google.maps.Geocoder();
         if (marker) { 
             marker.setPosition(location); //on change sa position
         } else {
-            marker = new google.maps.Marker({//on créé le marqueur
+            marker = new google.maps.Marker({
                 position: location,
                 map: map,
             });
@@ -27,6 +15,7 @@ function initialize() {
     }
 
     function getAddress(latLng) {
+        
         geocoder.geocode({'latLng': latLng},
         function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
@@ -41,5 +30,3 @@ function initialize() {
             }
         });
     }
-}
-google.maps.event.addDomListener(window, 'load', initialize);

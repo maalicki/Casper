@@ -72,7 +72,7 @@ class DefaultController extends Controller {
             $marker->setIcon($baseurl.'/img/flag3.png');
             #$marker->setIcon( 'https://cdn0.iconfinder.com/data/icons/fatcow/32/location_pin.png' );
 
-            $map->addMarker($marker);        
+            $map->addMarker($marker);
             
             /**
              * add clickable events to the markers
@@ -90,7 +90,6 @@ class DefaultController extends Controller {
         
         
         return $this->render('default/content.html.twig', array(
-            
             'map'  => $map
         ));
     }
@@ -115,7 +114,7 @@ class DefaultController extends Controller {
             $interval = $datetime2->diff($signUpUntil);
             
             $form = [
-                'id'    =>  $id,
+                'eventId'    =>  $id,
                 'eventName'     => "Event name goes here",
                 'eventDescription'  => "Here will be some sample event description. You can put in that box anything you want to share! It's simple and easy to do!'",
                 'eventLocation' => "Beskidzka 14, 40-749 Katowice, Poland",

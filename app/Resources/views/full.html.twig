@@ -86,11 +86,6 @@
                                 <i class="fa fa-sign-in"></i> Login
                             </a>
                         </li>
-                        <li class="{{ app.request.get('_route') == 'fos_user_registration_register' ? 'active' : 'hvr-underline-reveal' }}">
-                            <a href="{{ path('fos_user_registration_register') }}" >
-                                <i class="fa fa-key"></i></i> Register
-                            </a>
-                        </li>
                     {% endif %}
 
                     {# User menu for logged users #}
