@@ -48,7 +48,7 @@ class EventController extends Controller {
                         $Session->getFlashBag()->add('danger', 'Requested end date must be later than requested start date');
                     }
                 }else{
-                    $Session->getFlashBag()->add('danger', 'Popraw błędy formularza.');
+                    $Session->getFlashBag()->add('danger', 'Invalid form values.');
                 }
             }
 
@@ -88,7 +88,7 @@ class EventController extends Controller {
             $Event = $repository->findOneById($id);
             
             if( $Event ) {
-                $form = $this->createForm(new EventFormType('edit') , $Event);
+                $form = $this->createForm(new EventFormType('edit') , $Event, array('disabled' => true));
 
                     $map = new Map();
                     
@@ -97,7 +97,7 @@ class EventController extends Controller {
                     $map->setMapOption('zoom', 6);
                     $mapjs = $map->getJavascriptVariable();
                     
-                    $js = 'google.maps.event.addListener(%s, "click", function(event) {placeMarker(event.latLng, %s);})';
+                    $js = 'google.maps.event.addListener(%s, "click", function(event) {})';
                         $clickEvent = $this->get('ivory_google_map.event');
                         $clickEvent->setInstance($map->getJavascriptVariable());
                         $clickEvent->setEventName('click');

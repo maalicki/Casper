@@ -52,7 +52,9 @@
             </div>
 
             <div class="col-md-12 col-lg-12 col-sm-12">
+                {% if not form.eventName.vars.disabled %}
                 <input type="submit" value="Save event" class="btn btn-success" />
+                {% endif %}
             </div>
             {{ form_end(form) }}
         </div>
@@ -77,9 +79,15 @@
    
 
 
-    <script>
-        var marker, map = {{mapjs}};
-    </script>
+<script>
+    initialize();
+    $(document).ready(function(){
+        $("button[name='location search']").click(function(e){
+            findAddress( $('input[name=address]').val() );
+        });
+    });
+    var marker, map = {{mapjs}};
+</script>
 <script src="{{ asset('js/gmaps.js') }}"></script>
 {% endblock %}
 

@@ -119,8 +119,10 @@
                                     <li><a href="#">Category 5</a></li> 
                                 </ul>
                             </div>
-                            <input type="text" class="form-control" placeholder="What are searching for?">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> </span>
+                            <input name='address' type="text" class="form-control" placeholder="What are you searching for?">
+                            <div class="input-group-btn">
+                                <button name="location search" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-search"></span></button>
+                            </div>
                         </div>
                     </div>
                 </form>   
@@ -140,7 +142,7 @@
 
             <script src="{{ asset('bundles/scdatetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
             <script src="{{ asset('js/master.js') }}"></script>
-
+            <script src="{{ asset('js/gmaps.js') }}"></script>
 
         {% endblock %}
 

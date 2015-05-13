@@ -90,7 +90,8 @@ class DefaultController extends Controller {
         
         
         return $this->render('default/content.html.twig', array(
-            'map'  => $map
+            'map'  => $map,
+            'jsmap' => $map->getJavascriptVariable()
         ));
     }
 

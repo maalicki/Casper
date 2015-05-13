@@ -11,102 +11,128 @@
 
         <!-- item list -->
         <div class="panel panel-default">
-            <div class="panel-heading"><a>About Casper</a></div>
+            <div class="panel-heading">About Casper</div>
         </div>
         <p>Casper is a service that allows users to pick up for events, make a guest list, it also allows you to ogranize all your meetings!</p>
 
         <hr>
 
-        <p>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Don't have an account?</h3>
-          </div>
-          <div class="panel-body">
-            <a href="{{ path('fos_user_registration_register') }}" class="btn btn-primary btn-lg center-block " role="button">Join to us!</a>
-          </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Don't have an account?</h3>
+                </div>
+                <div class="panel-body">
+                    <a href="{{ path('fos_user_registration_register') }}" class="btn btn-primary btn-lg center-block " role="button">Join to us!</a>
+                </div>
                 <ul class="list-group">
-                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> It's <strong>free.</strong></li>
-                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> It will take only <strong>14 sec</strong></li>
-                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> Casper is a page <strong>created by users.</strong></li>
-                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> Share, create and explore events <strong>inportant to You!</strong></li>
-                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> <strong>You decide.</strong></li>
-                  <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> <strong>Join to our community!</strong></li>
+                    <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> It's <strong>free.</strong></li>
+                    <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> It will take only <strong>14 sec</strong></li>
+                    <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> Casper is a page <strong>created by users.</strong></li>
+                    <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> Share, create and explore events <strong>inportant to You!</strong></li>
+{#                    <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> <strong>You decide.</strong></li>#}
+{#                    <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> <strong>Join to our community!</strong></li>#}
                 </ul>
-        </div>
-        </p>
-
-        <hr>
-
-    </div>
-    <div name="details" style="display: none;">
-        <div class="container-fluid" >
-            <div class="row" name="details container">
             </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Legend:</h3>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <img src="{{ asset('img/flag1.png')}}" attr="Flag"> Your events
+                    </li>
+                    <li class="list-group-item">
+                        <img src="{{ asset('img/flag2.png')}}" attr="Flag"> Event 2
+                    </li>
+                    <li class="list-group-item">
+                        <img src="{{ asset('img/flag3.png')}}" attr="Flag"> Event 3
+                    </li>
+                    <li class="list-group-item">
+                        <img src="{{ asset('img/flag4.png')}}" attr="Flag"> Event 4
+                    </li>
+                    
+                </ul>
+            </div>
+
+
+</div>
+<div name="details" style="display: none;">
+    <div class="container-fluid" >
+        <div class="row" name="details container">
         </div>
     </div>
-    <div name="loading" style="display: none;">
-        <div class="container-fluid" >
-            <img class="center-block" src=" {{ asset('img/spinner.gif') }}" style='margin-top: 40px;' />
-        </div>
+</div>
+<div name="loading" style="display: none;">
+    <div class="container-fluid" >
+        <img class="center-block" src=" {{ asset('img/spinner.gif') }}" style='margin-top: 40px;' />
     </div>
-    {% endblock %}
+</div>
+{% endblock %}
 
 
 {% block javascripts %}
     {{ parent() }}
+
     
 <script>
-function markerEventClick( id ) {
-    var $content = $('div[name=content]'),
-        $loading = $('div[name=loading]'),
-        $details = $('div[name=details]');
+    initialize({{ jsmap }});
+    $(document).ready(function(){
+        $("button[name='location search']").click(function(e){
+            findAddress( $('input[name=address]').val() );
+        });
+    });
 
-    $.ajax({
-        type: "POST",
-        url: '{{ path('casper_ajaxCall') }}',
-        data: { id: id },
-        beforeSend : function (){
-            if( $content.is(':visible') ) {
-                $content.fadeOut('fast', function() {
-                    $("div[name='details container']").html('')
-                    $loading.fadeIn('medium');
+    function markerEventClick(id) {
+        var $content = $('div[name=content]'),
+                $loading = $('div[name=loading]'),
+                $details = $('div[name=details]');
+
+        $.ajax({
+            type: "POST",
+            url: '{{ path('casper_ajaxCall') }}',
+            data: {id: id},
+            beforeSend: function () {
+                if ($content.is(':visible')) {
+                    $content.fadeOut('fast', function () {
+                        $("div[name='details container']").html('')
+                        $loading.fadeIn('medium');
+                    });
+                }
+                if ($details.is(':visible')) {
+                    $details.fadeOut('fast', function () {
+                        $("div[name='details container']").html('')
+                        $loading.fadeIn('medium');
+                    });
+                }
+            },
+            success: function (returnData) {
+                $(":animated").promise().done(function () {
+                    $loading.fadeOut('fast', function () {
+                        $("div[name='details container']").html(returnData)
+                        $details.fadeIn('medium');
+                    });
+                });
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $(":animated").promise().done(function () {
+                    $loading.fadeOut('fast', function () {
+                        $("div[name='details container']").html(errorThrown)
+                        $details.fadeIn('medium');
+                    });
                 });
             }
-            if( $details.is(':visible') ) {
-                $details.fadeOut('fast', function() {
-                    $("div[name='details container']").html('')
-                    $loading.fadeIn('medium');
-                });
-            }
-        },
-        success : function (returnData) {
-            $(":animated").promise().done(function() {
-                $loading.fadeOut('fast', function() {
-                    $("div[name='details container']").html( returnData )
-                    $details.fadeIn('medium');
-                });
-            });
-        },
-        error : function (xhr, textStatus, errorThrown) {
-            $(":animated").promise().done(function() {
-                $loading.fadeOut('fast', function() {
-                    $("div[name='details container']").html( errorThrown )
-                    $details.fadeIn('medium');
-                });
-            });
-        }
-    });
-}
+        });
+    }
 
-$(function() {
+    $(function () {
 
-    $(document).on("click", "button[name='event close']", function() {
-        $('div[name=details]').fadeOut('fast', function() {
-           $('div[name=content]').fadeIn('medium');
-       });
+        $(document).on("click", "button[name='event close']", function () {
+            $('div[name=details]').fadeOut('fast', function () {
+                $('div[name=content]').fadeIn('medium');
+            });
+        });
+
     });
-   
-});
 </script>
 {% endblock %}
