@@ -104,7 +104,14 @@ class EventController extends Controller {
             $Event = $repository->findOneById($id);
             
             if( $Event ) {
-                $form = $this->createForm(new EventFormType('edit') , $Event, array('disabled' => true));
+                
+                $user = $this->container->get('security.context')->getToken()->getUser();
+                    
+                $state = true;
+                if( $Event->getUser() == $user)
+                    $state = false;
+                
+                $form = $this->createForm(new EventFormType('edit') , $Event, array('disabled' => $state));
 
                     $map = new Map();
                     
@@ -171,15 +178,22 @@ class EventController extends Controller {
             ];
             
             $events = $repository->findTheClosest( $params );
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            $user = $user->getId();
             
-            foreach( $events as &$event ) {
-                $event['test'] = $user;
-                if( $event->user == $user )
-                    $event['marker'] = 'true';
-                else
-                    $event['marker'] = 'false';
+            $baseurl = $this->getRequest()->getScheme() . '://' . $this->getRequest()->getHttpHost() . $this->getRequest()->getBasePath();
+            
+            /* check if user is logged */
+            if( $this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ) {
+                
+                $user = $this->container->get('security.context')->getToken()->getUser();
+                $user = $user->getId();
+                
+                foreach( $events as &$event ) {
+                    $event['test'] = $user;
+                    $event['marker'] = $baseurl.'/img/flag2.png';
+                    
+                    if( $event['user'] == $user )
+                        $event['marker'] = $baseurl.'/img/flag1.png';
+                }
             }
             
             $response = new \Symfony\Component\HttpFoundation\JsonResponse();
@@ -188,5 +202,34 @@ class EventController extends Controller {
         }
         
         return $this->renderText('No results.');
+    }
+    
+    public function deleteEventAction($id) {
+        
+        if( $this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') && $id ) {
+            $user = $this->container->get('security.context')->getToken()->getUser();
+
+            $em = $this->getDoctrine()->getManager();
+            $repository = $em->getRepository('PolcodeCasperBundle:Event');
+
+            $event = new Event();
+            $event = $repository->findOneById($id);
+            
+            if( $event->getUser() == $user ) {
+
+                $event->setDeleted(1);
+                $em->flush();
+                return $this->redirect($this->generateUrl('casper_userMyEvents'));
+            } else {
+                throw Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+            }
+        }
+        throw Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+        
+    }
+    
+    public function membersAction() {
+        return $this->render('events/event.html.twig', array(
+        ));   
     }
 }

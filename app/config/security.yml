@@ -61,3 +61,4 @@ security:
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/event/new, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/event/getNearestEvents, role: IS_AUTHENTICATED_ANONYMOUSLY }

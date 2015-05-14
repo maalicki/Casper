@@ -5,6 +5,8 @@ var geocoder,
     markerCount = 0,
     lat,
     lng,
+    geo,
+    circles = [],
     circle;
     
 function initialize( jsmap ) {
@@ -48,9 +50,8 @@ function getAddress(latLng) {
     });
 }
 
-function findAddress(location) {
-    var geo;
-    
+function findAddress(location, callback) {
+   
     geocoder.geocode({'address': location}, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             lat = results[0].geometry.location.lat();
@@ -58,79 +59,86 @@ function findAddress(location) {
             
             geo = new google.maps.LatLng(lat, lng);
             
-            
             map.setCenter( geo );
             map.setZoom(12);
             $('input[name=address]').val( results[0].formatted_address );
             
-            var circleOptions = {
-              strokeColor: '#FF0000',
-              strokeOpacity: 0.8,
-              strokeWeight: 2,
-              fillColor: '#FF0000',
-              fillOpacity: 0.15,
-              map: map,
-              //editable: true,
-              center: geo,
-              radius: 5 * 1000 /* for 5 kilometers */
-            };
-            
-            circle = new google.maps.Circle(circleOptions);
-            
-            google.maps.event.addListener(circle, 'center_changed', function()   
-            {
-                //setEventDistrict( circle.getCenter(), circle.getRadius() );
-            });  
-
-            google.maps.event.addListener(circle, 'radius_changed', function()   
-            {  
-                //setEventDistrict( circle.getCenter(), circle.getRadius() );
-            });  
-            
+            callback(true);
         } else {
-            alert('Geocode was not successful for the following reason: ' + status);
+            callback('Geocode was not successful for the following reason: ' + status );
         }
+        
     });
 }
 
 // Sets the map on all markers in the array.
 function setAllMap(map) {
-  for (var i = 0; i < markers.length; i++) {
-    markers[i].setMap(map);
+  if( markers.length > 0 ) {
+    for( i in markers ) {
+        markers[i].setMap(map);
+    }
+    markers = [];
   }
-}
-// Removes the markers from the map, but keeps them in the array.
-function clearMarkers() {
-  setAllMap(null);
-  circle.setMap(null);
+  
+  if( circles.length > 0 ) {
+    for( i in circles ) {
+        circles[i].setMap(map);
+    }
+    circles = [];
+  }
 }
 
 // Deletes all markers in the array by removing references to them.
 function deleteMarkers() {
-  clearMarkers();
-  markers = [];
+  setAllMap(null);
 }
 
-function addMarkerToMap(lat, long, htmlMarkupForInfoWindow) {
+function addMarkerToMap(lat, long, id, icon) {
+    
     var infowindow = new google.maps.InfoWindow();
     var myLatLng = new google.maps.LatLng(lat, long);
     
     var marker = new google.maps.Marker({
         position: myLatLng,
         map: map,
+        icon: icon,
         animation: google.maps.Animation.DROP,
     });
      markers.push(marker);
      
-    //Gives each marker an Id for the on click
-    markerCount++;
     //Creates the event listener for clicking the marker
     //and places the marker on the map
     google.maps.event.addListener(marker, 'click', (function(marker, markerCount) {
         return function() {
-            infowindow.setContent(htmlMarkupForInfoWindow);
-            infowindow.open(map, marker);
+            markerEventClick( id )
         }
-    })(marker, markerCount)); 
+    })(marker, id)); 
      
+}
+
+function addCircleToMap() {
+    var circleOptions = {
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.07,
+      map: map,
+      //editable: true,
+      center: geo,
+      radius: 5 * 1000 /* for 5 kilometers */
+    };
+
+    circle = new google.maps.Circle(circleOptions);
+    circles.push(circle);
+    
+    google.maps.event.addListener(circle, 'center_changed', function()   
+    {
+        //setEventDistrict( circle.getCenter(), circle.getRadius() );
+    });  
+
+    google.maps.event.addListener(circle, 'radius_changed', function()   
+    {  
+        //setEventDistrict( circle.getCenter(), circle.getRadius() );
+    });  
 }

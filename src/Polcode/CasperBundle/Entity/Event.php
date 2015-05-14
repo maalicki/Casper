@@ -3,11 +3,13 @@
 namespace Polcode\CasperBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Polcode\CasperBundle\Validator\Constraints as ValidateAssert;
 
 /**
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="Polcode\CasperBundle\Entity\EventRepository")
  * @ORM\Table(name="events")
+ * @ValidateAssert\EventFormFields
  * 
  */
 class Event {
@@ -37,7 +39,7 @@ class Event {
     private $description;
     
     /**
-     * @ORM\Column(name="location", type="float", nullable=false)
+     * @ORM\Column(name="location", type="text", nullable=false)
      * 
      */
     private $location;
@@ -89,6 +91,17 @@ class Event {
     * @ORM\Column(name="deleted", type="boolean")
     */
     private $deleted;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="joinedEvents")
+     * @ORM\JoinTable(name="users_events")
+     * */
+    private $joinedUsers;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Invitation", mappedBy="event")
+     * */
+    private $invitation;
     
     
     public function isEventDatesValid( ) {

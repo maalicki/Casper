@@ -16,7 +16,7 @@
         <p>Casper is a service that allows users to pick up for events, make a guest list, it also allows you to ogranize all your meetings!</p>
 
         <hr>
-
+        {% if not app.user %}
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Don't have an account?</h3>
@@ -33,7 +33,7 @@
 {#                    <li class="list-group-item"><i class="fa fa-check-square-o" style='color:#ae5500' ></i> <strong>Join to our community!</strong></li>#}
                 </ul>
             </div>
-
+         {% endif %}
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Legend:</h3>
@@ -88,17 +88,22 @@
     });
 
     function setEventDistrict(center, radius) {
-        findAddress( $('input[name=address]').val() );
-
+        findAddress( $('input[name=address]').val(), function(response) {
+            if( response ) {
+                makeAjax();
+            } else
+                alert(response)
+        });
+    }
+    
+    function makeAjax() {
         $.ajax({
             type: "POST",
             url: '{{ path('casper_getNearestEventsAction') }}',
             dataType: 'json',
             data: {
-                latitude:   lat||null,
-                longitude:  lng||null,
-                center:     center,
-                radius:     radius
+                latitude:   lat,
+                longitude:  lng,
             },
             beforeSend: function () {
                 deleteMarkers();
@@ -108,13 +113,13 @@
                     addMarkerToMap(
                             this.latitude,
                             this.longitude,
-                            this.eventname
+                            this.id,
+                            this.marker
                     );
                 });
-
+                addCircleToMap();
             },
             error: function (xhr, textStatus, errorThrown) {
-                console.log('error');
                 $(":animated").promise().done(function () {
                     $loading.fadeOut('fast', function () {
                         $("div[name='details container']").html(errorThrown)
@@ -124,6 +129,7 @@
             }
         });
     }
+    
     function markerEventClick(id) {
         $.ajax({
             type: "POST",

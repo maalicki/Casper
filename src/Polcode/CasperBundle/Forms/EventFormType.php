@@ -98,7 +98,7 @@ class EventFormType extends AbstractType {
     public function setDefaultOptions(\Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'Polcode\CasperBundle\Entity\Event',
-            'validation_groups' => array('registration')
+            'validation_groups' => array('registration'),
         ));
     }
 

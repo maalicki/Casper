@@ -6,12 +6,6 @@ casper_index:
         path:   /
         defaults: { _controller: PolcodeCasperBundle:Default:index }
 
-casper_test:
-        path:   /test/{name}
-        defaults: 
-            _controller: PolcodeCasperBundle:Default:test
-            name: asdf
-
 casper_newEvent:
         path:   /event/new
         defaults: 
@@ -33,7 +27,20 @@ casper_eventView:
             _controller: PolcodeCasperBundle:Event:view
             id: null
             
+casper_eventDelete:
+        path:   /event-delete/{id}
+        defaults: 
+            _controller: PolcodeCasperBundle:Event:deleteEvent
+            id: null
+            
 casper_getNearestEventsAction:
         path:   /event-nearest
         defaults: 
             _controller: PolcodeCasperBundle:Event:getNearestEvents
+            
+casper_eventMembers:
+        path:   /event-members/{id}
+        defaults:
+            _controller: PolcodeCasperBundle:Event:members
+            id: null
+            

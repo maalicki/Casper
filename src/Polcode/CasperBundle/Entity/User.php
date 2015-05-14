@@ -50,7 +50,23 @@ class User extends BaseUser {
      **/
     private $events;
     
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Event", mappedBy="joinedUsers")
+     */
+    private $joinedEvents;
     
+
+    /**
+     * @ORM\OneToMany(targetEntity="Invitation", mappedBy="sender")
+     * */
+    private $sendInvitations;
+    
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Invitation", mappedBy="receivers")
+     */
+    private $receivedInvitations;
     
     public function save($savePath){
         
