@@ -68,6 +68,44 @@ class User extends BaseUser {
      */
     private $receivedInvitations;
     
+    /**
+     * Get joinedEvents
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getJoinedEvents() {
+        return $this->joinedEvents;
+    }
+    
+    public function joinToEvent(\Polcode\CasperBundle\Entity\Event $event) {
+        $this->addJoinedEvent($event);
+        $event->addJoinedUser($this);
+    }
+    
+    /**
+     * Add joinedEvents
+     *
+     * @param \Polcode\CasperBundle\Entity\Event $joinedEvents
+     * @return User
+     */
+    private function addJoinedEvent(\Polcode\CasperBundle\Entity\Event $joinedEvents) {
+        $this->joinedEvents[] = $joinedEvents;
+        return $this;
+    }
+    
+    public function resignFromEvent(\Polcode\CasperBundle\Entity\Event $event) {
+        $this->removeJoinedEvent($event);
+        $event->removeJoinedUser($this);
+    }
+    
+    /**
+     * Remove joinedEvents
+     *
+     * @param \Polcode\CasperBundle\Entity\Event $joinedEvents
+     */
+    public function removeJoinedEvent(\Polcode\CasperBundle\Entity\Event $joinedEvents) {
+        $this->joinedEvents->removeElement($joinedEvents);
+    }
 
     /**
      * Get id

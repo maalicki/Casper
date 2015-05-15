@@ -23,16 +23,18 @@ class InvitationsController extends Controller {
         $event = $eventRepo->find($id);
         if( $event ) {
             if ($event->getUser()->getId() !== $this->getUser()->getId()) {
-                throw Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+                throw \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
             }
         
-            $uninvitedUsers = $usersRepo->findAll();
+            $allUsers     = $usersRepo->findAll();
             $invitedUsers = $this->getInvitedUsers($event);
+            $joinedUsers  = $event->getJoinedUsers()->toArray();
 
             return $this->render('invitations/invitations.html.twig', array(
                 'event'         => $event,
-                'uninvitedUsers'=> array_diff($uninvitedUsers, $invitedUsers),
+                'uninvitedUsers'=> array_diff($allUsers, $invitedUsers),
                 'invitedUsers'  => $invitedUsers,
+                'joinedUsers'   => $joinedUsers,
                 'description'   => $this->getInvitationDescription($event)
             ));
         }
@@ -60,27 +62,29 @@ class InvitationsController extends Controller {
         $em = $this->getDoctrine()->getManager();
         
         $inviteUsers = $request->request->get('inviteUsers');
-        if (empty($inviteUsers)) {
-            $inviteUsers = array();
+        if (!empty($inviteUsers)) {
+
+            $usersRepo = $em->getRepository('PolcodeCasperBundle:User');
+            $eventRepo = $em->getRepository('PolcodeCasperBundle:Event');
+
+            $event = $eventRepo->find($id);
+
+            $invitation = $this->getOrCreateEventInvitation($event, $em);
+            $invitation->setSender($this->getUser());
+            $invitation->setEvent($event);
+            $invitation->setDescription($request->request->get('description'));
+            $invitation->removeAllReceiver();
+
+            foreach ($inviteUsers as $userIdToInvite) {
+                $userToInvite = $usersRepo->find($userIdToInvite);
+                $invitation->addReceiver($userToInvite);
+                $this->sendEmailInvitation($event, $userToInvite);
+            }
+            $em->flush();
+            $this->get('session')->getFlashBag()->add('success', 'E-mail with invites was send to selected members!');
         }
         
-        $usersRepo = $em->getRepository('PolcodeCasperBundle:User');
-        $eventRepo = $em->getRepository('PolcodeCasperBundle:Event');
-        
-        $event = $eventRepo->find($id);
-        
-        $invitation = $this->getOrCreateEventInvitation($event, $em);
-        $invitation->setSender($this->getUser());
-        $invitation->setEvent($event);
-        $invitation->setDescription($request->request->get('description'));
-        $invitation->removeAllReceiver();
-        
-        foreach ($inviteUsers as $userIdToInvite) {
-            $userToInvite = $usersRepo->find($userIdToInvite);
-            $invitation->addReceiver($userToInvite);
-            $this->sendEmailInvitation($event, $userToInvite);
-        }
-        $em->flush();
+        $this->get('session')->getFlashBag()->add('danger', 'Your form was submitted but you need to select users to invite them!');
         return $this->redirectToRoute('casper_eventMembers', array('id' => $id));
     }
     
@@ -115,6 +119,15 @@ class InvitationsController extends Controller {
                         'path' => $this->generateUrl('casper_eventView', array('id' => $event->getId())))
                 ), 'text/plain');
         $mailer->send($message);
+    }
+    
+    public function joinToEventAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $event = $em->getRepository('PolcodeCasperBundle:Event')->find($id);
+        $user = $this->getUser();
+        $user->joinToEvent($event);
+        $em->flush();
+        return $this->redirectToRoute('casper_eventView', array('id' => $event->getId()));
     }
     
 }

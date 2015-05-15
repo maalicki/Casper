@@ -74,7 +74,7 @@
                     <div class="col-sm-4 column">
                         <h4>Pending requests</h4>
                         <select multiple class="form-control" size="15" id="allUsers">
-                            {% for user in invitedUsers %}
+                            {% for user in joinedUsers %}
                                 <option value="{{user.id}}">{{user.username }}</option>
                             {% endfor %}
                         </select>

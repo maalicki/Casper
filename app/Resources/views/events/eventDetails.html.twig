@@ -7,19 +7,19 @@
             <i class="fa fa-times"></i>
         </button>
     </div>
-    <div class="col-md-12"><h5>{{ event.location }}</h5></div>
+    <div class="col-sm-12"><h5>{{ event.location }}</h5></div>
 </div>
 <hr>
 <div class="row">
-    <div class="col-md-12" >
+    <div class="col-sm-12" >
         {{ event.description }}
     </div>
 </div><br>
 <div class="row">
-    <div class="col-md-12" >
+    <div class="col-sm-12" >
         {% include 'views/events/eventTable.html.twig' %}
     </div>
-    <div class="col-md-12" >
+    <div class="col-sm-12" >
         <a class="btn btn-primary btn-sm center-block" href="{{ path('casper_eventView') }}/{{event.id}}" role="button">View details</a>
     </div>
 </div>

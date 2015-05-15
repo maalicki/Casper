@@ -49,3 +49,9 @@ casper_eventInvitationHandleForm:
         path: /invitations/event/{id}
         defaults: {_controller: PolcodeCasperBundle:Invitations:handleForm}
         methods:  [POST]
+
+casper_eventJoin:
+        path:   /invitations/join/{id}
+        defaults: 
+            _controller: PolcodeCasperBundle:Invitations:joinToEvent
+            id: null

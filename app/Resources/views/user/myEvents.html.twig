@@ -7,7 +7,10 @@
 {% block pageBody %}
     <div class="container-fluid" id="main">
         <div class="row">
-            <div class="col-md-offset-2 col-md-8" id="left" >
+            <div class="
+                 col-sm-offset-1 col-sm-10
+                 col-md-offset-2 col-md-8
+                 " id="left" >
                 <br/>
             {% for event in events %}
                 
@@ -18,16 +21,16 @@
                 </div>
                 <div class="panel-body">
                     <div class='row'>
-                        <div class='col-md-7' >
+                        <div class='col-sm-7 col-md-7' >
                         <blockquote>
                             <p>{{ event.description }}</p>
                         </blockquote>
                         </div>
-                        <div class='col-md-5'>
+                        <div class='col-sm-5 col-md-5'>
                             {% include 'views/events/eventTable.html.twig' %}
                         </div>
                     </div>
-                        <div class='col-md-12'>
+                        <div class='col-sm-12'>
                             <a title="View event" data-toggle="tooltip" class="btn btn-sm btn-success " href="{{path('casper_eventView')}}/{{event.id}}" role="button"><i class="glyphicon glyphicon-edit"> View</i></a>
                             <a title="Members" data-toggle="tooltip" class="btn btn-sm btn-info " href="{{path('casper_eventMembers')}}/{{event.id}}" role="button"><i class="fa fa-users"> Members</i></a>
                             <a title="Delete event" data-toggle="tooltip" class="btn btn-sm btn-danger " href="{{path('casper_eventDelete')}}/{{event.id}}" role="button"><i class="glyphicon glyphicon-remove"> Delete</i></a>
