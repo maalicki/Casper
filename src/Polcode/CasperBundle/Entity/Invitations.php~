@@ -1,0 +1,50 @@
+<?php
+
+namespace Polcode\CasperBundle\Entity;
+
+use Doctrine\ORM\Mapping AS ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="invitations")
+ */
+class Invitations {
+    /**
+     * @ORM\Id 
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     */
+    private $id;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="sendInvitations")
+     * @ORM\JoinColumn(name="sender_id", referencedColumnName="id", onDelete="CASCADE")
+     **/
+    private $sender;
+    
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $description;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="receivedInvitations")
+     * @ORM\JoinTable(name="users_receivedInvitations")
+     **/
+    private $receivers;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Event", inversedBy="invitation")
+     * @ORM\JoinColumn(name="event_id", referencedColumnName="id", onDelete="CASCADE")
+     **/
+    private $event;
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->receivers = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+}

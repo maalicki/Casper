@@ -1,0 +1,128 @@
+{% extends 'full.html.twig' %}
+
+{% block pageTitle %}
+    Invitations | {{ parent() }}
+{% endblock %}
+
+{% block pageBody %}
+    <br/>
+    <div class="container">
+        <div class="row clearfix">
+            <div class="column
+                 col-xs-12
+                 col-sm-offset-1 col-sm-10
+                 col-md-offset-2 col-md-8
+                 col-lg-offset-2 col-lg-8
+                 ">
+                <div class="row clearfix">
+                    <div class="column col-sm-6">
+                        <h2>{{ event.eventName }}</h2>
+                        <blockquote>
+                            <p>{{ event.description }}</p>
+                        </blockquote>
+                    </div>
+                    <div class="column col-sm-6">
+                        {% include 'views/events/eventTable.html.twig' %}
+                    </div>                
+                </div>
+                <div class="row clearfix">
+                    <div class="column col-sm-12"><hr></div>
+                </div>
+
+
+                <div class="row clearfix">
+                    <div class="col-sm-8 column border-right">
+
+                        <form method="POST" action="" id="inviteusersForm">
+                            <div class="row display-table">
+                                <div class="col-sm-5 display-cell">
+                                    <h4>Invited members </h4>
+                                    <select multiple class="form-control" name="inviteUsers[]" size="8" id="invitedUsers">
+                                        {% for user in invitedUsers %}
+                                            <option value="{{user.id}}">{{user.username }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-sm-2 text-center display-cell" >
+                                    <button type="button" class="btn btn-default" name="delUserFromInvitation"><</button>
+                                    <button type="button" class="btn btn-default" name="addUserToInvitation">></button><br>
+                                </div>
+                                <div class="col-sm-5 display-cell">
+                                    <h4>Uninvited members </h4>
+                                    <select multiple class="form-control" size="8" id="allUsers">
+                                        {% for user in uninvitedUsers %}
+                                            <option value="{{user.id}}">{{user.username }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <strong>Description:</strong>
+                                    <textarea class="form-control" style="min-height: 100px;max-width: 100%;"
+                                              name="description">{{description}}</textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn-success pull-right">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                                
+                    </div>
+                    <div class="col-sm-4 column">
+                        <h4>Pending requests</h4>
+                        <select multiple class="form-control" size="15" id="allUsers">
+                            {% for user in invitedUsers %}
+                                <option value="{{user.id}}">{{user.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+        .border-right {
+            border-right: 1px solid black;
+        }
+.display-table{
+    display: table;
+    table-layout: fixed;
+}
+
+.display-cell{
+    display: table-cell;
+    vertical-align: middle;
+    float: none;
+}
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+<script>
+$('div.form-group').hide();
+$().ready(function() {
+    
+    $('button[name=delUserFromInvitation]').click(function() {  
+        return !$('#allUsers option:selected').remove().appendTo('#invitedUsers');  
+    });
+ 
+    $('button[name=addUserToInvitation]').click(function() {  
+        return !$('#invitedUsers option:selected').remove().appendTo('#allUsers');  
+    });
+ 
+    $("#inviteusersForm").on('submit', function () {
+        $("#inviteusersForm").find('input, select').attr('disabled', false);
+    });
+});
+</script>
+{% endblock %}

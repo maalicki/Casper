@@ -164,20 +164,3 @@ h6, .h6 {
   color: #999;
 }
 
-
-/*
- * Footer
- */
-
-.casper-footer {
-    height: auto !important;
-    height: 100px;
-    margin: 0 auto -155px; /* the bottom margin is the negative value of the footer's height */
-    
-  padding: 40px 0;
-  margin-top: 40px;
-  color: #999;
-  text-align: center;
-  background-color: #f9f9f9;
-  border-top: 1px solid #e5e5e5;
-}

@@ -6,8 +6,9 @@ use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="invitations")
  */
-class Invitation {
+class Invitations {
     /**
      * @ORM\Id 
      * @ORM\Column(type="integer")
@@ -34,7 +35,7 @@ class Invitation {
     
     /**
      * @ORM\OneToOne(targetEntity="Event", inversedBy="invitation")
-     * @ORM\JoinColumn(name="event_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
      **/
     private $event;
     
@@ -46,6 +47,10 @@ class Invitation {
         $this->receivers = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
+    public function removeAllReceiver() {
+        $this->receivers->clear();
+    }
+
     /**
      * Get id
      *
@@ -55,17 +60,20 @@ class Invitation {
     {
         return $this->id;
     }
+
     /**
      * Set description
      *
      * @param string $description
-     * @return Invitation
+     * @return Invitations
      */
     public function setDescription($description)
     {
         $this->description = $description;
+
         return $this;
     }
+
     /**
      * Get description
      *
@@ -75,46 +83,53 @@ class Invitation {
     {
         return $this->description;
     }
+
     /**
      * Set sender
      *
-     * @param \AppBundle\Entity\User $sender
-     * @return Invitation
+     * @param \Polcode\CasperBundle\Entity\User $sender
+     * @return Invitations
      */
-    public function setSender(\PolcodeCasperBundle\Entity\User $sender = null)
+    public function setSender(\Polcode\CasperBundle\Entity\User $sender = null)
     {
         $this->sender = $sender;
+
         return $this;
     }
+
     /**
      * Get sender
      *
-     * @return \AppBundle\Entity\User 
+     * @return \Polcode\CasperBundle\Entity\User 
      */
     public function getSender()
     {
         return $this->sender;
     }
+
     /**
      * Add receivers
      *
-     * @param \AppBundle\Entity\User $receivers
-     * @return Invitation
+     * @param \Polcode\CasperBundle\Entity\User $receivers
+     * @return Invitations
      */
-    public function addReceiver(\PolcodeCasperBundle\Entity\User $receivers)
+    public function addReceiver(\Polcode\CasperBundle\Entity\User $receivers)
     {
         $this->receivers[] = $receivers;
+
         return $this;
     }
+
     /**
      * Remove receivers
      *
-     * @param \AppBundle\Entity\User $receivers
+     * @param \Polcode\CasperBundle\Entity\User $receivers
      */
-    public function removeReceiver(\PolcodeCasperBundle\Entity\User $receivers)
+    public function removeReceiver(\Polcode\CasperBundle\Entity\User $receivers)
     {
         $this->receivers->removeElement($receivers);
     }
+
     /**
      * Get receivers
      *
@@ -124,28 +139,27 @@ class Invitation {
     {
         return $this->receivers;
     }
+
     /**
      * Set event
      *
-     * @param \AppBundle\Entity\Event $event
-     * @return Invitation
+     * @param \Polcode\CasperBundle\Entity\Event $event
+     * @return Invitations
      */
-    public function setEvent(\PolcodeCasperBundle\Entity\Event $event = null)
+    public function setEvent(\Polcode\CasperBundle\Entity\Event $event = null)
     {
         $this->event = $event;
+
         return $this;
     }
+
     /**
      * Get event
      *
-     * @return \AppBundle\Entity\Event 
+     * @return \Polcode\CasperBundle\Entity\Event 
      */
     public function getEvent()
     {
         return $this->event;
-    }
-    
-    public function removeAllReceiver() {
-        $this->receivers->clear();
     }
 }

@@ -52,7 +52,7 @@ class Event {
 
     /**
     *
-    * @ORM\Column(name="longitude", type="decimal", precision=11, scale=8, nullable=false)
+    * @ORM\Column(name="longitude", type="float", precision=11, scale=8, nullable=false)
     */
     private $longitude;
 
@@ -99,7 +99,7 @@ class Event {
     private $joinedUsers;
     
     /**
-     * @ORM\OneToOne(targetEntity="Invitation", mappedBy="event")
+     * @ORM\OneToOne(targetEntity="Invitations", mappedBy="event")
      * */
     private $invitation;
     
@@ -138,7 +138,7 @@ class Event {
                     break;
 
                 default:
-                    $time = $diff->format('%d days, %h:%i');
+                    $time = $diff->format('%d days, %hh %imin');
                     break;
             }
             return $time;
@@ -431,5 +431,68 @@ class Event {
     public function getUser()
     {
         return $this->user;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->joinedUsers = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add joinedUsers
+     *
+     * @param \Polcode\CasperBundle\Entity\User $joinedUsers
+     * @return Event
+     */
+    public function addJoinedUser(\Polcode\CasperBundle\Entity\User $joinedUsers)
+    {
+        $this->joinedUsers[] = $joinedUsers;
+
+        return $this;
+    }
+
+    /**
+     * Remove joinedUsers
+     *
+     * @param \Polcode\CasperBundle\Entity\User $joinedUsers
+     */
+    public function removeJoinedUser(\Polcode\CasperBundle\Entity\User $joinedUsers)
+    {
+        $this->joinedUsers->removeElement($joinedUsers);
+    }
+
+    /**
+     * Get joinedUsers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getJoinedUsers()
+    {
+        return $this->joinedUsers;
+    }
+
+    /**
+     * Set invitation
+     *
+     * @param \Polcode\CasperBundle\Entity\Invitations $invitation
+     * @return Event
+     */
+    public function setInvitation(\Polcode\CasperBundle\Entity\Invitations $invitation = null)
+    {
+        $this->invitation = $invitation;
+
+        return $this;
+    }
+
+    /**
+     * Get invitation
+     *
+     * @return \Polcode\CasperBundle\Entity\Invitations 
+     */
+    public function getInvitation()
+    {
+        return $this->invitation;
     }
 }

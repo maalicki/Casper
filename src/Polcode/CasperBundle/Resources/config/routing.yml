@@ -39,8 +39,13 @@ casper_getNearestEventsAction:
             _controller: PolcodeCasperBundle:Event:getNearestEvents
             
 casper_eventMembers:
-        path:   /event-members/{id}
+        path:   /invitations/event/{id}
         defaults:
-            _controller: PolcodeCasperBundle:Event:members
+            _controller: PolcodeCasperBundle:Invitations:index
             id: null
+        methods:  [GET]
             
+casper_eventInvitationHandleForm:
+        path: /invitations/event/{id}
+        defaults: {_controller: PolcodeCasperBundle:Invitations:handleForm}
+        methods:  [POST]

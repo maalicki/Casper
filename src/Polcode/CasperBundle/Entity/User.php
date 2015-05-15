@@ -46,7 +46,7 @@ class User extends BaseUser {
     private $birthdate;
     
     /**
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="userId")
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="user")
      **/
     private $events;
     
@@ -58,36 +58,16 @@ class User extends BaseUser {
     
 
     /**
-     * @ORM\OneToMany(targetEntity="Invitation", mappedBy="sender")
+     * @ORM\OneToMany(targetEntity="Invitations", mappedBy="sender")
      * */
     private $sendInvitations;
     
 
     /**
-     * @ORM\ManyToMany(targetEntity="Invitation", mappedBy="receivers")
+     * @ORM\ManyToMany(targetEntity="Invitations", mappedBy="receivers")
      */
     private $receivedInvitations;
     
-    public function save($savePath){
-        
-        
-        var_dump( $savePath );
-//        
-//        $paramsNames = array( 'nick', 'email', 'sex', 'birthdate' );
-//        $formData = array();
-//        foreach ($paramsNames as $name){
-//            $formData[$name] = $this->{$name};
-//        }
-//
-//        $randVal = rand(1000, 9999);
-//        $dataFileName = sprintf('data_%d.txt', $randVal);
-//
-//
-//        if(NULL !== $file){
-//            $newName = sprintf('file_%d.%s', $randVal, $file->guessExtension());
-//            $file->move($savePath, $newName);
-//        }
-    }
 
     /**
      * Get id

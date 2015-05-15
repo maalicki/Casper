@@ -75,65 +75,58 @@ class EventController extends Controller {
     
     public function viewAction($id = null) {
         
-        if($id) {
+        $Event = new Event();
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('PolcodeCasperBundle:Event');
+
+        $Event = $repository->findOneById($id);
+        
+        if($id && $Event) {
             
-            $Event = new Event();
-            $em = $this->getDoctrine()->getManager();
-            $repository = $em->getRepository('PolcodeCasperBundle:Event');
+            $user = $this->container->get('security.context')->getToken()->getUser();
 
-            $Event = $repository->findOneById($id);
-            
-            if( $Event ) {
-                
-                $user = $this->container->get('security.context')->getToken()->getUser();
-                
-                $state = true;
-                #if( $Event->getUser() == $user)
-                #    $state = true;
-                
-                $form = $this->createForm(new EventFormType('edit') , $Event, array('disabled' => $state));
+            $state = true;
+            #if( $Event->getUser() == $user)
+            #    $state = true;
 
-                $map = new Map();
+            $form = $this->createForm(new EventFormType('edit') , $Event, array('disabled' => $state));
 
-                $map->setAutoZoom(false);
-                $map->setCenter( $Event->getLatitude() , $Event->getLongitude(), true);
-                $map->setMapOption('zoom', 6);
-                $mapjs = $map->getJavascriptVariable();
+            $map = new Map();
 
-                $js = 'google.maps.event.addListener(%s, "click", function(event) {})';
-                    $clickEvent = $this->get('ivory_google_map.event');
-                    $clickEvent->setInstance($map->getJavascriptVariable());
-                    $clickEvent->setEventName('click');
-                    $clickEvent->setHandle(sprintf($js, $mapjs, $mapjs));
+            $map->setAutoZoom(false);
+            $map->setCenter( $Event->getLatitude() , $Event->getLongitude(), true);
+            $map->setMapOption('zoom', 6);
+            $mapjs = $map->getJavascriptVariable();
 
-                $map->getEventManager()->addEvent($clickEvent);
+            $js = 'google.maps.event.addListener(%s, "click", function(event) {})';
+                $clickEvent = $this->get('ivory_google_map.event');
+                $clickEvent->setInstance($map->getJavascriptVariable());
+                $clickEvent->setEventName('click');
+                $clickEvent->setHandle(sprintf($js, $mapjs, $mapjs));
 
-                /* add marker to the map */
-                $marker = new Marker();
-                // Configure your marker options
-                $marker->setPrefixJavascriptVariable('marker_');
-                $marker->setPosition( $Event->getLatitude(), $Event->getLongitude(), true);
-                #$marker->setPosition(51, 20, true);
+            $map->getEventManager()->addEvent($clickEvent);
 
-                $marker->setOptions(array(
-                    'clickable' => false,
-                    'flat'      => true,
-                    'id'        => $Event->getId()
-                ));
+            /* add marker to the map */
+            $marker = new Marker();
+            // Configure your marker options
+            $marker->setPrefixJavascriptVariable('marker_');
+            $marker->setPosition( $Event->getLatitude(), $Event->getLongitude(), true);
 
-                $map->addMarker($marker);
-                
-                return $this->render('events/event.html.twig', array(
-                    'form' => isset($form) ? $form->createView() : NULL,
-                    'map'  => $map,
-                    'mapjs' => $mapjs,
-                ));   
-            }
-            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+            $marker->setOptions(array(
+                'clickable' => false,
+                'flat'      => true,
+                'id'        => $Event->getId()
+            ));
+
+            $map->addMarker($marker);
+
+            return $this->render('events/event.html.twig', array(
+                'form' => isset($form) ? $form->createView() : NULL,
+                'map'  => $map,
+                'mapjs' => $mapjs,
+            ));   
         }
-        
         throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-        
     }
     
     public function getNearestEventsAction(Request $Request) {
@@ -195,21 +188,15 @@ class EventController extends Controller {
             $event = new Event();
             $event = $repository->findOneById($id);
             
-            if( $event->getUser() == $user ) {
+            if( $event->getUser() === $user ) {
 
                 $event->setDeleted(1);
                 $em->flush();
                 return $this->redirect($this->generateUrl('casper_userMyEvents'));
-            } else {
-                throw Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
             }
         }
         throw Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
         
     }
     
-    public function membersAction() {
-        return $this->render('events/members.html.twig', array(
-        ));   
-    }
 }
