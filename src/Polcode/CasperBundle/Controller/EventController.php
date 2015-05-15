@@ -23,8 +23,7 @@ class EventController extends Controller {
         
         $geo = new IpTool();
         if( !$IP = $geo->getGeo($ip) ) {
-            /* Defaults Poland's geolocation */
-            $IP = [
+            $IP = [ /* Defaults Poland's geolocation */
               'ltd' => '51.267',
               'lgt' => '20.017'
             ];
@@ -38,35 +37,16 @@ class EventController extends Controller {
         $Event->setUser( $user )
               ->setDeleted('0');
         
-            $form = $this->createForm(new EventFormType('create') , $Event);
+        $form = $this->createForm(new EventFormType('create') , $Event);
+        $form->handleRequest($Request);
 
-            $form->handleRequest($Request);
-            
-            if($Request->isMethod('POST')){
-                
-                if($form->isValid()) {
-                    if( $Event->isEventDatesValid() ) {
-                        if( $Event->isEventSignUpValid() ) {
-                            
-                            $em = $this->getDoctrine()->getManager();
-                            $em->persist($Event);
-                            $em->flush();
-                            
-                            return $this->redirect($this->generateUrl('casper_newEvent'));
-                        } else {
-                            $error = new FormError("Date ends after event end!");
-                            $form->get('eventSignUpEndDate')->addError($error);
-                            $Session->getFlashBag()->add('danger', 'Requested sign up date cannot be later than requested end date');                            
-                        }
-                    } else {
-                        $error = new FormError("Event ends before it starts!");
-                        $form->get('eventStop')->addError($error);
-                        $Session->getFlashBag()->add('danger', 'Requested end date must be later than requested start date');
-                    }
-                }else{
-                    $Session->getFlashBag()->add('danger', 'Invalid form values.');
-                }
-            }
+        if($Request->isMethod('POST') && $form->isValid() ){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($Event);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('casper_newEvent'));
+        }
 
         /* set map */
         $map = new Map();
@@ -106,40 +86,40 @@ class EventController extends Controller {
             if( $Event ) {
                 
                 $user = $this->container->get('security.context')->getToken()->getUser();
-                    
+                
                 $state = true;
-                if( $Event->getUser() == $user)
-                    $state = false;
+                #if( $Event->getUser() == $user)
+                #    $state = true;
                 
                 $form = $this->createForm(new EventFormType('edit') , $Event, array('disabled' => $state));
 
-                    $map = new Map();
-                    
-                    $map->setAutoZoom(false);
-                    $map->setCenter( $Event->getLatitude() , $Event->getLongitude(), true);
-                    $map->setMapOption('zoom', 6);
-                    $mapjs = $map->getJavascriptVariable();
-                    
-                    $js = 'google.maps.event.addListener(%s, "click", function(event) {})';
-                        $clickEvent = $this->get('ivory_google_map.event');
-                        $clickEvent->setInstance($map->getJavascriptVariable());
-                        $clickEvent->setEventName('click');
-                        $clickEvent->setHandle(sprintf($js, $mapjs, $mapjs));
-                    
-                    $map->getEventManager()->addEvent($clickEvent);
-                    
-                    /* add marker to the map */
-                    $marker = new Marker();
-                    // Configure your marker options
-                    $marker->setPrefixJavascriptVariable('marker_');
-                    $marker->setPosition( $Event->getLatitude(), $Event->getLongitude(), true);
-                    #$marker->setPosition(51, 20, true);
+                $map = new Map();
 
-                    $marker->setOptions(array(
-                        'clickable' => false,
-                        'flat'      => true,
-                        'id'        => $Event->getId()
-                    ));
+                $map->setAutoZoom(false);
+                $map->setCenter( $Event->getLatitude() , $Event->getLongitude(), true);
+                $map->setMapOption('zoom', 6);
+                $mapjs = $map->getJavascriptVariable();
+
+                $js = 'google.maps.event.addListener(%s, "click", function(event) {})';
+                    $clickEvent = $this->get('ivory_google_map.event');
+                    $clickEvent->setInstance($map->getJavascriptVariable());
+                    $clickEvent->setEventName('click');
+                    $clickEvent->setHandle(sprintf($js, $mapjs, $mapjs));
+
+                $map->getEventManager()->addEvent($clickEvent);
+
+                /* add marker to the map */
+                $marker = new Marker();
+                // Configure your marker options
+                $marker->setPrefixJavascriptVariable('marker_');
+                $marker->setPosition( $Event->getLatitude(), $Event->getLongitude(), true);
+                #$marker->setPosition(51, 20, true);
+
+                $marker->setOptions(array(
+                    'clickable' => false,
+                    'flat'      => true,
+                    'id'        => $Event->getId()
+                ));
 
                 $map->addMarker($marker);
                 
@@ -181,7 +161,7 @@ class EventController extends Controller {
             
             $baseurl = $this->getRequest()->getScheme() . '://' . $this->getRequest()->getHttpHost() . $this->getRequest()->getBasePath();
             
-            /* check if user is logged */
+            /* check if user is logged, if true change google map markers */
             if( $this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ) {
                 
                 $user = $this->container->get('security.context')->getToken()->getUser();
@@ -229,7 +209,7 @@ class EventController extends Controller {
     }
     
     public function membersAction() {
-        return $this->render('events/event.html.twig', array(
+        return $this->render('events/members.html.twig', array(
         ));   
     }
 }

@@ -4,7 +4,7 @@ services:
         tags:
             - { name: form.type, alias: casper_user_registration }
     validator.unique.casper_form_validator:
-        class: Polcode\CasperBundle\Validator\Constraints\EventFormField
+        class: Polcode\CasperBundle\Validator\Constraints\EventFormFieldsValidator
         arguments:
             - "@doctrine.orm.entity_manager"
         tags:

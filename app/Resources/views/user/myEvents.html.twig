@@ -24,50 +24,11 @@
                             </div>
                         </div>
                         <div class='col-md-5'>
-                            <table class="table table-striped table-condensed">
-                                <tbody>
-                                    <tr>
-                                        <td>Event start</td>
-                                        <td>{{ event.eventStart|date('Y-m-d H:i:s') }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Event end</td>
-                                        <td>{{ event.eventStop|date('Y-m-d H:i:s') }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Sign up untill</td>
-                                        <td>
-                                            {% if event.EventSignUpTimeleft %}
-                                                {% if event.EventSignUpTimeleft > (2*24*60) %}
-                                                    {% set class = 'success' %}
-                                                {% elseif event.EventSignUpTimeleft > (1*24*60) %}
-                                                    {% set class = 'info' %}
-                                                {% else %}
-                                                    {% set class = 'warning' %}
-                                                {% endif %}
-                                                <span class="label label-{{ class }}" data-toggle='title' title='{{ event.eventSignUpEndDate|date('Y-m-d H:i:s') }}' >
-                                                    {{event.getEventSignUpTimeleft('time')}} left
-                                                </span>
-
-                                            {% else %}
-                                                <span class="label label-danger" data-toggle='title' title='{{ event.eventSignUpEndDate|date('Y-m-d H:i:s') }}'>Time has left</span>
-                                            {% endif %}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Guests</td>
-                                        <td>0 / {{ event.maxGuests }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Geo</td>
-                                        <td>{{ event.latitude |slice(0,6)}} / {{ event.longitude|slice(0,6) }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            {% include 'views/events/eventTable.html.twig' %}
                         </div>
                     </div>
                         <div class='col-md-12'>
-                            <a title="Edit event" data-toggle="tooltip" class="btn btn-sm btn-success " href="{{path('casper_eventView')}}/{{event.id}}" role="button"><i class="glyphicon glyphicon-edit"> Edit</i></a>
+                            <a title="View event" data-toggle="tooltip" class="btn btn-sm btn-success " href="{{path('casper_eventView')}}/{{event.id}}" role="button"><i class="glyphicon glyphicon-edit"> View</i></a>
                             <a title="Members" data-toggle="tooltip" class="btn btn-sm btn-info " href="{{path('casper_eventMembers')}}/{{event.id}}" role="button"><i class="fa fa-users"> Members</i></a>
                             <a title="Delete event" data-toggle="tooltip" class="btn btn-sm btn-danger " href="{{path('casper_eventDelete')}}/{{event.id}}" role="button"><i class="glyphicon glyphicon-remove"> Delete</i></a>
                         </div>
