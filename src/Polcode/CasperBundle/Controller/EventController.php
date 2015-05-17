@@ -85,12 +85,10 @@ class EventController extends Controller {
             
             $user = $this->container->get('security.context')->getToken()->getUser();
 
-            $state = true;
-            #if( $Event->getUser() == $user)
-            #    $state = true;
+            $isOwner = false;
 
-            $form = $this->createForm(new EventFormType('edit') , $Event, array('disabled' => $state));
-
+            $form = $this->createForm(new EventFormType() , $Event, array('disabled' => true));
+            
             $map = new Map();
 
             $map->setAutoZoom(false);
@@ -121,9 +119,10 @@ class EventController extends Controller {
             $map->addMarker($marker);
 
             return $this->render('events/event.html.twig', array(
-                'form' => isset($form) ? $form->createView() : NULL,
-                'map'  => $map,
-                'mapjs' => $mapjs,
+                'form'      => isset($form) ? $form->createView() : NULL,
+                'event'     => $Event,
+                'map'       => $map,
+                'mapjs'     => $mapjs,
             ));   
         }
         throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

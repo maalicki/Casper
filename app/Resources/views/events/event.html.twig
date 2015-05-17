@@ -55,6 +55,18 @@
                 {% if not form.eventName.vars.disabled %}
                 <input type="submit" value="Save event" class="btn btn-success" />
                 {% endif %}
+                
+                {% if event.user == app.user %}
+                    <a class="btn btn-info" href="{{ path('casper_eventMembers') }}/{{event.id}}" role="button">Manage this event</a>
+                {% endif %}
+                
+                {% if app.user in event.joinedUsers %}
+                    {% if event.user != app.user %}
+                        <a class="btn btn-danger" href="{{ path('casper_eventMembers') }}/{{event.id}}" role="button">Unsubscripte</a>
+                    {% endif %}
+                {% else %}
+                    <a class="btn btn-success" href="{{ path('casper_eventMembers') }}/{{event.id}}" role="button">Join the event</a>
+                {% endif %}
             </div>
             {{ form_end(form) }}
         </div>

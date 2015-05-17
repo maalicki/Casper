@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping AS ORM;
 class Invitations {
     /**
      * @ORM\Id 
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
      * @ORM\GeneratedValue
      */
     private $id;

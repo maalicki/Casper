@@ -1,6 +1,3 @@
-parameters:
-    appApiKey: UGuih78Yd2342
-    
 twig:
     globals:
         meta_description: Casper Events. Join to us!

@@ -8,12 +8,7 @@
     <br/>
     <div class="container">
         <div class="row clearfix">
-            <div class="column
-                 col-xs-12
-                 col-sm-offset-1 col-sm-10
-                 col-md-offset-2 col-md-8
-                 col-lg-offset-2 col-lg-8
-                 ">
+            <div class="column col-xs-12 col-sm-offset-1 col-sm-10">
                 <div class="row clearfix">
                     <div class="column col-sm-6">
                         <h2>{{ event.eventName }}</h2>
@@ -36,7 +31,7 @@
                         <form method="POST" action="" id="inviteusersForm">
                             <div class="row display-table">
                                 <div class="col-sm-5 display-cell">
-                                    <h4>Invited members </h4>
+                                    <h4>Received invitations</h4>
                                     <select multiple class="form-control" name="inviteUsers[]" size="8" id="invitedUsers">
                                         {% for user in invitedUsers %}
                                             <option value="{{user.id}}">{{user.username }}</option>
@@ -72,7 +67,7 @@
                                 
                     </div>
                     <div class="col-sm-4 column">
-                        <h4>Pending requests</h4>
+                        <h4>Joined members</h4>
                         <select multiple class="form-control" size="15" id="allUsers">
                             {% for user in joinedUsers %}
                                 <option value="{{user.id}}">{{user.username }}</option>
@@ -109,7 +104,6 @@
 {% block javascripts %}
     {{ parent() }}
 <script>
-$('div.form-group').hide();
 $().ready(function() {
     
     $('button[name=delUserFromInvitation]').click(function() {  
