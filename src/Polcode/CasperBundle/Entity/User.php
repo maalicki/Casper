@@ -31,6 +31,12 @@ class User extends BaseUser {
      */
     protected $id;
     
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="facebook_id", type="string", nullable=true)
+     */
+    private $facebook_id;
 
     /**
      * @ORM\Column(type="string", length=1, nullable=true)
@@ -196,4 +202,43 @@ class User extends BaseUser {
     {
         $this->events->removeElement($events);
     }
+    
+
+    /**
+     * Set facebook_id
+     *
+     * @param integer $facebookId
+     * @return User
+     */
+    public function setFacebookId($facebookId) {
+        $this->facebook_id = $facebookId;
+        return $this;
+    }
+    /**
+     * Get facebook_id
+     *
+     * @return integer 
+     */
+    public function getFacebookId() {
+        return $this->facebook_id;
+    }
+    /**
+     * Set facebook_access_token
+     *
+     * @param string $facebookAccessToken
+     * @return User
+     */
+    public function setFacebookAccessToken($facebookAccessToken) {
+        $this->facebook_access_token = $facebookAccessToken;
+        return $this;
+    }
+    /**
+     * Get facebook_access_token
+     *
+     * @return string 
+     */
+    public function getFacebookAccessToken() {
+        return $this->facebook_access_token;
+    }
+    
 }
