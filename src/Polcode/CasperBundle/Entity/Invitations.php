@@ -35,7 +35,7 @@ class Invitations {
     
     /**
      * @ORM\OneToOne(targetEntity="Event", inversedBy="invitation")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="event_id", referencedColumnName="id", onDelete="CASCADE")
      **/
     private $event;
     
@@ -146,7 +146,7 @@ class Invitations {
      * @param \Polcode\CasperBundle\Entity\Event $event
      * @return Invitations
      */
-    public function setEvent(\Polcode\CasperBundle\Entity\Event $event = null)
+    public function setEvent(\Polcode\CasperBundle\Entity\Event $event )
     {
         $this->event = $event;
 

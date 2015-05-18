@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new SC\DatetimepickerBundle\SCDatetimepickerBundle(),
             new Ivory\GoogleMapBundle\IvoryGoogleMapBundle(),
+            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

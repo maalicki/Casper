@@ -201,14 +201,11 @@ class EventController extends Controller {
     public function joinEventAction(Event $Event) {
         
         $em = $this->getDoctrine()->getManager();
-        $invitationsManager = $this->get('app.invitations_manager');
-        $invitation = $invitationsManager->getOrCreateEventInvitation($Event, $em);
         $User = $this->getUser();
         
         if( $Event->getPrivate() ) {
             if( !$Event->getInvitation() || !in_array( $User, $Event->getInvitation()->getReceivers()->toArray() )) {
-                $this->get('session')->getFlashBag()->set(
-                        'warning', 
+                $this->get('session')->getFlashBag()->set('warning', 
                         'Sorry, this is private event. You must be invited to join this event.'
                         );
                 return $this->redirectToRoute('casper_eventView', array('id' => $Event->getId()));
@@ -217,11 +214,11 @@ class EventController extends Controller {
         
         if( ( count( $Event->getJoinedUsers() ) < $Event->getMaxGuests() ) || is_null($Event->getMaxGuests()) ) {
             $User->joinToEvent($Event);
+            $invitation = $this->get('app.invitations_manager')->getOrCreateEventInvitation($Event, $em);
             $invitation->removeReceiver($User);
             $em->flush();
         } else {
-            $this->get('session')->getFlashBag()->set(
-                    'warning', 
+            $this->get('session')->getFlashBag()->set('warning', 
                     'Sorry, there is no free slots to join this event.'
                     );
         }
@@ -235,8 +232,7 @@ class EventController extends Controller {
         $user = $this->getUser();
         $user->resignFromEvent($Event);
         $em->flush();
-        $this->get('session')->getFlashBag()->set(
-                'success', 
+        $this->get('session')->getFlashBag()->set('success', 
                 'You have been unsubscribe from this event'
                 );
         return $this->redirectToRoute('casper_eventView', array('id' => $Event->getId()));
