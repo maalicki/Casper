@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="{{ meta_description }}">
+        <meta name="author" content="{{ meta_author }}">
+        <link rel="icon" href="../../favicon.ico">
+
+        <title>{% spaceless %}{% block pageTitle %}Casper{% endblock %}{% endspaceless %}</title>
+
+        <!-- Bootstrap core CSS -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+        {% block stylesheets %}
+            <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+            <link rel="stylesheet" href="{{ asset('css/navbar.css') }}" >
+{#            <link rel="stylesheet" href="{{ asset('css/hover.css') }}" >#}
+            <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" >
+
+            <style>
+                .li-condensed {
+                    padding-top: 4px; 
+                    padding-bottom: 4px; 
+                }
+                blockquote {
+                    background: #f9f9f9;
+                    border-left: 5px solid #ccc;
+                    margin: 1.5em 10px;
+                    padding: 0.5em 10px;
+                    quotes: "\201C""\201D""\2018""\2019";
+                }
+                blockquote:before {
+                    color: #ccc;
+                    content: open-quote;
+                    font-size: 3em;
+                    line-height: 0.1em;
+                    margin-right: 0.25em;
+                    vertical-align: -0.4em;
+                }
+                blockquote:after {
+                    color:#ccc;
+                    content:close-quote;
+                    font-size:3em;
+                    line-height:.1em;
+                    margin-left: .20em;
+                    vertical-align:-.4em;
+                }
+                blockquote p {
+                  display: inline;
+                }
+                html,body{
+                    height:100%;
+                }
+
+                body{
+                    padding-top:57px; /*padding for navbar*/
+                }
+
+                #main, #main>.row {
+                    height:100%;
+                }
+
+                #main>.row {
+                    overflow-y:scroll;
+                }
+
+                #left {
+                    height:100%;
+                }
+
+                #map_canvas {
+                    height:calc(100% - 0);
+                    height: 100%;
+                    bottom:0;
+                    overflow:hidden;
+                }              
+            </style>
+        {% endblock %}
+
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="navbar-header">
+                <img src="{{ asset('img/logo.png') }}"  style="width:150px;padding: 5px 5px 0px 5px;"/>
+
+                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <div class="navbar-collapse collapse" id="navbar-main">
+                <ul class="nav navbar-nav">
+
+                    <li class="{{ app.request.get('_route') == 'casper_index' ? 'active' : 'hvr-underline-reveal' }}">
+                        <a href="{{ path('casper_index') }}">
+                            <i class="fa fa-home"></i> Home
+                        </a>
+                    </li>
+                    {% if not app.user %}
+                        <li class="{{ app.request.get('_route') == 'fos_user_security_login' ? 'active' : 'hvr-underline-reveal' }}">
+                            <a href="{{ path('fos_user_security_login') }}">
+                                <i class="fa fa-sign-in"></i> Login
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {# User menu for logged users #}
+                    {% if app.user %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ app.user.username }} <strong class="caret"></strong></a>
+                            <ul class="dropdown-menu">
+                                <li> <a href="#"><i class="fa fa-cube icon-pullright"></i> My profile</a> </li>
+                                <li class="divider"></li>
+
+                                <li> <a href="{{ path('casper_userMyEvents') }}"><i class="fa fa-calendar icon-pullright"></i> My Events</a> </li>
+                                <li> <a href="{{ path('casper_newEvent') }}"><i class="fa fa-plus icon-pullright"></i> New Event</a> </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out icon-pullright"></i> Logout</a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                </ul>
+                
+                {% if app.request.get('_route') == 'casper_index' %}
+                    <form class="navbar-form">
+                        <div class="form-group" style="display:inline;">
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Category 1</a></li>
+                                        <li><a href="#">Category 2</a></li>
+                                        <li><a href="#">Category 3</a></li>
+                                        <li><a href="#">Category 4</a></li>
+                                        <li><a href="#">Category 5</a></li> 
+                                    </ul>
+                                </div>
+                                <input name='address' type="text" class="form-control" placeholder="What are you searching for?">
+                                <div class="input-group-btn">
+                                    <button name="location search" type="submit" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-search"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+  
+            {% include 'views/default/flashbags.html.twig' %}
+       
+        {% block pageBody %}
+        {% endblock %}
+
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+
+        {% block javascripts %}
+            <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+            <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+
+            <script src="{{ asset('bundles/scdatetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
+            <script src="{{ asset('js/master.js') }}"></script>
+            <script src="{{ asset('js/gmaps.js') }}"></script>
+
+        {% endblock %}
+
+    </body>
+</html>

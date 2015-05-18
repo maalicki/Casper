@@ -71,7 +71,11 @@ class EventFormType extends AbstractType {
                 ))
                 ->add('maxGuests','integer', array(
                     'label' => 'Max guests',
-                    'attr'=> array('class'=>'input-sm')
+                    'required' => false,
+                    'attr'=> array(
+                                'placeholder'   => 'Empty for unlimited',
+                                'class' => 'input-sm'
+                            )
                 ))
                 ->add('latitude','text', array(
                     'label' => 'Latitude',
@@ -93,8 +97,7 @@ class EventFormType extends AbstractType {
     
     public function setDefaultOptions(\Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'Polcode\CasperBundle\Entity\Event',
-            'validation_groups' => array('registration')
+            'data_class' => 'Polcode\CasperBundle\Entity\Event'
         ));
     }
 

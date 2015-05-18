@@ -23,7 +23,8 @@
         "stephanecollot/datetimepicker-bundle": "dev-master",
         "egeloen/google-map-bundle": "~2.1",
         "willdurand/geocoder": "@stable",
-        "widop/http-adapter-bundle": "*"
+        "widop/http-adapter-bundle": "*",
+        "doctrine/doctrine-fixtures-bundle": "2.2.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

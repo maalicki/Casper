@@ -1,10 +1,11 @@
-{% extends 'master.html.twig' %}
+{% extends 'full.html.twig' %}
 
 {% block pageTitle %}
     New event | {{ parent() }}
 {% endblock %}
 
-{% block container %}
+{% block pageBody %}
+    <div class="container" style="margin-top: 20px;">
     <div class="col-sm-7 col-md-5 col-lg-5 column ">
         <div class="row">
             {{ form_start(form )}}
@@ -51,7 +52,21 @@
             </div>
 
             <div class="col-md-12 col-lg-12 col-sm-12">
+                {% if not form.eventName.vars.disabled %}
                 <input type="submit" value="Save event" class="btn btn-success" />
+                {% endif %}
+                
+                {% if event.user == app.user %}
+                    <a class="btn btn-info" href="{{ path('casper_eventMembers') }}/{{event.id}}" role="button">Manage this event</a>
+                {% endif %}
+                
+                {% if app.user in event.joinedUsers %}
+                    {% if event.user != app.user %}
+                        <a class="btn btn-danger" href="{{ path('casper_eventMembers') }}/{{event.id}}" role="button">Unsubscripte</a>
+                    {% endif %}
+                {% else %}
+                    <a class="btn btn-success" href="{{ path('casper_eventMembers') }}/{{event.id}}" role="button">Join the event</a>
+                {% endif %}
             </div>
             {{ form_end(form) }}
         </div>
@@ -62,8 +77,9 @@
             color: #555;
             height: 450px;
          ">
-        LOADING GOOGLE MAPS
+        {{ google_map(map) }}
     </div>
+            </div>
 {% endblock %}
 
 
@@ -72,16 +88,18 @@
 {%block javascripts %}
     {{ parent() }}
     {{ form_javascript(form) }}
-    {{ google_map_js(map) }}
+   
 
-    <script>
-        myOptions = {
-            center: new google.maps.LatLng( {{ltd}} , {{lgt}} ),
-            zoom: 6,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-    </script>
-    <script src="{{ asset('js/gmaps.js') }}"></script>
+
+<script>
+    initialize({{mapjs}});
+    $(document).ready(function(){
+        $("button[name='location search']").click(function(e){
+            findAddress( $('input[name=address]').val() );
+        });
+    });
+</script>
+<script src="{{ asset('js/gmaps.js') }}"></script>
 {% endblock %}
 
 

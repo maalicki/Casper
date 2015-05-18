@@ -1,0 +1,19 @@
+{% extends 'full.html.twig' %}
+
+{% block pageTitle %}
+    New event | {{ parent() }}
+{% endblock %}
+
+{% block pageBody %}
+{% endblock %}
+
+
+{%block javascripts %}
+    {{ parent() }}
+   
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/scdatetimepicker/css/datetimepicker.css') }}" >
+{% endblock %}

@@ -11,6 +11,20 @@ use Polcode\CasperBundle\Entity\User;
 
 
 class UserController extends Controller {
-
-
+    
+    public function myEventsAction(Request $Request) {
+        
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        
+        $repository = $this->getDoctrine()->getRepository('PolcodeCasperBundle:Event');
+        
+        $events = $repository->findBy([
+            'user' => $user,
+            'deleted'=> 0
+        ]);
+        
+        return $this->render('user/myEvents.html.twig', array(
+            'events'    => $events
+        ));
+    }
 }

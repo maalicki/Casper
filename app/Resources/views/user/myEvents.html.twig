@@ -1,0 +1,99 @@
+{% extends 'full.html.twig' %}
+
+{% block pageTitle %}
+    My Events | {{ parent() }}
+{% endblock %}
+
+{% block pageBody %}
+    <div class="container-fluid" id="main">
+        <div class="row">
+            <div class="
+                 col-sm-offset-1 col-sm-10
+                 col-md-offset-2 col-md-8
+                 " id="left" >
+                <br/>
+            {% for event in events %}
+                
+            <div class="panel panel-default">
+                <div class="panel-heading clickable">
+                    <h3 class="panel-title">Event: {{ event.eventName }}</h3>
+                    <span class="pull-right "><i class="glyphicon glyphicon-minus"></i></span>
+                </div>
+                <div class="panel-body">
+                    <div class='row'>
+                        <div class='col-sm-7 col-md-7' >
+                        <blockquote>
+                            <p>{{ event.description }}</p>
+                        </blockquote>
+                        </div>
+                        <div class='col-sm-5 col-md-5'>
+                            {% include 'views/events/eventTable.html.twig' %}
+                        </div>
+                    </div>
+                        <div class='col-sm-12'>
+                            <a title="View event" data-toggle="tooltip" class="btn btn-sm btn-success " href="{{path('casper_eventView')}}/{{event.id}}" role="button"><i class="glyphicon glyphicon-edit"> View</i></a>
+                            <a title="Members" data-toggle="tooltip" class="btn btn-sm btn-info " href="{{path('casper_eventMembers')}}/{{event.id}}" role="button"><i class="fa fa-users"> Members</i></a>
+                            <a title="Delete event" data-toggle="tooltip" class="btn btn-sm btn-danger " href="{{path('casper_eventDelete')}}/{{event.id}}" role="button"><i class="glyphicon glyphicon-remove"> Delete</i></a>
+                        </div>
+                </div>
+            </div>
+                  
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+    .clickable
+    {
+        cursor: pointer;
+    }
+
+    .clickable .glyphicon
+    {
+        background: rgba(0, 0, 0, 0.15);
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 4px
+    }
+
+    .panel-heading span
+    {
+        margin-top: -23px;
+        font-size: 15px;
+        margin-right: -9px;
+    }
+    a.clickable { color: inherit; }
+    a.clickable:hover { text-decoration:none; }
+    </style>
+{% endblock %}
+
+
+{%block javascripts %}
+    {{ parent() }}
+
+    <script>
+$(document).on('click', '.panel div.clickable', function (e) {
+    var $this = $(this);
+    if (!$this.hasClass('panel-collapsed')) {
+        $this.parents('.panel').find('.panel-body').slideUp('fast');
+        $this.addClass('panel-collapsed');
+        $this.find('i').removeClass('glyphicon-minus').addClass('glyphicon-plus');
+    } else {
+        $this.parents('.panel').find('.panel-body').slideDown('fast');
+        $this.removeClass('panel-collapsed');
+        $this.find('i').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+    }
+});
+
+$(document).ready(function () {
+    $('.panel-heading span.clickable').click();
+    $('.panel div.clickable').click();
+});
+    </script>
+{% endblock %}
+

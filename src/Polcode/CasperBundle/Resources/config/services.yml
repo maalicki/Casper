@@ -3,6 +3,13 @@ services:
         class: Polcode\CasperBundle\Forms\RegistrationFormType
         tags:
             - { name: form.type, alias: casper_user_registration }
+    validator.unique.casper_form_validator:
+        class: Polcode\CasperBundle\Validator\Constraints\EventFormFieldsValidator
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: validator.constraint_validator, alias: event_form_validator }
+
 #    polcode_casper.example:
 #        class: Polcode\CasperBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]

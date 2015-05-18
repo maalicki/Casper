@@ -6,13 +6,52 @@ casper_index:
         path:   /
         defaults: { _controller: PolcodeCasperBundle:Default:index }
 
-casper_test:
-        path:   /test/{name}
-        defaults: 
-            _controller: PolcodeCasperBundle:Default:test
-            name: asdf
-
 casper_newEvent:
         path:   /event/new
         defaults: 
             _controller: PolcodeCasperBundle:Event:newEvent
+
+casper_ajaxCall:
+        path:   /ajax
+        defaults: 
+            _controller: PolcodeCasperBundle:Default:ajaxCall
+
+casper_userMyEvents:
+        path:   /user/my-events
+        defaults: 
+            _controller: PolcodeCasperBundle:User:myEvents
+
+casper_eventView:
+        path:   /event/{id}
+        defaults: 
+            _controller: PolcodeCasperBundle:Event:view
+            id: null
+            
+casper_eventDelete:
+        path:   /event-delete/{id}
+        defaults: 
+            _controller: PolcodeCasperBundle:Event:deleteEvent
+            id: null
+            
+casper_getNearestEventsAction:
+        path:   /event-nearest
+        defaults: 
+            _controller: PolcodeCasperBundle:Event:getNearestEvents
+            
+casper_eventMembers:
+        path:   /invitations/event/{id}
+        defaults:
+            _controller: PolcodeCasperBundle:Invitations:index
+            id: null
+        methods:  [GET]
+            
+casper_eventInvitationHandleForm:
+        path: /invitations/event/{id}
+        defaults: {_controller: PolcodeCasperBundle:Invitations:handleForm}
+        methods:  [POST]
+
+casper_eventJoin:
+        path:   /invitations/join/{id}
+        defaults: 
+            _controller: PolcodeCasperBundle:Invitations:joinToEvent
+            id: null

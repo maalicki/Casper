@@ -46,31 +46,65 @@ class User extends BaseUser {
     private $birthdate;
     
     /**
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="userId")
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="user")
      **/
     private $events;
     
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Event", mappedBy="joinedUsers")
+     */
+    private $joinedEvents;
     
+
+    /**
+     * @ORM\OneToMany(targetEntity="Invitations", mappedBy="sender")
+     * */
+    private $sendInvitations;
     
-    public function save($savePath){
-        
-        
-        var_dump( $savePath );
-//        
-//        $paramsNames = array( 'nick', 'email', 'sex', 'birthdate' );
-//        $formData = array();
-//        foreach ($paramsNames as $name){
-//            $formData[$name] = $this->{$name};
-//        }
-//
-//        $randVal = rand(1000, 9999);
-//        $dataFileName = sprintf('data_%d.txt', $randVal);
-//
-//
-//        if(NULL !== $file){
-//            $newName = sprintf('file_%d.%s', $randVal, $file->guessExtension());
-//            $file->move($savePath, $newName);
-//        }
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Invitations", mappedBy="receivers")
+     */
+    private $receivedInvitations;
+    
+    /**
+     * Get joinedEvents
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getJoinedEvents() {
+        return $this->joinedEvents;
+    }
+    
+    public function joinToEvent(\Polcode\CasperBundle\Entity\Event $event) {
+        $this->addJoinedEvent($event);
+        $event->addJoinedUser($this);
+    }
+    
+    /**
+     * Add joinedEvents
+     *
+     * @param \Polcode\CasperBundle\Entity\Event $joinedEvents
+     * @return User
+     */
+    private function addJoinedEvent(\Polcode\CasperBundle\Entity\Event $joinedEvents) {
+        $this->joinedEvents[] = $joinedEvents;
+        return $this;
+    }
+    
+    public function resignFromEvent(\Polcode\CasperBundle\Entity\Event $event) {
+        $this->removeJoinedEvent($event);
+        $event->removeJoinedUser($this);
+    }
+    
+    /**
+     * Remove joinedEvents
+     *
+     * @param \Polcode\CasperBundle\Entity\Event $joinedEvents
+     */
+    public function removeJoinedEvent(\Polcode\CasperBundle\Entity\Event $joinedEvents) {
+        $this->joinedEvents->removeElement($joinedEvents);
     }
 
     /**
@@ -139,4 +173,27 @@ class User extends BaseUser {
         return $this;
     }
 
+
+    /**
+     * Add events
+     *
+     * @param \Polcode\CasperBundle\Entity\Event $events
+     * @return User
+     */
+    public function addEvent(\Polcode\CasperBundle\Entity\Event $events)
+    {
+        $this->events[] = $events;
+
+        return $this;
+    }
+
+    /**
+     * Remove events
+     *
+     * @param \Polcode\CasperBundle\Entity\Event $events
+     */
+    public function removeEvent(\Polcode\CasperBundle\Entity\Event $events)
+    {
+        $this->events->removeElement($events);
+    }
 }
