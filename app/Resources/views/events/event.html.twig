@@ -56,18 +56,21 @@
                 <input type="submit" value="Save event" class="btn btn-success" />
                 {% endif %}
                 
-                {% if event.user == app.user %}
-                    <a class="btn btn-info" href="{{ path('casper_eventMembers') }}/{{event.id}}" role="button">Manage this event</a>
-                {% endif %}
+                {% if app.request.get('_route') == 'casper_eventView' %}
                 
-                {% if app.user in event.joinedUsers %}
-                    {% if event.user != app.user %}
-                        <a class="btn btn-danger" href="{{ path('casper_eventMembers') }}/{{event.id}}" role="button">Unsubscripte</a>
+                    {% if event.user == app.user %}
+                        <a class="btn btn-info" href="{{ path('casper_eventMembers') }}/{{event.id}}" role="button">Manage this event</a>
                     {% endif %}
-                {% else %}
-                    <a class="btn btn-success" href="{{ path('casper_eventMembers') }}/{{event.id}}" role="button">Join the event</a>
+
+                    {% if app.user in event.joinedUsers %}
+                            <a class="btn btn-danger" href="{{ path('casper_eventResign') }}/{{event.id}}" role="button">Unsubscribe</a>
+                    {% else %}
+                        <a class="btn btn-success" href="{{ path('casper_eventJoin') }}/{{event.id}}" role="button">Join the event</a>
+                    {% endif %}
+                    
                 {% endif %}
             </div>
+            
             {{ form_end(form) }}
         </div>
     </div>
@@ -83,14 +86,10 @@
 {% endblock %}
 
 
-
-
 {%block javascripts %}
     {{ parent() }}
     {{ form_javascript(form) }}
    
-
-
 <script>
     initialize({{mapjs}});
     $(document).ready(function(){

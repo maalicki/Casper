@@ -43,3 +43,6 @@ security:
         - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/event/new, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/event/getNearestEvents, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/event/join,     role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/event/delete,   role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/event/resign,   role: IS_AUTHENTICATED_FULLY }

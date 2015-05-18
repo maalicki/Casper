@@ -90,13 +90,13 @@
     function setEventDistrict(center, radius) {
         findAddress( $('input[name=address]').val(), function(response) {
             if( response ) {
-                makeAjax();
+                findNearestEvents();
             } else
-                alert(response)
+                alert(response);
         });
     }
     
-    function makeAjax() {
+    function findNearestEvents() {
         $.ajax({
             type: "POST",
             url: '{{ path('casper_getNearestEventsAction') }}',
@@ -107,6 +107,7 @@
             },
             beforeSend: function () {
                 deleteMarkers();
+                $("div[name='details container']").html('');
             },
             success: function (data) {
                 $.each(data.events, function(i) {

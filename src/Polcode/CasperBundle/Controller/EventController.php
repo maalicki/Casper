@@ -4,6 +4,8 @@ namespace Polcode\CasperBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Exception;
 
 use Polcode\CasperBundle\Forms\EventFormType;
 use Polcode\CasperBundle\Entity\Event;
@@ -66,8 +68,9 @@ class EventController extends Controller {
         $map->getEventManager()->addEvent($clickEvent);
         
         return $this->render('events/event.html.twig', array(
-            'form' => isset($form) ? $form->createView() : NULL,
-            'map'  => $map,
+            'form'  => isset($form) ? $form->createView() : NULL,
+            'event' => $Event,
+            'map'   => $map,
             'mapjs' => $mapjs,
         ));
         
@@ -125,7 +128,7 @@ class EventController extends Controller {
                 'mapjs'     => $mapjs,
             ));   
         }
-        throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+        throw new NotFoundHttpException;
     }
     
     public function getNearestEventsAction(Request $Request) {
@@ -168,9 +171,7 @@ class EventController extends Controller {
                 }
             }
             
-            $response = new \Symfony\Component\HttpFoundation\JsonResponse();
-            $response->setData([ 'events' => $events ]);
-            return $response;
+            return new JsonResponse(array('events' => $events));
         }
         
         return $this->renderText('No results.');
@@ -178,24 +179,66 @@ class EventController extends Controller {
     
     public function deleteEventAction($id) {
         
-        if( $this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') && $id ) {
-            $user = $this->container->get('security.context')->getToken()->getUser();
+        $user = $this->container->get('security.context')->getToken()->getUser();
 
-            $em = $this->getDoctrine()->getManager();
-            $repository = $em->getRepository('PolcodeCasperBundle:Event');
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('PolcodeCasperBundle:Event');
 
-            $event = new Event();
-            $event = $repository->findOneById($id);
-            
-            if( $event->getUser() === $user ) {
+        $event = new Event();
+        $event = $repository->findOneById($id);
 
-                $event->setDeleted(1);
-                $em->flush();
-                return $this->redirect($this->generateUrl('casper_userMyEvents'));
-            }
+        if( $event->getUser() === $user ) {
+
+            $event->setDeleted(1);
+            $em->flush();
+            return $this->redirect($this->generateUrl('casper_userMyEvents'));
         }
-        throw Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+        throw new \Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+      
         
     }
     
+    public function joinEventAction(Event $Event) {
+        
+        $em = $this->getDoctrine()->getManager();
+        $invitationsManager = $this->get('app.invitations_manager');
+        $invitation = $invitationsManager->getOrCreateEventInvitation($Event, $em);
+        $User = $this->getUser();
+        
+        if( $Event->getPrivate() ) {
+            if( !$Event->getInvitation() || !in_array( $User, $Event->getInvitation()->getReceivers()->toArray() )) {
+                $this->get('session')->getFlashBag()->set(
+                        'warning', 
+                        'Sorry, this is private event. You must be invited to join this event.'
+                        );
+                return $this->redirectToRoute('casper_eventView', array('id' => $Event->getId()));
+            }
+        }
+        
+        if( ( count( $Event->getJoinedUsers() ) < $Event->getMaxGuests() ) || is_null($Event->getMaxGuests()) ) {
+            $User->joinToEvent($Event);
+            $invitation->removeReceiver($User);
+            $em->flush();
+        } else {
+            $this->get('session')->getFlashBag()->set(
+                    'warning', 
+                    'Sorry, there is no free slots to join this event.'
+                    );
+        }
+        
+        return $this->redirectToRoute('casper_eventView', array('id' => $Event->getId()));
+    }
+    
+    public function resignEventAction(Event $Event) {
+        $em = $this->getDoctrine()->getManager();
+        
+        $user = $this->getUser();
+        $user->resignFromEvent($Event);
+        $em->flush();
+        $this->get('session')->getFlashBag()->set(
+                'success', 
+                'You have been unsubscribe from this event'
+                );
+        return $this->redirectToRoute('casper_eventView', array('id' => $Event->getId()));
+    }
 }

@@ -22,19 +22,19 @@ casper_userMyEvents:
             _controller: PolcodeCasperBundle:User:myEvents
 
 casper_eventView:
-        path:   /event/{id}
+        path:   /event/view/{id}
         defaults: 
             _controller: PolcodeCasperBundle:Event:view
             id: null
             
 casper_eventDelete:
-        path:   /event-delete/{id}
+        path:   /event/delete/{id}
         defaults: 
             _controller: PolcodeCasperBundle:Event:deleteEvent
             id: null
             
 casper_getNearestEventsAction:
-        path:   /event-nearest
+        path:   /event/nearest
         defaults: 
             _controller: PolcodeCasperBundle:Event:getNearestEvents
             
@@ -51,7 +51,13 @@ casper_eventInvitationHandleForm:
         methods:  [POST]
 
 casper_eventJoin:
-        path:   /invitations/join/{id}
+        path:   /event/join/{id}
         defaults: 
-            _controller: PolcodeCasperBundle:Invitations:joinToEvent
+            _controller: PolcodeCasperBundle:Event:joinEvent
+            id: null
+            
+casper_eventResign:
+        path:   /event/resign/{id}
+        defaults: 
+            _controller: PolcodeCasperBundle:Event:resignEvent
             id: null

@@ -160,9 +160,10 @@
                 {% endif %}
             </div>
         </div>
-  
+            <div class="container" style="">
+            <div class="col-sm-12">
             {% include 'views/default/flashbags.html.twig' %}
-       
+            </div></div>
         {% block pageBody %}
         {% endblock %}
 
@@ -173,6 +174,7 @@
             <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 
             <script src="{{ asset('bundles/scdatetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
+            <script src="{{ asset('https://github.com/makeusabrew/bootbox/releases/download/v4.4.0/bootbox.min.js') }}"></script>
             <script src="{{ asset('js/master.js') }}"></script>
             <script src="{{ asset('js/gmaps.js') }}"></script>
 

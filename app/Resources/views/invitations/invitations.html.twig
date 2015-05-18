@@ -25,10 +25,10 @@
                 </div>
 
 
-                <div class="row clearfix">
-                    <div class="col-sm-8 column border-right">
+                <form method="POST" action="" id="inviteUsersForm">
+                    <div class="row clearfix">
+                        <div class="col-sm-8 column border-right">
 
-                        <form method="POST" action="" id="inviteusersForm">
                             <div class="row display-table">
                                 <div class="col-sm-5 display-cell">
                                     <h4>Received invitations</h4>
@@ -63,18 +63,22 @@
                                     <button type="submit" class="btn btn-success pull-right">Save</button>
                                 </div>
                             </div>
-                        </form>
-                                
+
+                        </div>
+                        <div class="col-sm-4 column">
+                            <h4>Joined members <span data-toggle="tooltip" title="Select users which you want to delete from the event".><i class="fa fa-info-circle"></i></span></h4>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <select multiple class="form-control" size="15" name="deleteUsers[]" id="deleteUsers">
+                                        {% for user in joinedUsers %}
+                                            <option value="{{user.id}}">{{user.username }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm-4 column">
-                        <h4>Joined members</h4>
-                        <select multiple class="form-control" size="15" id="allUsers">
-                            {% for user in joinedUsers %}
-                                <option value="{{user.id}}">{{user.username }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -88,35 +92,64 @@
         .border-right {
             border-right: 1px solid black;
         }
-.display-table{
-    display: table;
-    table-layout: fixed;
-}
+        .display-table{
+            display: table;
+            table-layout: fixed;
+        }
 
-.display-cell{
-    display: table-cell;
-    vertical-align: middle;
-    float: none;
-}
+        .display-cell{
+            display: table-cell;
+            vertical-align: middle;
+            float: none;
+        }
     </style>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-<script>
-$().ready(function() {
-    
-    $('button[name=delUserFromInvitation]').click(function() {  
-        return !$('#allUsers option:selected').remove().appendTo('#invitedUsers');  
-    });
- 
-    $('button[name=addUserToInvitation]').click(function() {  
-        return !$('#invitedUsers option:selected').remove().appendTo('#allUsers');  
-    });
- 
-    $("#inviteusersForm").on('submit', function () {
-        $("#inviteusersForm").find('input, select').attr('disabled', false);
-    });
-});
-</script>
+    <script>
+            var markToDelete = $("#deleteUsers option:selected").length;
+        $().ready(function () {
+            $('#deleteUsers').click(function () {
+                markToDelete = $("#deleteUsers option:selected").length;
+                
+                if ( markToDelete ) {
+                    $('button[type=submit]')
+                            .removeClass('btn-success').addClass('btn-warning')
+                            .text('Save and delete users');
+                } else {
+                    $('button[type=submit]')
+                    .removeClass('btn-warning').addClass('btn-success')
+                            .text('Save');
+                }
+            });
+            $('button[type=submit]').click(function (e) {
+                e.preventDefault();
+                
+                if (markToDelete) {
+                    bootbox.confirm("You are going to delete <b>" + markToDelete + "</b> users from event. Are you sure?", function (result) {
+                        if (result) {
+                            $('#invitedUsers option').prop('selected', true);
+                            $("#inviteUsersForm").submit();
+                        }
+                    });
+                } else {
+                    $('#invitedUsers option').prop('selected', true);
+                    $("#inviteUsersForm").submit();
+                }
+            });
+            
+            $('button[name=delUserFromInvitation]').click(function () {
+                return !$('#allUsers option:selected').remove().appendTo('#invitedUsers');
+            });
+
+            $('button[name=addUserToInvitation]').click(function () {
+                return !$('#invitedUsers option:selected').remove().appendTo('#allUsers');
+            });
+
+            $("#inviteusersForm").on('submit', function () {
+                $("#inviteusersForm").find('input, select').attr('disabled', false);
+            });
+        });
+    </script>
 {% endblock %}
