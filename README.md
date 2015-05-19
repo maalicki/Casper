@@ -1,4 +1,8 @@
-<<<<<<< HEAD
+Casper Events
+========================
+
+Casper is a web service for allowing users to pick up on events, create guest list, etc.
+
 Symfony Standard Edition
 ========================
 
@@ -54,6 +58,14 @@ It comes pre-configured with the following bundles:
   * [**SensioGeneratorBundle**][13] (in dev/test env) - Adds code generation
     capabilities
 
+  * [**FOSUserBundle**][14] Adds support for a database-backed user system
+
+  * [**IvoryGoogleMapBundle**][15] Provides an integration of the Ivory Google Map library
+
+  * [**HWIOAuthBundle**][16] Adds support for authenticating users via OAuth1.0a or OAuth2
+ 
+  * [**DatetimepickerBundle**][17] Implements the Bootstrap DateTime Picker
+
 All libraries and bundles included in the Symfony Standard Edition are
 released under the MIT or BSD license.
 
@@ -68,6 +80,10 @@ Enjoy!
 [11]: http://symfony.com/doc/2.6/cookbook/logging/monolog.html
 [12]: http://symfony.com/doc/2.6/cookbook/assetic/asset_management.html
 [13]: http://symfony.com/doc/2.6/bundles/SensioGeneratorBundle/index.html
+[14]: https://github.com/FriendsOfSymfony/FOSUserBundle
+[15]: https://github.com/egeloen/IvoryGoogleMapBundle
+[16]: https://github.com/hwi/HWIOAuthBundle
+[17]: https://github.com/stephanecollot/DatetimepickerBundle
 =======
 # Casper
 >>>>>>> e0086dfa9ea49fe9f0c8c927cc28729cd3f27dd9
