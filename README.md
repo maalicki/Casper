@@ -1,7 +1,7 @@
 Casper Events
 ========================
 
-Casper is a web service for allowing users to pick up on events, create guest list, etc.
+Casper is a web service which allows users to create events, guest list, invite members for the events and many more ;-)
 
 Symfony Standard Edition
 ========================
