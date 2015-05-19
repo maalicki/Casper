@@ -144,7 +144,7 @@ class EventController extends Controller {
             #$radius = $post['radius'];
             
             $em = $this->getDoctrine()->getManager();
-            $repository = $em->getRepository('PolcodeCasperBundle:Event');
+            $EventRepo = $em->getRepository('PolcodeCasperBundle:Event');
             
             $params = [
               'latitude'    =>    $latitude,
@@ -152,22 +152,22 @@ class EventController extends Controller {
               'distance'    =>    5,
             ];
             
-            $events = $repository->findTheClosest( $params );
+            $events = $EventRepo->findTheClosest( $params );
             
             $baseurl = $this->getRequest()->getScheme() . '://' . $this->getRequest()->getHttpHost() . $this->getRequest()->getBasePath();
             
             /* check if user is logged, if true change google map markers */
-            if( $this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ) {
-                
-                $user = $this->container->get('security.context')->getToken()->getUser();
-                $user = $user->getId();
-                
-                foreach( $events as &$event ) {
-                    $event['test'] = $user;
+           
+            foreach( $events as &$event ) {
+                if( $this->getUser() && $event['user'] == $this->getUser()->getId() ) {
+                    $event['marker'] = $baseurl.'/img/flag1.png';
+                } else {
                     $event['marker'] = $baseurl.'/img/flag2.png';
                     
-                    if( $event['user'] == $user )
-                        $event['marker'] = $baseurl.'/img/flag1.png';
+                    if( $event['private'] ) {
+                        $event['marker'] = $baseurl.'/img/flag3.png';
+                    }
+                    
                 }
             }
             

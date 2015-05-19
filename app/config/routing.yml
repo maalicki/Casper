@@ -15,3 +15,6 @@ hwi_oauth_redirect:
 
 facebook_login:
     pattern: /login/check-facebook
+    
+facebook_register:
+    pattern: /login/facebook

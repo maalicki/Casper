@@ -19,6 +19,7 @@
             <link rel="stylesheet" href="{{ asset('css/navbar.css') }}" >
 {#            <link rel="stylesheet" href="{{ asset('css/hover.css') }}" >#}
             <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" >
+            <link rel="stylesheet" href="{{ asset('css/bootstrap-social.css') }}" >
 
             <style>
                 .li-condensed {
@@ -122,8 +123,8 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ app.user.username }} <strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
-                                <li> <a href="#"><i class="fa fa-cube icon-pullright"></i> My profile</a> </li>
-                                <li class="divider"></li>
+{#                                <li> <a href="#"><i class="fa fa-cube icon-pullright"></i> My profile</a> </li>#}
+{#                                <li class="divider"></li>#}
 
                                 <li> <a href="{{ path('casper_userMyEvents') }}"><i class="fa fa-calendar icon-pullright"></i> My Events</a> </li>
                                 <li> <a href="{{ path('casper_newEvent') }}"><i class="fa fa-plus icon-pullright"></i> New Event</a> </li>
