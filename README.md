@@ -1,4 +1,8 @@
-<<<<<<< HEAD
+Casper Events
+========================
+
+Casper is a web service for allowing users to pick up on events, create guest list, etc.
+
 Symfony Standard Edition
 ========================
 
