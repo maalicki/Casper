@@ -72,7 +72,7 @@ released under the MIT or BSD license.
 Enjoy!
 
 [1]:  http://symfony.com/doc/2.6/book/installation.html
-[6]:  http://symfony.com/doc/2.6/bundles/SensioFrameworkExtraBundle/index.html
+[6]:  http://symfony.com/doc/master/bundles/SensioFrameworkExtraBundle/index.html
 [7]:  http://symfony.com/doc/2.6/book/doctrine.html
 [8]:  http://symfony.com/doc/2.6/book/templating.html
 [9]:  http://symfony.com/doc/2.6/book/security.html
