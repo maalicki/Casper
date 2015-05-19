@@ -162,12 +162,9 @@ class EventController extends Controller {
                 if( $this->getUser() && $event['user'] == $this->getUser()->getId() ) {
                     $event['marker'] = $baseurl.'/img/flag1.png';
                 } else {
-                    $event['marker'] = $baseurl.'/img/flag2.png';
-                    
-                    if( $event['private'] ) {
-                        $event['marker'] = $baseurl.'/img/flag3.png';
-                    }
-                    
+                    $event['marker'] = $event['private']
+                            ? $baseurl.'/img/flag2.png' 
+                            : $event['marker'] = $baseurl.'/img/flag3.png';
                 }
             }
             

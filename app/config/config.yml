@@ -96,8 +96,8 @@ hwi_oauth:
     resource_owners:
         facebook:
             type:                facebook
-            client_id:           375712249290859
-            client_secret:       a118ac9c643af6e406aeeef827f08c2d
+            client_id:           ~
+            client_secret:       ~
             scope:         "email, user_birthday"
             options:
                 display: popup
