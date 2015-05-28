@@ -1,7 +1,7 @@
 Casper Events
 ========================
 
-Casper is a web service for allowing users to pick up on events, create guest list, etc.
+Casper is a web service which allows users to create events, guest list, invite members for the events and many more ;-)
 
 Symfony Standard Edition
 ========================
@@ -72,7 +72,7 @@ released under the MIT or BSD license.
 Enjoy!
 
 [1]:  http://symfony.com/doc/2.6/book/installation.html
-[6]:  http://symfony.com/doc/2.6/bundles/SensioFrameworkExtraBundle/index.html
+[6]:  http://symfony.com/doc/master/bundles/SensioFrameworkExtraBundle/index.html
 [7]:  http://symfony.com/doc/2.6/book/doctrine.html
 [8]:  http://symfony.com/doc/2.6/book/templating.html
 [9]:  http://symfony.com/doc/2.6/book/security.html
