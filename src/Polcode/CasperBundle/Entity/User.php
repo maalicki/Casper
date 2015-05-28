@@ -17,20 +17,19 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  */
 class User extends BaseUser {
- 
 
-        public function __construct() {
-            parent::__construct();
+    public function __construct() {
+        parent::__construct();
         $this->features = new ArrayCollection();
     }
-    
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * @var string
      *
@@ -42,38 +41,34 @@ class User extends BaseUser {
      * @ORM\Column(type="string", length=1, nullable=true)
      */
     private $sex;
-    
-    
+
     /**
      * @ORM\Column(type="date", nullable=true)
      * 
      * @Assert\Date
      */
     private $birthdate;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Event", mappedBy="user")
-     **/
+     * */
     private $events;
-    
 
     /**
      * @ORM\ManyToMany(targetEntity="Event", mappedBy="joinedUsers")
      */
     private $joinedEvents;
-    
 
     /**
      * @ORM\OneToMany(targetEntity="Invitations", mappedBy="sender")
      * */
     private $sendInvitations;
-    
 
     /**
      * @ORM\ManyToMany(targetEntity="Invitations", mappedBy="receivers")
      */
     private $receivedInvitations;
-    
+
     /**
      * Get joinedEvents
      *
@@ -82,12 +77,12 @@ class User extends BaseUser {
     public function getJoinedEvents() {
         return $this->joinedEvents;
     }
-    
+
     public function joinToEvent(\Polcode\CasperBundle\Entity\Event $event) {
         $this->addJoinedEvent($event);
         $event->addJoinedUser($this);
     }
-    
+
     /**
      * Add joinedEvents
      *
@@ -98,12 +93,12 @@ class User extends BaseUser {
         $this->joinedEvents[] = $joinedEvents;
         return $this;
     }
-    
+
     public function resignFromEvent(\Polcode\CasperBundle\Entity\Event $event) {
         $this->removeJoinedEvent($event);
         $event->removeJoinedUser($this);
     }
-    
+
     /**
      * Remove joinedEvents
      *
@@ -118,15 +113,13 @@ class User extends BaseUser {
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
-   function getEvents() {
+    function getEvents() {
         return $this->events;
     }
-
 
     /**
      * Set sex
@@ -134,8 +127,7 @@ class User extends BaseUser {
      * @param string $sex
      * @return User
      */
-    public function setSex($sex)
-    {
+    public function setSex($sex) {
         $this->sex = $sex;
 
         return $this;
@@ -146,8 +138,7 @@ class User extends BaseUser {
      *
      * @return string 
      */
-    public function getSex()
-    {
+    public function getSex() {
         return $this->sex;
     }
 
@@ -157,8 +148,7 @@ class User extends BaseUser {
      * @param \DateTime $birthdate
      * @return User
      */
-    public function setBirthdate($birthdate)
-    {
+    public function setBirthdate($birthdate) {
         $this->birthdate = $birthdate;
 
         return $this;
@@ -169,8 +159,7 @@ class User extends BaseUser {
      *
      * @return \DateTime 
      */
-    public function getBirthdate()
-    {
+    public function getBirthdate() {
         return $this->birthdate;
     }
 
@@ -179,15 +168,13 @@ class User extends BaseUser {
         return $this;
     }
 
-
     /**
      * Add events
      *
      * @param \Polcode\CasperBundle\Entity\Event $events
      * @return User
      */
-    public function addEvent(\Polcode\CasperBundle\Entity\Event $events)
-    {
+    public function addEvent(\Polcode\CasperBundle\Entity\Event $events) {
         $this->events[] = $events;
 
         return $this;
@@ -198,11 +185,9 @@ class User extends BaseUser {
      *
      * @param \Polcode\CasperBundle\Entity\Event $events
      */
-    public function removeEvent(\Polcode\CasperBundle\Entity\Event $events)
-    {
+    public function removeEvent(\Polcode\CasperBundle\Entity\Event $events) {
         $this->events->removeElement($events);
     }
-    
 
     /**
      * Set facebook_id
@@ -214,6 +199,7 @@ class User extends BaseUser {
         $this->facebook_id = $facebookId;
         return $this;
     }
+
     /**
      * Get facebook_id
      *
@@ -222,6 +208,7 @@ class User extends BaseUser {
     public function getFacebookId() {
         return $this->facebook_id;
     }
+
     /**
      * Set facebook_access_token
      *
@@ -232,6 +219,7 @@ class User extends BaseUser {
         $this->facebook_access_token = $facebookAccessToken;
         return $this;
     }
+
     /**
      * Get facebook_access_token
      *
@@ -240,5 +228,5 @@ class User extends BaseUser {
     public function getFacebookAccessToken() {
         return $this->facebook_access_token;
     }
-    
+
 }

@@ -26,7 +26,7 @@ Class AppFixtures extends AbstractFixture {
         $userAdmin->setEmail('email@example.com');
         $userAdmin->setEnabled(true);
         $userAdmin->addRole('ROLE_USER');
-        $userAdmin->setPlainPassword('test');
+        $userAdmin->setPlainPassword('admin');
         $userAdmin->setSex('m');
         $userAdmin->setBirthDate(new \DateTime('02.01.1999'));
         $this->manager->persist($userAdmin);
@@ -38,11 +38,11 @@ Class AppFixtures extends AbstractFixture {
 
         for ($i = 1; $i <= 10; $i++) {
             $user = new User();
-            $user->setUsername("some user $i");
+            $user->setUsername("user_$i");
             $user->setEmail("some$i@example.com");
             $user->setEnabled(true);
             $user->addRole('ROLE_USER');
-            $user->setPlainPassword("test$i");
+            $user->setPlainPassword("user_$i");
             $user->setSex('m');
             $user->setBirthDate(new \DateTime('02.01.1999'));
             $this->manager->persist($user);
@@ -60,8 +60,8 @@ Class AppFixtures extends AbstractFixture {
                 'latitude' => 50.26763895717659,
                 'longitude' => 19.027242064476013,
                 'eventStart' => ( new \DateTime('2015-05-20') ),
-                'eventStop' => ( new \DateTime('2015-05-27') ),
-                'signUp' => ( new \DateTime('2015-05-19') ),
+                'eventStop' => ( new \DateTime('2015-12-27') ),
+                'signUp' => ( new \DateTime('2015-12-19') ),
                 'guests' => null,
                 'private' => false,
                 'deleted' => false,
@@ -88,8 +88,8 @@ Class AppFixtures extends AbstractFixture {
                 'latitude' => 51.24007674714826,
                 'longitude' => 22.584822177886963,
                 'eventStart' => ( new \DateTime('2015-05-21') ),
-                'eventStop' => ( new \DateTime('2015-05-23') ),
-                'signUp' => ( new \DateTime('2015-05-21') ),
+                'eventStop' => ( new \DateTime('2015-12-23') ),
+                'signUp' => ( new \DateTime('2015-12-21') ),
                 'guests' => null,
                 'private' => true,
                 'deleted' => false,
@@ -102,8 +102,8 @@ Class AppFixtures extends AbstractFixture {
                 'latitude' => 52.21592940490216,
                 'longitude' => 20.982331037521362,
                 'eventStart' => ( new \DateTime('2015-05-01') ),
-                'eventStop' => ( new \DateTime('2015-05-03') ),
-                'signUp' => ( new \DateTime('2015-04-30') ),
+                'eventStop' => ( new \DateTime('2015-12-03') ),
+                'signUp' => ( new \DateTime('2015-12-30') ),
                 'guests' => 2,
                 'private' => false,
                 'deleted' => false,
